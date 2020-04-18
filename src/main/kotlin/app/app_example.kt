@@ -30,7 +30,7 @@ import org.koge.game.sprite.Sprite
  *
  * @author Moncef YABI
  */
-class Game1(width: Int, height: Int, title: String) : Game(width, height, title) {
+class MyGame(width: Int, height: Int, title: String) : Game(width, height, title) {
 
     private var sprite = Sprite("/textures/boss.gif")
     var xMouse=0f
@@ -89,6 +89,6 @@ class Game1(width: Int, height: Int, title: String) : Game(width, height, title)
 
 
 fun main() {
-    val window = Game1(800, 600, "Koge Game")
-    window.start()
+    val myGame = MyGame(800, 600, "Koge Game")
+    myGame.start()
 }
