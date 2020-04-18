@@ -47,7 +47,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
     abstract fun destroy()
 
     private var window = Window()
-    private val font:Font
+    open val font:Font
 
     init {
         window.createWindow(width, height, title)
@@ -77,7 +77,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         g.init()
-        font.init(java.awt.Font(java.awt.Font.MONOSPACED, java.awt.Font.PLAIN, 16), true)
+
         timer.init()
         HUI.addKeyEventListener(this)
         HUI.addMouseEventListener(this)

@@ -36,6 +36,7 @@ class Game1(width: Int, height: Int, title: String) : Game(width, height, title)
     var xMouse=0f
     var yMouse=0f
     override fun init() {
+        font.init(java.awt.Font(java.awt.Font.MONOSPACED, java.awt.Font.PLAIN, 16), true)
         sprite.init()
         debugMode=true
     }
