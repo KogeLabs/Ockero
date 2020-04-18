@@ -79,7 +79,7 @@ class Window {
 
     private fun setupCallbacks() {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        GLFW.glfwSetKeyCallback(window) { window: Long, key: Int, scancode: Int, action: Int, mods: Int ->
+        GLFW.glfwSetKeyCallback(window) { window: Long, key: Int, _: Int, action: Int, _: Int ->
             if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE)
                 GLFW.glfwSetWindowShouldClose(window, true) // We will detect this in the rendering loop
             if (action == GLFW.GLFW_RELEASE) HUI.fireKeyReleasedEvent(key, GLFW.glfwGetKeyName(key, 0)?.get(0))
@@ -88,7 +88,7 @@ class Window {
         }
 
         // Setup mouse callbacks.
-        GLFW.glfwSetMouseButtonCallback(window) { _: Long, button: Int, action: Int, mods: Int ->
+        GLFW.glfwSetMouseButtonCallback(window) { _: Long, button: Int, action: Int, _: Int ->
             if (action == GLFW.GLFW_RELEASE) HUI.fireMouseButtonReleasedEvent(button)
             if (action == GLFW.GLFW_PRESS) HUI.fireMouseButtonPressedEvent(button)
         }
