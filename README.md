@@ -4,14 +4,14 @@
 Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed in Kotlin that works in Windows, Linux and Mac OS X.
 
 ## Pre-Requirements
-*  Java JDK
-*  IntelliJ IDEA (community or Ultimate edition)
+*   Java JDK
+*   IntelliJ IDEA (community or Ultimate edition)
  
 ## Getting Started 
-*  Download the project source code from the Koge [repository](https://github.com/MoncefYabi/Koge/archive/master.zip)
-*  Extract the zip file
-*  Open the extracted folder directly in the IntelliJ IDEA
-*  Wait until the gradle build is finished
+*   Download the project source code from the Koge [repository](https://github.com/MoncefYabi/Koge/archive/master.zip)
+*   Extract the zip file
+*   Open the extracted folder directly in the IntelliJ IDEA
+*   Wait until the gradle build is finished
 ## Documentation
 The [Wiki](https://github.com/MoncefYabi/Koge/wiki) contains all the information you'll need to write a Koge game. You can contribute to the Wiki directly here on GitHub!
 ## License 
