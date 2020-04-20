@@ -1,5 +1,3 @@
-
-
 # Koge 
 ![logo](https://github.com/KogeLabs/Koge/blob/master/koge_logo.png?raw=true)
 
