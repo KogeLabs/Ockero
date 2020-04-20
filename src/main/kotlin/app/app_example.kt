@@ -18,7 +18,6 @@
 
 package app
 
-
 import org.koge.engine.Game
 import org.koge.engine.event.key.Key
 import org.koge.engine.event.key.KeyDownEvent
@@ -86,7 +85,6 @@ class MyGame(width: Int, height: Int, title: String) : Game(width, height, title
     }
 
 }
-
 
 fun main() {
     val myGame = MyGame(800, 600, "Koge Game")
