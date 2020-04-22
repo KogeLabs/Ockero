@@ -16,12 +16,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package org.koge.engine.graphics
-/**
- *
- * @author Moncef YABI
- */
+
 import org.joml.Vector2f
 import org.joml.Vector3f
 
-
+/**
+ * This class is holding the Vertex information.
+ * @author Moncef YABI
+ */
 data class Vertex (var position: Vector3f, var color: Color, var textureCoord: Vector2f)

@@ -17,11 +17,14 @@
  */
 
 package org.koge.engine.graphics
+
+import kotlin.math.min
+
 /**
+ *  The {@code Color} class groups the values of colors values in RGBA format.
  *
  * @author Moncef YABI
  */
-import kotlin.math.min
 
 class Color {
 

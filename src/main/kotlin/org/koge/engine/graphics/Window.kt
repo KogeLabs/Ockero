@@ -27,12 +27,19 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 
 /**
- *
+ * This class is representing a GLFW Window
  * @author Moncef YABI
  */
 class Window {
     private var window: Long = 0
 
+    /**
+     * Create the GLFW Window
+     *
+     * @param width
+     * @param height
+     * @param title
+     */
     fun createWindow(width: Int, height: Int, title: String) {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -77,6 +84,10 @@ class Window {
         GLFW.glfwShowWindow(window)
     }
 
+    /**
+     * Setup GLFW callback for events handling
+     *
+     */
     private fun setupCallbacks() {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         GLFW.glfwSetKeyCallback(window) { window: Long, key: Int, _: Int, action: Int, _: Int ->
@@ -106,6 +117,10 @@ class Window {
         }
     }
 
+    /**
+     * Destroy the GLFW Window
+     *
+     */
     fun destroy() {
         // Free the window callbacks and destroy the window
         Callbacks.glfwFreeCallbacks(window)
@@ -118,6 +133,10 @@ class Window {
 
     fun windowShouldClose(): Boolean = GLFW.glfwWindowShouldClose(window)
 
+    /**
+     * Update the GLFW Wíndow
+     *
+     */
     fun update() {
         GLFW.glfwSwapBuffers(window) // swap the color buffers
         // Poll for window events. The key callback above will only be

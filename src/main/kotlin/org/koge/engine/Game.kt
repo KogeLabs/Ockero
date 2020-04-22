@@ -18,6 +18,7 @@
 package org.koge.engine
 
 /**
+ * This is the mane game class
  *
  * @author Moncef YABI
  */
@@ -41,9 +42,30 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
 
     open var debugMode= false
 
+    /**
+     * The Game init function. This function is called form  {@code fun internalInit()}
+     *
+     */
     abstract fun init()
+
+    /**
+     * The game run function. This function is called form {@code fun gameLoop()}
+     *
+     * @param fps
+     */
     abstract fun run(fps: Int)
+
+    /**
+     * The game render function. This function is called form {@code fun gameLoop()}
+     *
+     * @param fps
+     */
     abstract fun render(g: Graphics)
+
+    /**
+     * Destroy the game session and free all resources. This function is called form {@code fun destroyGameSession()}
+     *
+     */
     abstract fun destroy()
 
     private var window = Window()
@@ -55,18 +77,30 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         g = Graphics(width.toFloat(), height.toFloat(), font)
     }
 
+    /**
+     * Start the game main loop
+     *
+     */
     fun start() {
         internalInit()
         gameLoop()
-        internalDestroy()
+        destroyGameSession()
     }
 
-    private fun internalDestroy() {
+    /**
+     * Destroy the game session and free all resources
+     *
+     */
+    private fun destroyGameSession() {
         destroy()
         g.destroy()
         window.destroy()
     }
 
+    /**
+     * Initialize the game session
+     *
+     */
     private fun internalInit() {
         GL.createCapabilities()
 
@@ -84,6 +118,10 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         init()
     }
 
+    /**
+     * The main game loop
+     *
+     */
     private fun gameLoop() {
         var elapsedTime: Float
         var accumulator = 0f
@@ -110,6 +148,10 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         }
     }
 
+    /**
+     * Limit the game speed to the targetFPS
+     *
+     */
     private fun sync() {
         val loopSlot = 1f / targetFPS
         val endTime = timer.lastLoopTime + loopSlot

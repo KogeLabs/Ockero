@@ -23,14 +23,27 @@ import java.io.IOException
 
 
 /**
+ * This Utils class groups miscellaneous useful functions
  *
  * @author Moncef YABI
  */
 object Utils {
 
+    /**
+     * Return the content of a file as a String sequence
+     *
+     * @param path
+     * @return String
+     */
     @Throws(IOException::class)
     fun readContentFromFile(path: String): String? = this::class.java.getResource(path).readText()
 
+    /**
+     * Return the absolute path form a relative path.
+     *
+     * @param reSourcePath
+     * @return
+     */
     @Throws(IOException::class)
     fun getAbsolutePath(reSourcePath: String): String? = File(this::class.java.getResource(reSourcePath).toURI()).absolutePath
 

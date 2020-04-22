@@ -27,9 +27,24 @@ import org.koge.engine.event.IComponentListener
 
 interface IKeyboardListener: IComponentListener {
 
-    fun keyReleased(e: KeyReleasedEvent)
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
+    fun keyReleased( e: KeyReleasedEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun keyPressed(e: KeyPressedEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun keyDown(e: KeyDownEvent)
 }

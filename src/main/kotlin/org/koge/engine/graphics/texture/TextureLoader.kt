@@ -29,17 +29,44 @@ import java.awt.image.BufferedImage
 import java.io.IOException
 import java.nio.ByteBuffer
 
-
+/**
+ * The {@code TextureLoader}  is a utility object to load textures for Koge.
+ *
+ * @author Moncef YABI
+ */
 object TextureLoader {
 
+    /**
+     * Sets the integer value of a texture parameter,
+     *
+     * @param name
+     * @param value
+     */
     private fun setParameter(name: Int, value: Int) {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, name, value)
     }
 
+    /**
+     * Upload the Texture date to OpenGl
+     *
+     * @param width
+     * @param height
+     * @param format
+     * @param data
+     */
     private fun uploadData( width: Int, height: Int, format: Int, data: ByteBuffer?) {
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, format, GL11.GL_UNSIGNED_BYTE, data)
     }
 
+    /**
+     * Convert the buffered image to a texture
+     *
+     * @param w
+     * @param h
+     * @param data
+     * @param srcPixelFormat
+     * @return Texture
+     */
     private fun createTexture(
         w: Int,
         h: Int,
@@ -61,6 +88,12 @@ object TextureLoader {
         return texture
     }
 
+    /**
+     * Create texture from image file
+     *
+     * @param relativePath
+     * @return Texture
+     */
     @Throws(IOException::class)
     fun create(relativePath: String): Texture {
         var image: ByteBuffer?= null
@@ -122,7 +155,12 @@ object TextureLoader {
         return texture
     }
 
-
+    /**
+     * Flip the Image to fit the OpenGl requirements
+     *
+     * @param image
+     * @return BufferedImage
+     */
     private fun createFlipped(image: BufferedImage): BufferedImage {
         val at = AffineTransform()
         at.concatenate(AffineTransform.getScaleInstance(1.0, -1.0))
@@ -130,6 +168,13 @@ object TextureLoader {
         return createTransformed(image, at)
     }
 
+    /**
+     * Apply the AffineTransform object on the BufferedImage object
+     *
+     * @param image
+     * @param at
+     * @return BufferedImage
+     */
     private fun createTransformed(image: BufferedImage, at: AffineTransform): BufferedImage {
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_ARGB)
         val g = newImage.createGraphics()

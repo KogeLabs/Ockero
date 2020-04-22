@@ -18,6 +18,10 @@
 
 package org.koge.engine.event.key
 /**
+ * The {@code KeyPressedEvent} class groups the values of a key released event.
+ *
+ * @property key
+ * @property c
  *
  * @author Moncef YABI
  */

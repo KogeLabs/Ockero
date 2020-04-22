@@ -18,6 +18,7 @@
 
 package org.koge.engine.event
 /**
+ * The {@code Event} class groups all available events in Koge
  *
  * @author Moncef YABI
  */

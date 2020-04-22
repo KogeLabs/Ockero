@@ -19,7 +19,13 @@
 package org.koge.engine.graphics.font
 
 /**
+ * The {@code Glyph} class groups the character texture relevant information
  *
- * @author Moncef YABI
+ * @property width
+ * @property height
+ * @property x
+ * @property y
+ *
+ *  @author Moncef YABI
  */
 data class Glyph (val width:Int, val height:Int, val x:Int, val y:Int)

@@ -48,19 +48,43 @@ import org.koge.engine.event.mouse.*
  */
 open class HUIEventAdapter: IKeyboardListener, IMouseListener {
 
+    /**
+     * {@inheritDoc}
+     */
     override fun keyReleased(e: KeyReleasedEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun keyPressed(e: KeyPressedEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun keyDown(e: KeyDownEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun mouseButtonPressed(e: MousePressedEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun mouseButtonReleased(e: MouseReleasedEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun mouseMoved(e: MouseMovedEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun mouseScrolled(e: MouseScrollEvent) {}
 
+    /**
+     * {@inheritDoc}
+     */
     override fun mouseCursorEnter(e: MouseCursorEnterEvent) {}
 }

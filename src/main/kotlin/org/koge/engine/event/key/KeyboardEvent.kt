@@ -17,10 +17,15 @@
  */
 
 package org.koge.engine.event.key
+
+import org.koge.engine.event.Event
+
 /**
+ * The {@code KeyboardEvent} class groups the values of a keyboard event.
+ *
+ * @property key
+ * @property c
  *
  * @author Moncef YABI
  */
-import org.koge.engine.event.Event
-
 open class KeyboardEvent (var key:Int, var c:Char?): Event()

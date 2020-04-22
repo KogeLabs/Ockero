@@ -17,8 +17,9 @@
  */
 
 package org.koge.engine.event
+
 /**
- *
+ * A tagging interface that all event listener interfaces must extend.
  * @author Moncef YABI
  */
 interface IComponentListener

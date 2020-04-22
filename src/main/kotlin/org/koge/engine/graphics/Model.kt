@@ -31,7 +31,7 @@ import java.nio.FloatBuffer
 
 
 /**
- *
+ * This class represent a Game model. A model is the basic entity holding the Vertex information
  * @author Moncef YABI
  */
 class Model {
@@ -48,21 +48,42 @@ class Model {
     lateinit var indices: IntArray
     lateinit var texture: Texture
 
-
-    fun createFromImageFile(path: String, c: Color = Color.WHITE) {
+    /**
+     * Create a model form a local image file
+     *
+     * @param path
+     * @param c
+     * @return Model
+     */
+    fun createFromImageFile(path: String, c: Color = Color.WHITE):Model {
         texture = TextureLoader.create(path)
-        createFromTexture(texture, c)
+        return createFromTexture(texture, c)
     }
 
+    /**
+     * Create a model form a texture
+     *
+     * @param texture
+     * @param c
+     * @return Model
+     */
     private fun createFromTexture(texture: Texture, c: Color = Color.WHITE): Model {
 
         width = texture.width.toFloat()
         height = texture.height.toFloat()
         initVertices(width, height, 0.0f, 1.0f,c)
-        create()
+        pushToOpenGL()
         return this
     }
 
+    /**
+     * Create a model form a glyph texture
+     *
+     * @param texture
+     * @param glyph
+     * @param c
+     * @return Model
+     */
     fun createFromGlyphTexture(texture: Texture, glyph:Glyph, c: Color = Color.WHITE): Model {
         this.texture=texture
         /* Texture coordinates */
@@ -70,10 +91,19 @@ class Model {
         val s2 = (glyph.x + glyph.width) / texture.width.toFloat()
 
         initVertices(glyph.width.toFloat(),glyph.height.toFloat(), s1, s2, c)
-        create()
+        pushToOpenGL()
         return this
     }
 
+    /**
+     * Initialize the model vertices
+     *
+     * @param width
+     * @param height
+     * @param s1
+     * @param s2
+     * @param c
+     */
     private fun initVertices(
         width: Float, height: Float,
         s1: Float, s2: Float, c: Color
@@ -86,7 +116,11 @@ class Model {
         )
     }
 
-    private fun create() {
+    /**
+     * Push the model in OpenGL
+     *
+     */
+    private fun pushToOpenGL() {
         vao = GL30.glGenVertexArrays()
         GL30.glBindVertexArray(vao)
 
@@ -136,18 +170,41 @@ class Model {
         }
     }
 
+    /**
+     * Get the VAO object id
+     *
+     * @return Int
+     */
     fun getVAO(): Int {
         return vao
     }
 
+    /**
+     * Get the PBO object id
+     *
+     * @return Int
+     */
     fun getPBO(): Int {
         return pbo
     }
 
+    /**
+     * Get the IBO object id
+     *
+     * @return Int
+     */
     fun getIBO(): Int {
         return ibo
     }
 
+    /**
+     * Store the texture buffer onto OpenGL
+     *
+     * @param buffer
+     * @param index
+     * @param size
+     * @return
+     */
     private fun storeData(buffer: FloatBuffer, index: Int, size: Int): Int {
         val bufferID = GL15.glGenBuffers()
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, bufferID)
@@ -157,6 +214,10 @@ class Model {
         return bufferID
     }
 
+    /**
+     * Clear the OpenGL Buffers
+     *
+     */
     fun clearBuffers(){
         GL15.glDeleteBuffers(pbo)
         GL15.glDeleteBuffers(cbo)
@@ -164,6 +225,11 @@ class Model {
         GL15.glDeleteBuffers(tbo)
         GL30.glDeleteVertexArrays(vao)
     }
+
+    /**
+     * Destroy the Texture buffers to remove them from memory. Needs to be called after the Koge session was closed.
+     *
+     */
     fun destroy() {
         clearBuffers()
         texture.destroy()

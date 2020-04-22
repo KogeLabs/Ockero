@@ -26,20 +26,38 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL30
+import java.awt.Graphics
 
 
 /**
+ * The {@code Graphics} class is the base for
+ * all graphics contexts that allow to draw onto Koge
+ *
+ * @property screenWith
+ * @property screenHeight
+ * @property font
  *
  * @author Moncef YABI
  */
-
 class Graphics(private val screenWith:Float, private val screenHeight:Float, private val font:Font) {
     private var shader = Shader("/shaders/mainVertex.glsl", "/shaders/mainFragment.glsl")
 
+    /**
+     * Init the Graphics object
+     *
+     */
     fun init(){
         shader.create()
     }
 
+    /**
+     * Draw a text String onto the game screen
+     *
+     * @param text
+     * @param xPos
+     * @param yPos
+     * @param color
+     */
     fun drawText(text:String, xPos:Float, yPos:Float, color: Color= Color.WHITE){
         val textHeight = font.getTextHeight(text)
         var drawX: Float = xPos
@@ -65,17 +83,37 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         }
     }
 
+    /**
+     * Draw a Sprite onto the game screen
+     *
+     * @param sprite
+     */
     fun draw(sprite: Sprite) {
         draw(sprite.model, sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
+    /**
+     * Draw a Model onto the game screen
+     *
+     * @param model
+     * @param x
+     * @param y
+     */
     private fun draw(model: Model, x:Float, y:Float){
         draw(model, Vector2f(x,y))
     }
 
+    /**
+     * Draw a Model onto the game screen
+     *
+     * @param model
+     * @param position
+     * @param scale
+     * @param angleOfRotation
+     */
     private fun draw(model: Model, position: Vector2f =Vector2f(0f, 0f), scale: Vector3f=Vector3f(1f, 1f,1f), angleOfRotation:Float=0f){
         enableVertexArrayAndBindTexture(model)
-        begin()
+        shader.bind()
         shader.setUniform(
             shader.getUniformLocation("model"),
             Matrix4f().translate(position.x,position.y,0f)
@@ -87,22 +125,25 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
             Matrix4f().ortho(0f, screenWith,screenHeight,0f,1f,-1f)
         )
         drawElements(model)
-        end()
+        shader.unbind()
         disableVertexArray()
 
     }
 
+    /**
+     * Draw a Model onto the screen using the openGl function {@code glDrawElements}
+     *
+     * @param model
+     */
     private fun drawElements(model: Model) {
         GL11.glDrawElements(GL11.GL_TRIANGLES, model.indices.size, GL11.GL_UNSIGNED_INT, 0)
     }
 
-    private fun begin() {
-        shader.bind()
-    }
-
-    private fun end(){
-        shader.unbind()
-    }
+    /**
+     *  Load the vertex arrays of the model and bind it into OpenGL
+     *
+     * @param model
+     */
     private fun enableVertexArrayAndBindTexture(model: Model) {
         GL30.glBindVertexArray(model.getVAO())
         GL30.glEnableVertexAttribArray(0)
@@ -112,7 +153,11 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         GL13.glActiveTexture(GL13.GL_TEXTURE0)
         GL13.glBindTexture(GL11.GL_TEXTURE_2D, model.texture.id)
     }
-
+    /**
+     *  Unbind vertex data to free up the memory
+     *
+     * @param model
+     */
     private fun disableVertexArray()
     {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0)
@@ -122,6 +167,10 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         GL30.glBindVertexArray(0)
     }
 
+    /**
+     * Destroy the shader object to remove it from memory. Needs to be called after the Koge session was closed.
+     *
+     */
     fun destroy(){
         shader.destroy()
     }

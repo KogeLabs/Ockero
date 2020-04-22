@@ -19,20 +19,24 @@
 package org.koge.engine.math
 
 /**
- *
+ * This class represents an bounding box.
  * @author Moncef YABI
  */
-class Rectangle() {
-    var x = 0f
-    var y = 0f
-    var width = 0f
-    var height = 0f
 
+class Rectangle(var x: Float, var y: Float, var width: Float, var height: Float) {
 
-    constructor(x: Float, y: Float, width: Float, height: Float) : this() {
+    init {
         setBounds(x, y, width, height)
     }
 
+    /**
+     * Set the bounding box values
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
     fun setBounds(x: Float, y: Float, width: Float, height: Float) {
         this.x = x
         this.y = y
@@ -40,22 +44,33 @@ class Rectangle() {
         this.height = height
     }
 
+    /**
+     * Get the bounding box values
+     *
+     * @return Rectangle
+     */
     fun getBounds(): Rectangle? {
         return Rectangle(x, y, width, height)
     }
 
-    fun intersects(r: Rectangle): Boolean {
+    /**
+     * Checks if this Rectangle intersects another Rectangle
+     *
+     * @param otherRecangle
+     * @return Boolean
+     */
+    fun intersects(otherRecangle: Rectangle): Boolean {
         var tw = width
         var th = height
-        var rw = r.width
-        var rh = r.height
+        var rw = otherRecangle.width
+        var rh = otherRecangle.height
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
             return false
         }
         val tx = x
         val ty = y
-        val rx = r.x
-        val ry = r.y
+        val rx = otherRecangle.x
+        val ry = otherRecangle.y
         rw += rx
         rh += ry
         tw += tx

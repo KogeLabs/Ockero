@@ -18,7 +18,12 @@
 
 package org.koge.engine.event.key
 /**
+ * The {@code KeyDownEvent} class groups the values of a key down event.
+ *
+ * @property key
+ * @property c
  *
  * @author Moncef YABI
  */
+
 class KeyDownEvent (key:Int,c:Char?): KeyboardEvent(key,c)

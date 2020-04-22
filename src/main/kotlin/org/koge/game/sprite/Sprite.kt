@@ -36,10 +36,7 @@
 
 package org.koge.game.sprite
 
-/**
- *
- * @author Moncef YABI
- */
+
 
 import org.joml.Vector2f
 import org.joml.Vector3f
@@ -47,40 +44,74 @@ import org.koge.engine.graphics.Model
 import org.koge.engine.math.Rectangle
 
 
-
+/**
+ * This class represents an game Sprite.
+ *
+ * @property texturePath
+ *
+ * @author Moncef YABI
+ */
 class Sprite(private val texturePath: String) {
 
-    private val me = Rectangle()
-    private val him = Rectangle()
     var position= Vector2f(0f, 0f)
     var angleOfRotation= 0f
     var scale = Vector3f(1f, 1f,1f)
     var model: Model = Model()
 
+    /**
+     * Init the Sprite and create a texture from the loaded image.
+     *
+     */
     fun init()
     {
         model.createFromImageFile(texturePath)
     }
 
+    /**
+     * Move the sprite in the x direction at speedX
+     *
+     * @param speedX
+     */
     fun moveX(speedX: Float){
         position.x+=speedX
     }
 
+    /**
+     * Move the sprite in the x direction at speedY
+     *
+     * @param speedY
+     */
     fun moveY(speedY: Float){
         position.y+=speedY
     }
 
+    /**
+     * Change the Sprite 2d coordinate
+     *
+     * @param x
+     * @param y
+     */
     fun setPosition(x:Float, y:Float) {
         position.set(x,y)
     }
 
+    /**
+     * Destroy this sprite and free all resources.
+     *
+     */
     fun destroy(){
         model.destroy()
     }
 
-    fun collide(oder: Sprite): Boolean {
-        me.setBounds(position.x, position.y, model.width , model.height)
-        him.setBounds(oder.position.x, oder.position.y, oder.model.width, oder.model.height)
+    /**
+     * Checks if this Sprite intersects another Sprite
+     *
+     * @param oderSprite
+     * @return Boolean
+     */
+    fun collide(oderSprite: Sprite): Boolean {
+        val me= Rectangle(position.x, position.y, model.width , model.height)
+        val him= Rectangle(oderSprite.position.x, oderSprite.position.y, oderSprite.model.width, oderSprite.model.height)
         return me.intersects(him)
     }
 

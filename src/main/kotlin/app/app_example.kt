@@ -87,7 +87,7 @@ class MyGame(width: Int, height: Int, title: String) : Game(width, height, title
 }
 
 fun main() {
-    val myGame = MyGame(800, 600, "Koge Game")
-    myGame.start()
-
+    MyGame(800, 600, "Koge Game").apply {
+        start()
+    }
 }

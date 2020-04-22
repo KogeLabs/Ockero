@@ -17,16 +17,22 @@
  */
 
 package org.koge.engine.graphics
-/**
- *
- * @author Moncef YABI
- */
 import org.joml.*
 import org.koge.engine.utils.Utils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20
 import org.lwjgl.system.MemoryStack
 
+/**
+ * This class represents a shader.
+ *
+ * @constructor
+ *
+ * @param vertexPath
+ * @param fragmentPath
+ *
+ *  * @author Moncef YABI
+ */
 
 class Shader ( vertexPath: String, fragmentPath:String) {
 
@@ -36,6 +42,10 @@ class Shader ( vertexPath: String, fragmentPath:String) {
     private var vertexFile:String? = Utils.readContentFromFile(vertexPath)
     private var fragmentFile:String? = Utils.readContentFromFile(fragmentPath)
 
+    /**
+     * Create the OpenGL shader
+     *
+     */
     fun create() {
         programID = GL20.glCreateProgram()
         vertexID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER)
@@ -74,40 +84,93 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         }
     }
 
+    /**
+     * Gets the location of an attribute variable with specified name.
+     *
+     * @param name Attribute name
+     *
+     * @return Location of the attribute
+     */
     fun getAttributeLocation(name: CharSequence?): Int {
         return GL20.glGetAttribLocation(programID, name)
     }
 
-
+    /**
+     * Enables a vertex attribute.
+     *
+     * @param location Location of the vertex attribute
+     */
     fun enableVertexAttribute(location: Int) {
         GL20.glEnableVertexAttribArray(location)
     }
 
+    /**
+     * Disables a vertex attribute.
+     *
+     * @param location Location of the vertex attribute
+     */
     fun disableVertexAttribute(location: Int) {
         GL20.glDisableVertexAttribArray(location)
     }
 
+    /**
+     * Sets the vertex attribute pointer.
+     *
+     * @param location Location of the vertex attribute
+     * @param size     Number of values per vertex
+     * @param stride   Offset between consecutive generic vertex attributes in
+     *                 bytes
+     * @param offset   Offset of the first component of the first generic vertex
+     *                 attribute in bytes
+     */
     fun pointVertexAttribute(location: Int, size: Int, strprogramIDe: Int, offset: Long) {
         GL20.glVertexAttribPointer(location, size, GL20.GL_FLOAT, false, strprogramIDe, offset)
     }
 
-
+    /**
+     * Gets the location of an uniform variable with specified name.
+     *
+     * @param name Uniform name
+     *
+     * @return Location of the uniform
+     */
     fun getUniformLocation(name: CharSequence): Int {
         return GL20.glGetUniformLocation(programID, name)
     }
 
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param name Uniform name
+     * @param value    Value to set
+     */
     fun setUniform(name: String, value: Float) {
         GL20.glUniform1f(getUniformLocation(name), value)
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(name: String, value: Int) {
         GL20.glUniform1i(getUniformLocation(name), value)
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(name: String, value: Boolean) {
         GL20.glUniform1i(getUniformLocation(name), if (value) 1 else 0)
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Vector2f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(2)
@@ -115,7 +178,12 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             GL20.glUniform2fv(location, buffer)
         }
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Vector3f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(3)
@@ -123,7 +191,12 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             GL20.glUniform3fv(location, buffer)
         }
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Vector4f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(4)
@@ -131,7 +204,12 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             GL20.glUniform4fv(location, buffer)
         }
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Matrix2f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(2 * 2)
@@ -139,7 +217,12 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             GL20.glUniformMatrix2fv(location, false, buffer)
         }
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Matrix3f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(3 * 3)
@@ -147,7 +230,12 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             GL20.glUniformMatrix3fv(location, false, buffer)
         }
     }
-
+    /**
+     * Sets the uniform variable with specified name.
+     *
+     * @param location Uniform location
+     * @param value    Value to set
+     */
     fun setUniform(location: Int, value: Matrix4f) {
         MemoryStack.stackPush().use { stack ->
             val buffer = stack.mallocFloat(4 * 4)
@@ -156,15 +244,26 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         }
     }
 
-
+    /**
+     * Bind the shader
+     *
+     */
     fun bind() {
         GL20.glUseProgram(programID)
     }
 
+    /**
+     * UNbind the shader
+     *
+     */
     fun unbind() {
         GL20.glUseProgram(0)
     }
 
+    /**
+     * Destroy the shader to remove it from memory. Needs to be called after the Koge session was closed.
+     *
+     */
     fun destroy() {
         GL20.glDetachShader(programID, vertexID)
         GL20.glDetachShader(programID, fragmentID)

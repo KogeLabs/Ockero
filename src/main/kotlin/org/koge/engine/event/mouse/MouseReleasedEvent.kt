@@ -21,6 +21,10 @@ package org.koge.engine.event.mouse
 import org.koge.engine.event.Event
 
 /**
+ * The {@code MouseCursorEnterEvent} class groups the values of a mouse button released event.
+ *
+ * @property button, values: 0 for the left button, 1 for the mid button,
+ *                  2 for the right button, 4 for the back button and 5 for the forward button
  *
  * @author Moncef YABI
  */

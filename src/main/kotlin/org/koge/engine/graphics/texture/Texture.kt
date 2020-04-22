@@ -18,13 +18,13 @@
 
 package org.koge.engine.graphics.texture
 
+import org.lwjgl.opengl.GL11.*
+
 /**
+ * The {@code Texture} class groups the relevant information for an OpenGL image.
  *
  * @author Moncef YABI
  */
-import org.lwjgl.opengl.GL11.*
-
-
 class Texture {
 
     var id = 0

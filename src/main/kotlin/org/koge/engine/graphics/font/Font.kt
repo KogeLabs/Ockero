@@ -28,24 +28,45 @@ import java.awt.Font as JFont
 
 
 /**
- *
+ * The {@code Font} class represents fonts, which are used to render text in Koge.
  * @author Moncef YABI
  */
-class Font {
+class Font{
 
     var width = 0f
     var height = 0
     private var size = 0
     private lateinit var fontMetrics: FontMetrics
     private lateinit var font: JFont
+
+    /**
+     * Texture holding the Font atlas
+     */
     lateinit var texture: Texture
+
+    /**
+     * Map holding the char value and its representative {@code Glyph}
+     */
     val glyphMap = mutableMapOf<Char, Glyph>()
 
+    /**
+     * Initialise and create an OpenGL Texture from the {@code java.awt.Font}
+     *
+     * @param font
+     * @param antiAlias
+     */
     fun init(font: JFont, antiAlias: Boolean) {
         val image= createFont(font, antiAlias)
         texture= TextureLoader.createTextureFromBufferedImage(image)
     }
 
+    /**
+     * Create an BufferedImage representing the font atlas from the {@code java.awt.Font}
+     *
+     * @param font
+     * @param antiAlias
+     * @return BufferedImage
+     */
     private fun createFont(font: JFont, antiAlias: Boolean):BufferedImage {
 
         val chMap = mutableMapOf<Char, BufferedImage>()
@@ -78,6 +99,13 @@ class Font {
         return image
     }
 
+    /**
+     * Create an BufferedImage  from the char value
+     *
+     * @param ch
+     * @param antiAlias
+     * @return BufferedImage
+     */
     private fun getFontImage(ch: Char, antiAlias: Boolean): BufferedImage {
         // Create a temporary image to extract the character's size
         val tempFontImage = BufferedImage(
@@ -126,6 +154,12 @@ class Font {
         return fontImage
     }
 
+    /**
+     * Get the text width in pixels of an CharSequence
+     *
+     * @param text
+     * @return Int
+     */
     fun getWidth(text: CharSequence): Int {
         var width = 0
         var lineWidth = 0
@@ -149,6 +183,12 @@ class Font {
     }
 
 
+    /**
+     * Get the text height in pixels of an CharSequence
+     *
+     * @param text
+     * @return Int
+     */
     fun getTextHeight(text: CharSequence): Int {
         var height = 0
         var lineHeight = 0

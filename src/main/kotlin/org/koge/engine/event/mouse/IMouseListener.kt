@@ -26,13 +26,38 @@ import org.koge.engine.event.IComponentListener
  */
 interface IMouseListener : IComponentListener {
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun mouseButtonPressed(e: MousePressedEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun mouseButtonReleased(e: MouseReleasedEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun mouseMoved(e: MouseMovedEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun mouseScrolled(e: MouseScrollEvent)
 
+    /**
+     * This function will be internally triggered
+     *
+     * @param e the object holding the event information
+     */
     fun mouseCursorEnter(e: MouseCursorEnterEvent)
 }
