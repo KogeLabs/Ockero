@@ -1,7 +1,9 @@
 # Koge 
 ![logo](https://github.com/KogeLabs/Koge/blob/master/koge_logo.png?raw=true)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Koge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Koge&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Koge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Koge&amp;utm_campaign=Badge_Grade) 
+![Java CI with Gradle](https://github.com/KogeLabs/Koge/workflows/Java%20CI%20with%20Gradle/badge.svg)
+![Gradle Package](https://github.com/KogeLabs/Koge/workflows/Gradle%20Package/badge.svg)
 
 Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed in Kotlin that works in Windows, Linux and Mac OS X.
 
