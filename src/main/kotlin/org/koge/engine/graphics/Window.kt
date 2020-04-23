@@ -84,10 +84,6 @@ class Window {
         GLFW.glfwShowWindow(window)
     }
 
-    /**
-     * Setup GLFW callback for events handling
-     *
-     */
     private fun setupCallbacks() {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         GLFW.glfwSetKeyCallback(window) { _: Long, key: Int, _: Int, action: Int, _: Int ->
@@ -131,6 +127,11 @@ class Window {
         GLFW.glfwSetErrorCallback(null)!!.free()
     }
 
+    /**
+     * Check in the Window needs to be closed
+     *
+     * @return Boolean
+     */
     fun windowShouldClose(): Boolean = GLFW.glfwWindowShouldClose(window)
 
     /**

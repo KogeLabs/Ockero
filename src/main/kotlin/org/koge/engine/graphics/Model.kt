@@ -95,15 +95,6 @@ class Model {
         return this
     }
 
-    /**
-     * Initialize the model vertices
-     *
-     * @param width
-     * @param height
-     * @param s1
-     * @param s2
-     * @param c
-     */
     private fun initVertices(
         width: Float, height: Float,
         s1: Float, s2: Float, c: Color
@@ -116,10 +107,6 @@ class Model {
         )
     }
 
-    /**
-     * Push the model in OpenGL
-     *
-     */
     private fun pushToOpenGL() {
         vao = GL30.glGenVertexArrays()
         GL30.glBindVertexArray(vao)
@@ -197,14 +184,7 @@ class Model {
         return ibo
     }
 
-    /**
-     * Store the texture buffer onto OpenGL
-     *
-     * @param buffer
-     * @param index
-     * @param size
-     * @return
-     */
+
     private fun storeData(buffer: FloatBuffer, index: Int, size: Int): Int {
         val bufferID = GL15.glGenBuffers()
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, bufferID)
