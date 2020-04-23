@@ -96,8 +96,6 @@ class GameTest3(width: Int, height: Int, title: String) : Game(width, height, ti
 
     }
 
-
-
 }
 
 class GameTest4(width: Int, height: Int, title: String) : Game(width, height, title) {
