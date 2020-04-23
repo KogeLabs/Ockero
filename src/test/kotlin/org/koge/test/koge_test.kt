@@ -143,28 +143,32 @@ class GameTest4(width: Int, height: Int, title: String) : Game(width, height, ti
 
 object KogeTest: Spek({
     describe("Crate Game Window"){
-        GameTest1(800, 600, "Koge Game").apply {
-            // Tests are only possible on a machine with a GPU
-            //start()
-        }
+        // Tests are only possible on a machine with a GPU
+        /*GameTest1(800, 600, "Koge Game").apply {
+
+            start()
+        }*/
     }
     describe("Draw a Sprite"){
-        GameTest2(800, 600, "Koge Game").apply {
-            // Tests are only possible on a machine with a GPU
-            //start()
-        }
+        // Tests are only possible on a machine with a GPU
+        /*GameTest2(800, 600, "Koge Game").apply {
+
+            start()
+        }*/
     }
     describe("Draw text"){
-        GameTest3(800, 600, "Koge Game").apply {
-            // Tests are only possible on a machine with a GPU
-            //start()
-        }
+        // Tests are only possible on a machine with a GPU
+        /*GameTest3(800, 600, "Koge Game").apply {
+
+            start()
+        }*/
     }
     describe("Test event handling"){
-        GameTest4(800, 600, "Koge Game").apply {
-            // Tests are only possible on a machine with a GPU
-            //start()
-        }
+        // Tests are only possible on a machine with a GPU
+        /*GameTest4(800, 600, "Koge Game").apply {
+
+            start()
+        }*/
     }
 
 })

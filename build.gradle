@@ -14,7 +14,7 @@ project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.9.24"
 
 group = "org.koge"
-version = "0.1.1"
+version = "0.1.1.2"
 
 
 switch (OperatingSystem.current()) {
