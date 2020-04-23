@@ -30,7 +30,7 @@ import java.awt.Graphics
 
 
 /**
- * The {@code Graphics} class is the base for
+ * The  Graphics class is the base for
  * all graphics contexts that allow to draw onto Koge
  *
  * @property screenWith
@@ -40,7 +40,7 @@ import java.awt.Graphics
  * @author Moncef YABI
  */
 class Graphics(private val screenWith:Float, private val screenHeight:Float, private val font:Font) {
-    private var shader = Shader("/shaders/mainVertex.glsl", "/shaders/mainFragment.glsl")
+    private val shader = Shader("/shaders/mainVertex.glsl", "/shaders/mainFragment.glsl")
 
     /**
      * Init the Graphics object
@@ -131,7 +131,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     }
 
     /**
-     * Draw a Model onto the screen using the openGl function {@code glDrawElements}
+     * Draw a Model onto the screen using the openGl function  glDrawElements
      *
      * @param model
      */
@@ -156,7 +156,6 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     /**
      *  Unbind vertex data to free up the memory
      *
-     * @param model
      */
     private fun disableVertexArray()
     {

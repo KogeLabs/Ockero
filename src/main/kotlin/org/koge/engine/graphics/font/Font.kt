@@ -28,7 +28,7 @@ import java.awt.Font as JFont
 
 
 /**
- * The {@code Font} class represents fonts, which are used to render text in Koge.
+ * The  Font class represents fonts, which are used to render text in Koge.
  * @author Moncef YABI
  */
 class Font{
@@ -45,12 +45,12 @@ class Font{
     lateinit var texture: Texture
 
     /**
-     * Map holding the char value and its representative {@code Glyph}
+     * Map holding the char value and its representative  Glyph
      */
     val glyphMap = mutableMapOf<Char, Glyph>()
 
     /**
-     * Initialise and create an OpenGL Texture from the {@code java.awt.Font}
+     * Initialise and create an OpenGL Texture from the  java.awt.Font
      *
      * @param font
      * @param antiAlias
@@ -61,7 +61,7 @@ class Font{
     }
 
     /**
-     * Create an BufferedImage representing the font atlas from the {@code java.awt.Font}
+     * Create an BufferedImage representing the font atlas from the  java.awt.Font
      *
      * @param font
      * @param antiAlias

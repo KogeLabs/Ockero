@@ -21,6 +21,7 @@ package org.koge.engine.event.key
 import org.koge.engine.event.IComponentListener
 
 /**
+ *  Interface for key event listener
  *
  * @author Moncef YABI
  */

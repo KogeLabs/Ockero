@@ -30,7 +30,7 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 /**
- * The {@code TextureLoader}  is a utility object to load textures for Koge.
+ * The  TextureLoader  is a utility object to load textures for Koge.
  *
  * @author Moncef YABI
  */

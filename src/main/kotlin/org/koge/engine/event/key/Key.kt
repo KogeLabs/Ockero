@@ -18,7 +18,7 @@
 
 package org.koge.engine.event.key
 /**
- *  The {@code Key} object groups the values of the keyboard keys.
+ *  The  Key object groups the values of the keyboard keys.
  *
  * @author Moncef YABI
  */

@@ -43,32 +43,32 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
     open var debugMode= false
 
     /**
-     * The Game init function. This function is called form  {@code fun internalInit()}
+     * The Game init function. This function is called form   internalInit()
      *
      */
     abstract fun init()
 
     /**
-     * The game run function. This function is called form {@code fun gameLoop()}
+     * The game run function. This function is called form  gameLoop()
      *
      * @param fps
      */
     abstract fun run(fps: Int)
 
     /**
-     * The game render function. This function is called form {@code fun gameLoop()}
+     * The game render function. This function is called form  gameLoop()
      *
-     * @param fps
+     * @param g
      */
     abstract fun render(g: Graphics)
 
     /**
-     * Destroy the game session and free all resources. This function is called form {@code fun destroyGameSession()}
+     * Destroy the game session and free all resources. This function is called form  destroyGameSession()
      *
      */
     abstract fun destroy()
 
-    private var window = Window()
+    private val window = Window()
     open val font:Font
 
     init {
@@ -85,6 +85,14 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         internalInit()
         gameLoop()
         destroyGameSession()
+    }
+
+    /**
+     * Destroy the game session and free all resources
+     *
+     */
+    fun stop() {
+        window.closeWindow()
     }
 
     /**

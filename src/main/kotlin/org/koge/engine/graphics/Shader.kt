@@ -39,8 +39,8 @@ class Shader ( vertexPath: String, fragmentPath:String) {
     private var vertexID = 0
     private  var fragmentID:Int = 0
     private  var programID:Int = 0
-    private var vertexFile:String? = Utils.readContentFromFile(vertexPath)
-    private var fragmentFile:String? = Utils.readContentFromFile(fragmentPath)
+    private var vertexFile:CharSequence = Utils.readContentFromFile(vertexPath)
+    private var fragmentFile:CharSequence = Utils.readContentFromFile(fragmentPath)
 
     /**
      * Create the OpenGL shader
@@ -91,7 +91,7 @@ class Shader ( vertexPath: String, fragmentPath:String) {
      *
      * @return Location of the attribute
      */
-    fun getAttributeLocation(name: CharSequence?): Int {
+    fun getAttributeLocation(name: CharSequence): Int {
         return GL20.glGetAttribLocation(programID, name)
     }
 
@@ -118,7 +118,7 @@ class Shader ( vertexPath: String, fragmentPath:String) {
      *
      * @param location Location of the vertex attribute
      * @param size     Number of values per vertex
-     * @param stride   Offset between consecutive generic vertex attributes in
+     * @param strprogramIDe   Offset between consecutive generic vertex attributes in
      *                 bytes
      * @param offset   Offset of the first component of the first generic vertex
      *                 attribute in bytes
@@ -150,7 +150,7 @@ class Shader ( vertexPath: String, fragmentPath:String) {
     /**
      * Sets the uniform variable with specified name.
      *
-     * @param location Uniform location
+     * @param name Uniform location
      * @param value    Value to set
      */
     fun setUniform(name: String, value: Int) {
@@ -159,7 +159,7 @@ class Shader ( vertexPath: String, fragmentPath:String) {
     /**
      * Sets the uniform variable with specified name.
      *
-     * @param location Uniform location
+     * @param name Uniform location
      * @param value    Value to set
      */
     fun setUniform(name: String, value: Boolean) {

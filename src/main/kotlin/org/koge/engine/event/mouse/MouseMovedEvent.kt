@@ -21,7 +21,7 @@ package org.koge.engine.event.mouse
 import org.koge.engine.event.Event
 
 /**
- * The {@code MouseCursorEnterEvent} class groups the values of a mouse moved event.
+ * The  MouseCursorEnterEvent class groups the values of a mouse moved event.
  *
  * @property xpos, mouse x position on the screen
  * @property ypos, mouse y position on the screen

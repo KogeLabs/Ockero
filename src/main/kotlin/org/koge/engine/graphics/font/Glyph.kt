@@ -19,7 +19,7 @@
 package org.koge.engine.graphics.font
 
 /**
- * The {@code Glyph} class groups the character texture relevant information
+ * The  Glyph class groups the character texture relevant information
  *
  * @property width
  * @property height

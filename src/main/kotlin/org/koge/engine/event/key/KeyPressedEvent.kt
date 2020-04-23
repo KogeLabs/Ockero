@@ -18,7 +18,7 @@
 
 package org.koge.engine.event.key
 /**
- * The {@code KeyPressedEvent} class groups the values of a key pressed event.
+ * The  KeyPressedEvent class groups the values of a key pressed event.
  *
  * @property key
  * @property c

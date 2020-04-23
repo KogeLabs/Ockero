@@ -21,6 +21,7 @@ package org.koge.engine.event.mouse
 import org.koge.engine.event.IComponentListener
 
 /**
+ * Interface for the mouse event listener
  *
  * @author Moncef YABI
  */

@@ -4,13 +4,17 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
     id "java-library"
     id "maven-publish"
+    id 'org.jetbrains.dokka' version '0.10.1'
 }
+
+def kotlin_version = "1.3.72"
+def spek_version = "2.0.9"
 
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.9.24"
 
 group = "org.koge"
-version = "0.1.0"
+version = "0.1.1"
 
 
 switch (OperatingSystem.current()) {
@@ -30,11 +34,13 @@ switch (OperatingSystem.current()) {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
+    //Lwjgl dependencies
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
@@ -49,6 +55,17 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
+
+    // Test dependencies
+    // some version of Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+
+    // spek requires kotlin-reflect, can be omitted if already in the classpath
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
 }
 
 compileKotlin {
@@ -56,6 +73,29 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+// setup the test task
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
+    }
+}
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = javadoc.destinationDir
+    inputs.dir 'src/main/kotlin'
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier  = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar){
+    archiveClassifier = 'sources'
+    inputs.dir 'src/main/kotlin'
 }
 
 publishing {

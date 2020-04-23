@@ -36,7 +36,7 @@ object Utils {
      * @return String
      */
     @Throws(IOException::class)
-    fun readContentFromFile(path: String): String? = this::class.java.getResource(path).readText()
+    fun readContentFromFile(path: String): CharSequence = this::class.java.getResource(path).readText()
 
     /**
      * Return the absolute path form a relative path.
@@ -45,6 +45,6 @@ object Utils {
      * @return
      */
     @Throws(IOException::class)
-    fun getAbsolutePath(reSourcePath: String): String? = File(this::class.java.getResource(reSourcePath).toURI()).absolutePath
+    fun getAbsolutePath(reSourcePath: String): CharSequence = File(this::class.java.getResource(reSourcePath).toURI()).absolutePath
 
 }

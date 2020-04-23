@@ -18,7 +18,7 @@
 
 package org.koge.engine.event.key
 /**
- * The {@code KeyDownEvent} class groups the values of a key down event.
+ * The  KeyDownEvent class groups the values of a key down event.
  *
  * @property key
  * @property c

@@ -20,7 +20,7 @@ package org.koge.engine.event.mouse
 
 import org.koge.engine.event.Event
 /**
- * The {@code MouseCursorEnterEvent} class groups the values of a mouse cursor enter event.
+ * The  MouseCursorEnterEvent class groups the values of a mouse cursor enter event.
  *
  * @property entered, cursor entered the screen
  *
