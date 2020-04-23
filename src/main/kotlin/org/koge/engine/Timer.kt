@@ -18,14 +18,15 @@
 
 package org.koge.engine
 
-/**
- *
- * @author Moncef YABI
- */
+
 
 import org.lwjgl.glfw.GLFW.glfwGetTime
 
-
+/**
+ * This class provide the necessary timer functions for Koge
+ *
+ *  @author Moncef YABI
+ */
 class Timer {
 
     var lastLoopTime:Double=0.0
@@ -36,11 +37,27 @@ class Timer {
 
     private var upsCount = 0
 
+    /**
+     * Returns the value of the GLFW timer
+     *
+     * @return Double
+     */
     fun getTime(): Double = glfwGetTime()
 
+
+    /**
+     * Init the timer
+     *
+     */
     fun init() {
         lastLoopTime=getTime()
     }
+
+    /**
+     * Get the elapsed time during one loop
+     *
+     * @return Float
+     */
     fun getElapsedTime(): Float {
         val time = getTime()
         val elapsedTime = (time - lastLoopTime).toFloat()
@@ -50,14 +67,26 @@ class Timer {
     }
 
 
+    /**
+     * Increment the FPS value
+     *
+     */
     fun updateFPS() {
         fpsCount++
     }
 
+    /**
+     * Increment the UPS value
+     *
+     */
     fun updateUPS() {
         upsCount++
     }
 
+    /**
+     * Update the timer
+     *
+     */
     fun update() {
         if (timeCount > 1f) {
             fps = fpsCount
@@ -68,8 +97,18 @@ class Timer {
         }
     }
 
+    /**
+     * Retrun the FPS calculated value
+     *
+     * @return Int
+     */
     fun getFPS(): Int = if (fps > 0) fps else fpsCount
 
+    /**
+     * Retrun the UPS calculated value
+     *
+     * @return Int
+     */
     fun getUPS(): Int = if (ups > 0) ups else upsCount
 
 }

@@ -31,7 +31,15 @@ import org.koge.engine.input.HUI
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL15.*
 
-
+/**
+ * This is the main game class
+ *
+ * @constructor
+ *
+ * @param width
+ * @param height
+ * @param title
+ */
 abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() {
 
     private val targetFPS = 75
@@ -95,20 +103,12 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         window.closeWindow()
     }
 
-    /**
-     * Destroy the game session and free all resources
-     *
-     */
     private fun destroyGameSession() {
         destroy()
         g.destroy()
         window.destroy()
     }
 
-    /**
-     * Initialize the game session
-     *
-     */
     private fun internalInit() {
         GL.createCapabilities()
 
@@ -126,10 +126,6 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         init()
     }
 
-    /**
-     * The main game loop
-     *
-     */
     private fun gameLoop() {
         var elapsedTime: Float
         var accumulator = 0f
@@ -156,10 +152,6 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         }
     }
 
-    /**
-     * Limit the game speed to the targetFPS
-     *
-     */
     private fun sync() {
         val loopSlot = 1f / targetFPS
         val endTime = timer.lastLoopTime + loopSlot

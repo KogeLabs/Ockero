@@ -36,37 +36,16 @@ import java.nio.ByteBuffer
  */
 object TextureLoader {
 
-    /**
-     * Sets the integer value of a texture parameter,
-     *
-     * @param name
-     * @param value
-     */
-    private fun setParameter(name: Int, value: Int) {
+
+    private fun setOpenGlTextureParameter(name: Int, value: Int) {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, name, value)
     }
 
-    /**
-     * Upload the Texture date to OpenGl
-     *
-     * @param width
-     * @param height
-     * @param format
-     * @param data
-     */
-    private fun uploadData( width: Int, height: Int, format: Int, data: ByteBuffer?) {
+
+    private fun uploadDataOpenGl(width: Int, height: Int, format: Int, data: ByteBuffer?) {
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, format, GL11.GL_UNSIGNED_BYTE, data)
     }
 
-    /**
-     * Convert the buffered image to a texture
-     *
-     * @param w
-     * @param h
-     * @param data
-     * @param srcPixelFormat
-     * @return Texture
-     */
     private fun createTexture(
         w: Int,
         h: Int,
@@ -80,11 +59,11 @@ object TextureLoader {
             bind()
         }
         //texture.bind()
-        setParameter(GL11.GL_TEXTURE_WRAP_S, GL13.GL_CLAMP_TO_BORDER)
-        setParameter(GL11.GL_TEXTURE_WRAP_T, GL13.GL_CLAMP_TO_BORDER)
-        setParameter(GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
-        setParameter(GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
-        uploadData( w, h, srcPixelFormat, data)
+        setOpenGlTextureParameter(GL11.GL_TEXTURE_WRAP_S, GL13.GL_CLAMP_TO_BORDER)
+        setOpenGlTextureParameter(GL11.GL_TEXTURE_WRAP_T, GL13.GL_CLAMP_TO_BORDER)
+        setOpenGlTextureParameter(GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
+        setOpenGlTextureParameter(GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
+        uploadDataOpenGl( w, h, srcPixelFormat, data)
         return texture
     }
 
@@ -109,7 +88,7 @@ object TextureLoader {
             STBImage.stbi_set_flip_vertically_on_load(true)
             image = STBImage.stbi_load(absolutePath, w, h, comp, 4)
             if (image == null) {
-                throw RuntimeException(
+                throw IOException(
                     "Failed to load a texture file!"
                             + System.lineSeparator() + STBImage.stbi_failure_reason()+ System.lineSeparator()+ absolutePath
                 )
@@ -155,12 +134,6 @@ object TextureLoader {
         return texture
     }
 
-    /**
-     * Flip the Image to fit the OpenGl requirements
-     *
-     * @param image
-     * @return BufferedImage
-     */
     private fun createFlipped(image: BufferedImage): BufferedImage {
         val at = AffineTransform()
         at.concatenate(AffineTransform.getScaleInstance(1.0, -1.0))
@@ -168,13 +141,6 @@ object TextureLoader {
         return createTransformed(image, at)
     }
 
-    /**
-     * Apply the AffineTransform object on the BufferedImage object
-     *
-     * @param image
-     * @param at
-     * @return BufferedImage
-     */
     private fun createTransformed(image: BufferedImage, at: AffineTransform): BufferedImage {
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_ARGB)
         val g = newImage.createGraphics()

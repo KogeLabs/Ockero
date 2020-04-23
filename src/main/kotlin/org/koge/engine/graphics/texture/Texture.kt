@@ -31,10 +31,18 @@ class Texture {
     var width= 0
     var height = 0
 
+    /**
+     * Bind the Texture to a texture target
+     *
+     */
     fun bind() {
         glBindTexture(GL_TEXTURE_2D, id)
     }
 
+    /**
+     * Deletes texture objects.
+     *
+     */
     fun destroy() {
         glDeleteTextures(id)
     }

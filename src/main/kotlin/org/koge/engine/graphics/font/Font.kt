@@ -60,13 +60,7 @@ class Font{
         texture= TextureLoader.createTextureFromBufferedImage(image)
     }
 
-    /**
-     * Create an BufferedImage representing the font atlas from the  java.awt.Font
-     *
-     * @param font
-     * @param antiAlias
-     * @return BufferedImage
-     */
+
     private fun createFont(font: JFont, antiAlias: Boolean):BufferedImage {
 
         val chMap = mutableMapOf<Char, BufferedImage>()
@@ -99,13 +93,6 @@ class Font{
         return image
     }
 
-    /**
-     * Create an BufferedImage  from the char value
-     *
-     * @param ch
-     * @param antiAlias
-     * @return BufferedImage
-     */
     private fun getFontImage(ch: Char, antiAlias: Boolean): BufferedImage {
         // Create a temporary image to extract the character's size
         val tempFontImage = BufferedImage(

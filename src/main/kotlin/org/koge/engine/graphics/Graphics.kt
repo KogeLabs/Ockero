@@ -92,25 +92,11 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         draw(sprite.model, sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
-    /**
-     * Draw a Model onto the game screen
-     *
-     * @param model
-     * @param x
-     * @param y
-     */
+
     private fun draw(model: Model, x:Float, y:Float){
         draw(model, Vector2f(x,y))
     }
 
-    /**
-     * Draw a Model onto the game screen
-     *
-     * @param model
-     * @param position
-     * @param scale
-     * @param angleOfRotation
-     */
     private fun draw(model: Model, position: Vector2f =Vector2f(0f, 0f), scale: Vector3f=Vector3f(1f, 1f,1f), angleOfRotation:Float=0f){
         enableVertexArrayAndBindTexture(model)
         shader.bind()
@@ -130,20 +116,11 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
 
     }
 
-    /**
-     * Draw a Model onto the screen using the openGl function  glDrawElements
-     *
-     * @param model
-     */
     private fun drawElements(model: Model) {
         GL11.glDrawElements(GL11.GL_TRIANGLES, model.indices.size, GL11.GL_UNSIGNED_INT, 0)
     }
 
-    /**
-     *  Load the vertex arrays of the model and bind it into OpenGL
-     *
-     * @param model
-     */
+
     private fun enableVertexArrayAndBindTexture(model: Model) {
         GL30.glBindVertexArray(model.getVAO())
         GL30.glEnableVertexAttribArray(0)
@@ -153,10 +130,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         GL13.glActiveTexture(GL13.GL_TEXTURE0)
         GL13.glBindTexture(GL11.GL_TEXTURE_2D, model.texture.id)
     }
-    /**
-     *  Unbind vertex data to free up the memory
-     *
-     */
+
     private fun disableVertexArray()
     {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0)
