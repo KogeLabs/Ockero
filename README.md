@@ -14,7 +14,7 @@ Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed in Kotlin that
 *   Gradle
  
 ## Getting Started 
-In the ```build.gradle``` of your Idea project you add the following script to download Koge and their dependencies from the maven central.
+In the ```build.gradle``` of your Idea project you want to add the following script to download Koge and their dependencies from the maven central.
 ```
 repositories {
     mavenCentral()

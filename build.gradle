@@ -20,6 +20,8 @@ group = "com.github.kogelabs"
 archivesBaseName = "koge-jvm"
 version = "0.1.1.2"
 
+if (!project.hasProperty('ossrhUsername')) ossrhUsername=""
+if (!project.hasProperty('ossrhPassword')) ossrhPassword=""
 
 switch (OperatingSystem.current()) {
     case OperatingSystem.LINUX:
