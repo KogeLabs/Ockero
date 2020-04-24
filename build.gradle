@@ -20,9 +20,6 @@ group = "com.github.kogelabs"
 archivesBaseName = "koge-jvm"
 version = "0.1.1.2"
 
-if (!project.hasProperty('ossrhUsername')) ossrhUsername=""
-if (!project.hasProperty('ossrhPassword')) ossrhPassword=""
-
 switch (OperatingSystem.current()) {
     case OperatingSystem.LINUX:
         def osArch = System.getProperty("os.arch")
@@ -130,7 +127,7 @@ publishing {
         }
     }
 }
-
+/** Uncomment to enable upload to maven central
 //Publish to maven central
 uploadArchives {
     repositories {
@@ -181,3 +178,4 @@ nexusStaging {
     packageGroup = group
     stagingProfileId = "6a84c6051dd36"
 }
+*/
