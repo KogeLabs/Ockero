@@ -59,14 +59,7 @@ class Model {
         texture = TextureLoader.create(path)
         return createFromTexture(texture, c)
     }
-
-    /**
-     * Create a model form a texture
-     *
-     * @param texture
-     * @param c
-     * @return Model
-     */
+    
     private fun createFromTexture(texture: Texture, c: Color = Color.WHITE): Model {
 
         width = texture.width.toFloat()
