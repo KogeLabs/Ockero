@@ -36,9 +36,9 @@ import java.nio.FloatBuffer
  */
 class Model {
 
-    private var vao: Int = 0
-    private var pbo: Int = 0
-    private var ibo: Int = 0
+    var vao: Int = 0
+    var pbo: Int = 0
+    var ibo: Int = 0
     private var cbo: Int = 0
     private var tbo: Int = 0
 
@@ -57,17 +57,19 @@ class Model {
      */
     fun createFromImageFile(path: String, c: Color = Color.WHITE):Model {
         texture = TextureLoader.create(path)
+
+        fun createFromTexture(texture: Texture, c: Color = Color.WHITE): Model {
+
+            width = texture.width.toFloat()
+            height = texture.height.toFloat()
+            initVertices(width, height, 0.0f, 1.0f,c)
+            pushToOpenGL()
+            return this
+        }
+
         return createFromTexture(texture, c)
     }
-    
-    private fun createFromTexture(texture: Texture, c: Color = Color.WHITE): Model {
 
-        width = texture.width.toFloat()
-        height = texture.height.toFloat()
-        initVertices(width, height, 0.0f, 1.0f,c)
-        pushToOpenGL()
-        return this
-    }
 
     /**
      * Create a model form a glyph texture
@@ -148,33 +150,6 @@ class Model {
             GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW)
             GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0)
         }
-    }
-
-    /**
-     * Get the VAO object id
-     *
-     * @return Int
-     */
-    fun getVAO(): Int {
-        return vao
-    }
-
-    /**
-     * Get the PBO object id
-     *
-     * @return Int
-     */
-    fun getPBO(): Int {
-        return pbo
-    }
-
-    /**
-     * Get the IBO object id
-     *
-     * @return Int
-     */
-    fun getIBO(): Int {
-        return ibo
     }
 
 
