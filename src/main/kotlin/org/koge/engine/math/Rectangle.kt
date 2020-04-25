@@ -64,7 +64,7 @@ class Rectangle(var x: Float, var y: Float, var width: Float, var height: Float)
         var th = height
         var rw = otherRecangle.width
         var rh = otherRecangle.height
-        if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+        if (checkIfDimensionAreNegative(rw, rh, tw, th)) {
             return false
         }
         val tx = x
@@ -80,4 +80,11 @@ class Rectangle(var x: Float, var y: Float, var width: Float, var height: Float)
                 && (tw < tx || tw > rx)
                 && (th < ty || th > ry))
     }
+
+    private fun checkIfDimensionAreNegative(
+        rw: Float,
+        rh: Float,
+        tw: Float,
+        th: Float
+    ) = rw <= 0 || rh <= 0 || tw <= 0 || th <= 0
 }

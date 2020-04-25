@@ -101,11 +101,11 @@ class Window {
         }
 
         GLFW.glfwSetCursorPosCallback(window) { _: Long, xpos: Double, ypos: Double ->
-            HUI.fireMouseMovedEvent(xpos, ypos)
+            HUI.fireMouseMovedEvent(xpos.toFloat(), ypos.toFloat())
         }
 
-        GLFW.glfwSetScrollCallback(window) { _: Long, xoffset: Double, yoffset: Double ->
-            HUI.fireMouseScrollEvent(xoffset, yoffset)
+        GLFW.glfwSetScrollCallback(window) { _: Long, xOffset: Double, yOffset: Double ->
+            HUI.fireMouseScrollEvent(xOffset.toFloat(), yOffset.toFloat())
         }
 
         glfwSetCursorEnterCallback(window) { _: Long, entered: Boolean ->

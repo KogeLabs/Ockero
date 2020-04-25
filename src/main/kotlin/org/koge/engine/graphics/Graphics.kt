@@ -21,6 +21,7 @@ import org.joml.Matrix4f
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.font.Font
+import org.koge.game.sprite.ISprite
 import org.koge.game.sprite.Sprite
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
@@ -88,7 +89,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
      *
      * @param sprite
      */
-    fun draw(sprite: Sprite) {
+    fun draw(sprite: ISprite) {
         draw(sprite.model, sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
@@ -122,11 +123,11 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
 
 
     private fun enableVertexArrayAndBindTexture(model: Model) {
-        GL30.glBindVertexArray(model.getVAO())
+        GL30.glBindVertexArray(model.vao)
         GL30.glEnableVertexAttribArray(0)
         GL30.glEnableVertexAttribArray(1)
         GL30.glEnableVertexAttribArray(2)
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.getIBO())
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.ibo)
         GL13.glActiveTexture(GL13.GL_TEXTURE0)
         GL13.glBindTexture(GL11.GL_TEXTURE_2D, model.texture.id)
     }

@@ -131,12 +131,12 @@ class GameTest4(width: Int, height: Int, title: String) : Game(width, height, ti
     }
 
     override fun mouseMoved(e: MouseMovedEvent) {
-        xMouse = e.xpos.toFloat()
-        yMouse = e.ypos.toFloat()
+        xMouse = e.xPos.toFloat()
+        yMouse = e.yPos.toFloat()
     }
 
     override fun mouseScrolled(e: MouseScrollEvent) {
-        println("${e.xoffset} ${e.yoffset}")
+        println("${e.xOffset} ${e.yOffset}")
     }
 
 }

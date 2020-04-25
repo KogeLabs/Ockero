@@ -144,7 +144,7 @@ object HUI {
      * @param xpos
      * @param ypos
      */
-    fun fireMouseMovedEvent(xpos: Double, ypos: Double) {
+    fun fireMouseMovedEvent(xpos: Float, ypos: Float) {
         val e = MouseMovedEvent(xpos, ypos)
         mouseListener.forEach {
             val l: IMouseListener = it as IMouseListener
@@ -158,7 +158,7 @@ object HUI {
      * @param xoffset
      * @param yoffset
      */
-    fun fireMouseScrollEvent(xoffset: Double, yoffset: Double) {
+    fun fireMouseScrollEvent(xoffset: Float, yoffset: Float) {
         val e = MouseScrollEvent(xoffset, yoffset)
         mouseListener.forEach {
             val l: IMouseListener = it as IMouseListener

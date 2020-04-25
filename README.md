@@ -3,7 +3,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Koge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Koge&amp;utm_campaign=Badge_Grade) 
 ![Java CI with Gradle](https://github.com/KogeLabs/Koge/workflows/Java%20CI%20with%20Gradle/badge.svg)
-![Maven Central](https://img.shields.io/maven-central/v/com.github.kogelabs/koge-jvm)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.kogelabs/koge-jvm/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.kogelabs/koge-jvm)
 
 Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed in Kotlin that works in Windows, Linux and Mac OS X.
 
@@ -14,14 +14,14 @@ Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed in Kotlin that
  
 ## Getting Started 
 In the ```build.gradle``` of your Idea project you want to add the following script to download Koge and their dependencies from the maven central.
-```
+```Groovy
 repositories {
     mavenCentral()
 }
 
 dependencies {
 
-    compile "com.github.kogelabs:koge-jvm:0.1.1.2"
+    implementation 'com.github.kogelabs:koge-jvm:0.1.1.2'
 }
 ```
 For more information on how to set up Koge, please visit the [Getting Started](https://github.com/MoncefYabi/Koge/wiki/Getting-Started) page.

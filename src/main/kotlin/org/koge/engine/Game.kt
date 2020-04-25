@@ -45,7 +45,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
     private val targetFPS = 75
     private val targetUPS = 30
 
-    private val g: Graphics
+    val g: Graphics
     private val timer = Timer()
 
     open var debugMode= false
@@ -75,6 +75,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
      *
      */
     abstract fun destroy()
+
 
     private val window = Window()
     open val font:Font
@@ -142,7 +143,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
             }
             if(debugMode){
                 g.drawText("FPS: ${timer.getFPS()}", 10f, 10f)
-                g.drawText("FPS: ${timer.getUPS()}", 10f, 32f)
+                g.drawText("UPS: ${timer.getUPS()}", 10f, 32f)
             }
             render(g)
             timer.updateFPS()

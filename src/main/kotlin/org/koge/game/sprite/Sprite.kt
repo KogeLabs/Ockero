@@ -51,18 +51,18 @@ import org.koge.engine.math.Rectangle
  *
  * @author Moncef YABI
  */
-class Sprite(private val texturePath: String) {
+class Sprite(private val texturePath: String, xPos:Float=0f, yPos:Float=0f): ISprite {
 
-    var position= Vector2f(0f, 0f)
-    var angleOfRotation= 0f
-    var scale = Vector3f(1f, 1f,1f)
-    var model: Model = Model()
+    override var position= Vector2f(xPos, yPos)
+    override var angleOfRotation= 0f
+    override var scale = Vector3f(1f, 1f,1f)
+    override var model: Model = Model()
 
     /**
      * Init the Sprite and create a texture from the loaded image.
      *
      */
-    fun init()
+    override fun init()
     {
         model.createFromImageFile(texturePath)
     }
@@ -72,7 +72,7 @@ class Sprite(private val texturePath: String) {
      *
      * @param speedX
      */
-    fun moveX(speedX: Float){
+    override fun moveX(speedX: Float){
         position.x+=speedX
     }
 
@@ -81,7 +81,7 @@ class Sprite(private val texturePath: String) {
      *
      * @param speedY
      */
-    fun moveY(speedY: Float){
+    override fun moveY(speedY: Float){
         position.y+=speedY
     }
 
@@ -91,7 +91,7 @@ class Sprite(private val texturePath: String) {
      * @param x
      * @param y
      */
-    fun setPosition(x:Float, y:Float) {
+    override fun setPosition(x:Float, y:Float) {
         position.set(x,y)
     }
 
@@ -99,7 +99,7 @@ class Sprite(private val texturePath: String) {
      * Destroy this sprite and free all resources.
      *
      */
-    fun destroy(){
+    override fun destroy(){
         model.destroy()
     }
 
@@ -109,11 +109,22 @@ class Sprite(private val texturePath: String) {
      * @param oderSprite
      * @return Boolean
      */
-    fun collide(oderSprite: Sprite): Boolean {
+    override fun collide(oderSprite: Sprite): Boolean {
         val me= Rectangle(position.x, position.y, model.width , model.height)
         val him= Rectangle(oderSprite.position.x, oderSprite.position.y, oderSprite.model.width, oderSprite.model.height)
         return me.intersects(him)
     }
 
+    /**
+     *
+     * @return Sprite with
+     */
+    override fun getWith():Float= model.width
+
+    /**
+     *
+     * @return Sprite height
+     */
+    override fun getHeight():Float= model.height
 
 }

@@ -22,7 +22,7 @@ package org.koge.engine.event.key
  *
  * @author Moncef YABI
  */
-object Key {
+object Keys {
 
     const val ANY_CONTROLLER = -1
     const val KEY_SPACE = 32

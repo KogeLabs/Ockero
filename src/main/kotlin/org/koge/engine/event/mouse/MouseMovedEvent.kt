@@ -23,9 +23,9 @@ import org.koge.engine.event.Event
 /**
  * The  MouseCursorEnterEvent class groups the values of a mouse moved event.
  *
- * @property xpos, mouse x position on the screen
- * @property ypos, mouse y position on the screen
+ * @property xPos, mouse x position on the screen
+ * @property yPos, mouse y position on the screen
  *
  * @author Moncef YABI
  */
-class MouseMovedEvent(var xpos: Double, var ypos: Double): Event()
+class MouseMovedEvent(var xPos: Float, var yPos: Float): Event()

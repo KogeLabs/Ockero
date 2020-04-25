@@ -23,9 +23,9 @@ import org.koge.engine.event.Event
 /**
  * The  MouseCursorEnterEvent class groups the values of a mouse button pressed event.
  *
- * @property xoffset, values: 0 no change, -1 left, 1 right
- * @property xoffset, values: 0 no change, -1 back, 1 front
+ * @property xOffset, values: 0 no change, -1 left, 1 right
+ * @property xOffset, values: 0 no change, -1 back, 1 front
  *
  * @author Moncef YABI
  */
-class MouseScrollEvent (var xoffset: Double, var yoffset: Double): Event()
+class MouseScrollEvent (var xOffset: Float, var yOffset: Float): Event()
