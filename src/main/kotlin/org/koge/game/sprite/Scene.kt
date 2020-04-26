@@ -26,7 +26,7 @@ import org.koge.engine.graphics.Graphics
  */
 class Scene {
 
-    val elements = mutableMapOf<String, ISprite>()
+    val sceneElements = mutableMapOf<String, ISprite>()
     private var onUpdates: (() -> Unit)? = null
     private var onRender: (() -> Unit)? = null
     private var onMouseButtonPressed: (() -> Unit)? = null
@@ -39,7 +39,7 @@ class Scene {
      *
      */
     fun init(){
-        elements.forEach { (name, element) ->
+        sceneElements.forEach { (name, element) ->
             val sprite: ISprite = element
             sprite.init()
         }
@@ -51,7 +51,7 @@ class Scene {
      */
 
     fun render(g: Graphics){
-        elements.forEach { (name, element) ->
+        sceneElements.forEach { (name, element) ->
             val sprite: ISprite = element
             g.draw(sprite)
         }
@@ -63,11 +63,11 @@ class Scene {
      *
      */
     fun destroy(){
-        elements.forEach { (name, element) ->
+        sceneElements.forEach { (name, element) ->
             val sprite: ISprite = element
             sprite.destroy()
         }
-        elements.clear()
+        sceneElements.clear()
     }
 
     /**
@@ -75,7 +75,7 @@ class Scene {
      *
      */
     fun removeElement(name:String){
-        elements.remove(name)
+        sceneElements.remove(name)
     }
 
 
@@ -84,9 +84,6 @@ class Scene {
      *
      */
     fun update(){
-        elements.forEach { (name, element) ->
-            val sprite: ISprite = element
-        }
         onUpdates?.invoke()
     }
 
@@ -176,6 +173,6 @@ class Scene {
     }
 
     fun sprite(name:String, path:String, xPos:Float=0f, yPos:Float=0f,block:ISprite.()->Unit) {
-        elements[name] = Sprite(path, xPos, yPos).apply(block)
+        sceneElements[name] = Sprite(path, xPos, yPos).apply(block)
     }
 }

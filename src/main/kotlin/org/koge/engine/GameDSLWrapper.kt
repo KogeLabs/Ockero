@@ -23,6 +23,7 @@ import org.koge.engine.event.key.KeyPressedEvent
 import org.koge.engine.event.key.KeyReleasedEvent
 import org.koge.engine.event.mouse.*
 import org.koge.engine.graphics.Graphics
+import org.koge.game.sprite.ISprite
 import org.koge.game.sprite.Scene
 
 /**
@@ -56,9 +57,20 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     val mouse= Mouse()
     val key = Key()
 
-    private var sceneObject:Scene?= null
+    private val scenes = mutableMapOf<String, Scene>()
+    private var activeScene:Scene?=null
 
 
+    fun setActiveScene(name: String){
+        activeScene= scenes[name]
+    }
+    /**
+     * remove scene from the game session
+     *
+     */
+    fun removeElement(name:String){
+        scenes.remove(name)
+    }
     /**
      * This function will be internally triggered
      *
@@ -79,7 +91,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
         key.id= e.key
         key.c = e.c?:' '
         onKeyPressed?.invoke()
-        sceneObject?.keyPressed()
+        activeScene?.keyPressed()
     }
 
     /**
@@ -91,7 +103,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
         key.id= e.key
         key.c = e.c?:' '
         onKeyDown?.invoke()
-        sceneObject?.keyDown()
+        activeScene?.keyDown()
     }
 
     /**
@@ -102,7 +114,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     override fun mouseButtonPressed(e: MousePressedEvent) {
         mouse.button= e.button
         onMouseButtonPressed?.invoke()
-        sceneObject?.mouseButtonPressed()
+        activeScene?.mouseButtonPressed()
     }
 
     /**
@@ -124,7 +136,8 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
         mouse.xPos=e.xPos
         mouse.yPos=e.yPos
         onMouseMoved?.invoke()
-        sceneObject?.mouseMoved()
+
+        activeScene?.mouseMoved()
     }
 
     /**
@@ -235,7 +248,9 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun init() {
         onInit?.invoke()
-        sceneObject?.init()
+        scenes.forEach { (name, element) ->
+            element.init()
+        }
     }
 
     /**
@@ -245,7 +260,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun run(fps: Int) {
         onUpdates?.invoke()
-        sceneObject?.update()
+        activeScene?.update()
     }
 
     /**
@@ -255,7 +270,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun render(g: Graphics) {
         onRender?.invoke()
-        sceneObject?.render(g)
+        activeScene?.render(g)
     }
 
     /**
@@ -264,7 +279,10 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun destroy() {
         onDestroy?.invoke()
-        sceneObject?.destroy()
+        scenes.forEach { (name, element) ->
+            element.destroy()
+        }
+        scenes.clear()
     }
 
     /**
@@ -300,7 +318,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      * @param block: lambda function
      */
     fun scene(name:String, block:Scene.()->Unit){
-        sceneObject = Scene().apply(block)
+        scenes[name] = Scene().apply(block)
     }
 
     /**
