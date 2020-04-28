@@ -54,7 +54,7 @@ class GameTest1(width: Int, height: Int, title: String) : Game(width, height, ti
 
 class GameTest2(width: Int, height: Int, title: String) : Game(width, height, title) {
 
-    private var sprite = Sprite("/textures/boss.gif")
+    private var sprite = Sprite("/textures/boss.gif", "test")
 
     override fun init() {
         sprite.init()

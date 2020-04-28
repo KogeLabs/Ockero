@@ -37,6 +37,7 @@ import org.koge.game.sprite.Scene
  *
  * @author Moncef YABI
  */
+@GameDSLMarker
 class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, height, title){
 
     private var onInit: (() -> Unit)? = null
@@ -249,7 +250,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     override fun init() {
         onInit?.invoke()
         scenes.forEach { (name, element) ->
-            element.init()
+            element.init(g, mouse, key)
         }
     }
 
@@ -270,7 +271,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun render(g: Graphics) {
         onRender?.invoke()
-        activeScene?.render(g)
+        activeScene?.render()
     }
 
     /**
@@ -352,3 +353,12 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
  * @return
  */
 fun game(width: Int, height: Int,  title: String,block:GameDSLWrapper.()->Unit):GameDSLWrapper= GameDSLWrapper(width,height,title).apply(block)
+
+
+/**
+ * Marker class for DSL
+ *
+ */
+@DslMarker
+annotation class GameDSLMarker
+

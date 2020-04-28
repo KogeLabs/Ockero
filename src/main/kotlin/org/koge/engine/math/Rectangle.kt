@@ -56,21 +56,21 @@ class Rectangle(var x: Float, var y: Float, var width: Float, var height: Float)
     /**
      * Checks if this Rectangle intersects another Rectangle
      *
-     * @param otherRecangle
+     * @param otherRectangle
      * @return Boolean
      */
-    fun intersects(otherRecangle: Rectangle): Boolean {
+    fun intersects(otherRectangle: Rectangle): Boolean {
         var tw = width
         var th = height
-        var rw = otherRecangle.width
-        var rh = otherRecangle.height
+        var rw = otherRectangle.width
+        var rh = otherRectangle.height
         if (checkIfDimensionAreNegative(rw, rh, tw, th)) {
             return false
         }
         val tx = x
         val ty = y
-        val rx = otherRecangle.x
-        val ry = otherRecangle.y
+        val rx = otherRectangle.x
+        val ry = otherRectangle.y
         rw += rx
         rh += ry
         tw += tx

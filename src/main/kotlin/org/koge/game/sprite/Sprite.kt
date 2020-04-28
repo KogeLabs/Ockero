@@ -40,6 +40,7 @@ package org.koge.game.sprite
 
 import org.joml.Vector2f
 import org.joml.Vector3f
+import org.koge.engine.GameDSLMarker
 import org.koge.engine.graphics.Model
 import org.koge.engine.math.Rectangle
 
@@ -51,7 +52,8 @@ import org.koge.engine.math.Rectangle
  *
  * @author Moncef YABI
  */
-class Sprite(private val texturePath: String, xPos:Float=0f, yPos:Float=0f): ISprite {
+@GameDSLMarker
+class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPos:Float=0f): ISprite {
 
     override var position= Vector2f(xPos, yPos)
     override var angleOfRotation= 0f
@@ -101,6 +103,9 @@ class Sprite(private val texturePath: String, xPos:Float=0f, yPos:Float=0f): ISp
      */
     override fun destroy(){
         model.destroy()
+        //Prevent collision detection for destroyed objects
+        model.width = -1f
+        model.height = -1f
     }
 
     /**

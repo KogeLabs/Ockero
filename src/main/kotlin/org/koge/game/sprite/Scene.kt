@@ -17,6 +17,8 @@
  */
 package org.koge.game.sprite
 
+import org.koge.engine.GameDSLMarker
+import org.koge.engine.GameDSLWrapper
 import org.koge.engine.graphics.Graphics
 
 /**
@@ -24,9 +26,10 @@ import org.koge.engine.graphics.Graphics
  *
  * @author Moncef YABI
  */
+@GameDSLMarker
 class Scene {
 
-    val sceneElements = mutableMapOf<String, ISprite>()
+    val sceneElements = mutableListOf<ISprite>()
     private var onUpdates: (() -> Unit)? = null
     private var onRender: (() -> Unit)? = null
     private var onMouseButtonPressed: (() -> Unit)? = null
@@ -34,25 +37,27 @@ class Scene {
     private var onKeyPressed: (() -> Unit)? = null
     private var onKeyDown: (() -> Unit)? = null
 
+    lateinit var mouse:GameDSLWrapper.Mouse
+    lateinit var key:GameDSLWrapper.Key
+    lateinit var g:Graphics
     /**
      * The scene init function.
      *
      */
-    fun init(){
-        sceneElements.forEach { (name, element) ->
-            val sprite: ISprite = element
+    fun init(g: Graphics, mouse: GameDSLWrapper.Mouse, key:GameDSLWrapper.Key){
+        this.g=g
+        this.mouse=mouse
+        this.key=key
+        sceneElements.forEach { sprite ->
             sprite.init()
         }
     }
 
     /**
      * The scene init function.
-     * @param g, the Graphics renderer object
      */
-
-    fun render(g: Graphics){
-        sceneElements.forEach { (name, element) ->
-            val sprite: ISprite = element
+    fun render(){
+        sceneElements.forEach { sprite ->
             g.draw(sprite)
         }
         onRender?.invoke()
@@ -63,19 +68,23 @@ class Scene {
      *
      */
     fun destroy(){
-        sceneElements.forEach { (name, element) ->
-            val sprite: ISprite = element
+        sceneElements.forEach { sprite ->
             sprite.destroy()
         }
         sceneElements.clear()
+    }
+
+    fun addElement(sprite:Sprite){
+        sceneElements.add(sprite)
     }
 
     /**
      * remove element from the scene
      *
      */
-    fun removeElement(name:String){
-        sceneElements.remove(name)
+    fun removeElement(sprite:Sprite){
+        sceneElements.remove(sprite)
+        sprite.destroy()
     }
 
 
@@ -172,7 +181,4 @@ class Scene {
         onRender = block
     }
 
-    fun sprite(name:String, path:String, xPos:Float=0f, yPos:Float=0f,block:ISprite.()->Unit) {
-        sceneElements[name] = Sprite(path, xPos, yPos).apply(block)
-    }
 }
