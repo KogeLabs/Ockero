@@ -29,7 +29,7 @@ import org.koge.engine.graphics.Graphics
 @GameDSLMarker
 class Scene {
 
-    val sceneElements = mutableListOf<ISprite>()
+    private val sceneElements = mutableListOf<ISprite>()
     private var onUpdates: (() -> Unit)? = null
     private var onRender: (() -> Unit)? = null
     private var onMouseButtonPressed: (() -> Unit)? = null
@@ -74,7 +74,12 @@ class Scene {
         sceneElements.clear()
     }
 
-    fun addElement(sprite:Sprite){
+    /**
+     * Add an element to a scene
+     *
+     * @param sprite
+     */
+    fun addElement(sprite:ISprite){
         sceneElements.add(sprite)
     }
 

@@ -62,6 +62,11 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     private var activeScene:Scene?=null
 
 
+    /**
+     * Set the current active scene
+     *
+     * @param name
+     */
     fun setActiveScene(name: String){
         activeScene= scenes[name]
     }
