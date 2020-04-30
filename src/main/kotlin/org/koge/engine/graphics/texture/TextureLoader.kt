@@ -18,6 +18,7 @@
 
 package org.koge.engine.graphics.texture
 
+import org.koge.engine.graphics.SubImage
 import org.koge.engine.utils.Utils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
@@ -111,7 +112,7 @@ object TextureLoader {
         val width: Int = bufferedImage.width
         val height: Int = bufferedImage.height
 
-        val flippedBufferedImage = createFlipped(bufferedImage)
+        val flippedBufferedImage = flipBufferedImage(bufferedImage)
 
         /* Get pixel data of image */
         val pixels = IntArray(width * height)
@@ -134,20 +135,46 @@ object TextureLoader {
         return texture
     }
 
-    private fun createFlipped(image: BufferedImage): BufferedImage {
+    private fun flipBufferedImage(image: BufferedImage): BufferedImage {
         val at = AffineTransform()
         at.concatenate(AffineTransform.getScaleInstance(1.0, -1.0))
         at.concatenate(AffineTransform.getTranslateInstance(0.0, -image.height.toDouble()))
-        return createTransformed(image, at)
+        return transformBufferedImage(image, at)
     }
 
-    private fun createTransformed(image: BufferedImage, at: AffineTransform): BufferedImage {
+    private fun transformBufferedImage(image: BufferedImage, at: AffineTransform): BufferedImage {
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_ARGB)
         val g = newImage.createGraphics()
         g.transform(at)
         g.drawImage(image, 0, 0, null)
         g.dispose()
         return newImage
+    }
+
+    /**
+     * Create Image frames from sprite sheet texture
+     *
+     * @param texture
+     * @param columns
+     * @param rows
+     * @return
+     */
+    fun getImageFramesFromSpriteSheetTexture(texture: Texture, columns:Int, rows:Int):Array<Array<SubImage>>{
+
+        val wi: Int = texture.width / columns
+        val hi: Int = texture.height / rows
+
+        var iFrames = arrayOf<Array<SubImage>>()
+
+        for (i in 0 until rows) {
+            var rowArray = arrayOf<SubImage>()
+            for (j in 0 until columns) {
+                rowArray+=SubImage(wi, hi, j*wi, i*hi)
+            }
+            iFrames+= rowArray
+        }
+
+        return iFrames
     }
 
 }

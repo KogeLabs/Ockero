@@ -15,17 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-package org.koge.engine.graphics.font
+package org.koge.engine.graphics
 
 /**
- * The  Glyph class groups the character texture relevant information
+ * This class is holding information about one sub image contained in one sprite sheet
  *
  * @property width
  * @property height
  * @property x
  * @property y
  *
- *  @author Moncef YABI
+ * @author Moncef YABI
  */
-data class Glyph (val width:Int, val height:Int, val x:Int, val y:Int)
+data class SubImage(val width:Int, val height:Int, val x:Int, val y:Int)

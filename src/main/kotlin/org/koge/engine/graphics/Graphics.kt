@@ -22,12 +22,10 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.font.Font
 import org.koge.game.sprite.ISprite
-import org.koge.game.sprite.Sprite
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL30
-import java.awt.Graphics
 
 
 /**
@@ -75,7 +73,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
                 '\r'-> {}
                 else -> {
                     val glyph= font.glyphMap[it]!!
-                    val model = Model().createFromGlyphTexture(font.texture,glyph,color)
+                    val model = ModelBuilder.createModelFromSubImage(font.texture,glyph,color)
                     draw(model, drawX, drawY)
                     drawX += glyph.width
                     model.clearBuffers()
@@ -84,17 +82,18 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         }
     }
 
+
     /**
      * Draw a Sprite onto the game screen
      *
      * @param sprite
      */
     fun draw(sprite: ISprite) {
-        draw(sprite.model, sprite.position, sprite.scale,sprite.angleOfRotation)
+        draw(sprite.activeModel, sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
 
-    private fun draw(model: Model, x:Float, y:Float){
+    fun draw(model: Model, x:Float, y:Float){
         draw(model, Vector2f(x,y))
     }
 

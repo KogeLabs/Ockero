@@ -19,9 +19,7 @@ package org.koge.engine.graphics
 
 import org.joml.Vector2f
 import org.joml.Vector3f
-import org.koge.engine.graphics.font.Glyph
 import org.koge.engine.graphics.texture.Texture
-import org.koge.engine.graphics.texture.TextureLoader
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL20
@@ -34,7 +32,8 @@ import java.nio.FloatBuffer
  * This class represent a Game model. A model is the basic entity holding the Vertex information
  * @author Moncef YABI
  */
-class Model {
+class Model() {
+
 
     var vao: Int = 0
     var pbo: Int = 0
@@ -47,62 +46,35 @@ class Model {
     private lateinit var vertices: Array<Vertex>
     lateinit var indices: IntArray
     lateinit var texture: Texture
-
-    /**
-     * Create a model form a local image file
-     *
-     * @param path
-     * @param c
-     * @return Model
-     */
-    fun createFromImageFile(path: String, c: Color = Color.WHITE):Model {
-        texture = TextureLoader.create(path)
-
-        fun createFromTexture(texture: Texture, c: Color = Color.WHITE): Model {
-
-            width = texture.width.toFloat()
-            height = texture.height.toFloat()
-            initVertices(width, height, 0.0f, 1.0f,c)
-            pushToOpenGL()
-            return this
-        }
-
-        return createFromTexture(texture, c)
-    }
-
-
-    /**
-     * Create a model form a glyph texture
-     *
-     * @param texture
-     * @param glyph
-     * @param c
-     * @return Model
-     */
-    fun createFromGlyphTexture(texture: Texture, glyph:Glyph, c: Color = Color.WHITE): Model {
+    constructor(texture: Texture) : this(){
         this.texture=texture
-        /* Texture coordinates */
-        val s1 = glyph.x / texture.width.toFloat()
-        val s2 = (glyph.x + glyph.width) / texture.width.toFloat()
-
-        initVertices(glyph.width.toFloat(),glyph.height.toFloat(), s1, s2, c)
-        pushToOpenGL()
-        return this
     }
-
-    private fun initVertices(
+    /**
+     * Init OpenGL Vertices
+     *
+     * @param width
+     * @param height
+     * @param s1
+     * @param s2
+     * @param c
+     */
+    fun initVertices(
         width: Float, height: Float,
-        s1: Float, s2: Float, c: Color
+        s1: Float, s2: Float, t1: Float, t2: Float,c: Color
     ) {
         vertices = arrayOf(
-            Vertex(Vector3f(0f, height, 0.0f), c, Vector2f(s1, 0.0f)),
-            Vertex(Vector3f(0f, 0f, 0.0f), c, Vector2f(s1, 1.0f)),
-            Vertex(Vector3f(width, 0f, 0.0f), c, Vector2f(s2, 1.0f)),
-            Vertex(Vector3f(width, height, 0.0f), c, Vector2f(s2, 0.0f))
+            Vertex(Vector3f(0f, height, 0.0f), c, Vector2f(s1, t1)),
+            Vertex(Vector3f(0f, 0f, 0.0f), c, Vector2f(s1, t2)),
+            Vertex(Vector3f(width, 0f, 0.0f), c, Vector2f(s2, t2)),
+            Vertex(Vector3f(width, height, 0.0f), c, Vector2f(s2, t1))
         )
     }
 
-    private fun pushToOpenGL() {
+    /**
+     * Push buffers to GPU
+     *
+     */
+    fun pushToOpenGL() {
         vao = GL30.glGenVertexArrays()
         GL30.glBindVertexArray(vao)
 

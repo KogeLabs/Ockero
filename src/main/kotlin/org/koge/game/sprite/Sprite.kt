@@ -36,12 +36,11 @@
 
 package org.koge.game.sprite
 
-
-
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.GameDSLMarker
 import org.koge.engine.graphics.Model
+import org.koge.engine.graphics.ModelBuilder
 import org.koge.engine.math.Rectangle
 
 
@@ -53,12 +52,12 @@ import org.koge.engine.math.Rectangle
  * @author Moncef YABI
  */
 @GameDSLMarker
-class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPos:Float=0f): ISprite {
+open class Sprite(private val texturePath: String,xPos:Float=0f, yPos:Float=0f): ISprite {
 
     override var position= Vector2f(xPos, yPos)
     override var angleOfRotation= 0f
     override var scale = Vector3f(1f, 1f,1f)
-    override var model: Model = Model()
+    override lateinit var activeModel: Model
 
     /**
      * Init the Sprite and create a texture from the loaded image.
@@ -66,7 +65,7 @@ class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPo
      */
     override fun init()
     {
-        model.createFromImageFile(texturePath)
+        activeModel= ModelBuilder.createModelFromSpriteImageFile(texturePath)
     }
 
     /**
@@ -102,10 +101,10 @@ class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPo
      *
      */
     override fun destroy(){
-        model.destroy()
+        activeModel.destroy()
         //Prevent collision detection for destroyed objects
-        model.width = -1f
-        model.height = -1f
+        activeModel.width = -1f
+        activeModel.height = -1f
     }
 
     /**
@@ -115,8 +114,8 @@ class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPo
      * @return Boolean
      */
     override fun collide(oderSprite: Sprite): Boolean {
-        val me= Rectangle(position.x, position.y, model.width , model.height)
-        val him= Rectangle(oderSprite.position.x, oderSprite.position.y, oderSprite.model.width, oderSprite.model.height)
+        val me= Rectangle(position.x, position.y, activeModel.width , activeModel.height)
+        val him= Rectangle(oderSprite.position.x, oderSprite.position.y, oderSprite.activeModel.width, oderSprite.activeModel.height)
         return me.intersects(him)
     }
 
@@ -124,12 +123,11 @@ class Sprite(private val texturePath: String, var name:String,xPos:Float=0f, yPo
      *
      * @return Sprite with
      */
-    override fun getWith():Float= model.width
+    override fun getWith():Float= activeModel.width
 
     /**
      *
      * @return Sprite height
      */
-    override fun getHeight():Float= model.height
-
+    override fun getHeight():Float= activeModel.height
 }

@@ -254,7 +254,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun init() {
         onInit?.invoke()
-        scenes.forEach { (name, element) ->
+        scenes.forEach { (_,element) ->
             element.init(g, mouse, key)
         }
     }
@@ -285,7 +285,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
      */
     override fun destroy() {
         onDestroy?.invoke()
-        scenes.forEach { (name, element) ->
+        scenes.forEach { (_, element) ->
             element.destroy()
         }
         scenes.clear()

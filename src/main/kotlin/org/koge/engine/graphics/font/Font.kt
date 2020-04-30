@@ -17,6 +17,7 @@
  */
 package org.koge.engine.graphics.font
 
+import org.koge.engine.graphics.SubImage
 import org.koge.engine.graphics.texture.Texture
 import org.koge.engine.graphics.texture.TextureLoader
 import java.awt.Color
@@ -47,7 +48,7 @@ class Font{
     /**
      * Map holding the char value and its representative  Glyph
      */
-    val glyphMap = mutableMapOf<Char, Glyph>()
+    val glyphMap = mutableMapOf<Char, SubImage>()
 
     /**
      * Initialise and create an OpenGL Texture from the  java.awt.Font
@@ -85,7 +86,7 @@ class Font{
         chMap.forEach{ (c, charImage) ->
             val charWidth = charImage.width
             val charHeight = charImage.height
-            glyphMap[c]= Glyph(charWidth, charHeight, x, image.height-charHeight)
+            glyphMap[c]= SubImage(charWidth, charHeight, x, image.height-charHeight)
             g.drawImage(charImage, x, 0, null)
             x += charWidth
         }

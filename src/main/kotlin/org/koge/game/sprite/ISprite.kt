@@ -33,7 +33,7 @@ interface ISprite {
     var position: Vector2f
     var angleOfRotation:Float
     var scale:Vector3f
-    var model: Model
+    var activeModel: Model
 
     /**
      * Init the Sprite and create a texture from the loaded image.
