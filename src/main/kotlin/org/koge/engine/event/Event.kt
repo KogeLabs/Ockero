@@ -22,4 +22,4 @@ package org.koge.engine.event
  *
  * @author Moncef YABI
  */
-open class Event
+abstract class Event

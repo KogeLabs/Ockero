@@ -28,4 +28,4 @@ import org.koge.engine.event.Event
  *
  * @author Moncef YABI
  */
-class MouseReleasedEvent(var button:Int): Event()
+class MouseReleasedEvent(val button:Int): Event()

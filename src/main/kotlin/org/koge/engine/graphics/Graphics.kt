@@ -89,7 +89,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
      * @param sprite
      */
     fun draw(sprite: ISprite) {
-        draw(sprite.activeModel, sprite.position, sprite.scale,sprite.angleOfRotation)
+        draw(sprite.getModel(), sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
 

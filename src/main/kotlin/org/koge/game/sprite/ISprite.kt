@@ -33,7 +33,7 @@ interface ISprite {
     var position: Vector2f
     var angleOfRotation:Float
     var scale:Vector3f
-    var activeModel: Model
+    var mainModel: Model
 
     /**
      * Init the Sprite and create a texture from the loaded image.
@@ -88,4 +88,10 @@ interface ISprite {
      * @return Sprite height
      */
     fun getHeight():Float
+
+    /**
+     *
+     * @return active model
+     */
+    fun getModel():Model
 }

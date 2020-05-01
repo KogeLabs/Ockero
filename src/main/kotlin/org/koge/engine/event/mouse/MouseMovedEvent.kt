@@ -28,4 +28,4 @@ import org.koge.engine.event.Event
  *
  * @author Moncef YABI
  */
-class MouseMovedEvent(var xPos: Float, var yPos: Float): Event()
+class MouseMovedEvent(val xPos: Float, val yPos: Float): Event()

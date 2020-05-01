@@ -24,4 +24,4 @@ import org.joml.Vector3f
  * This class is holding the Vertex information.
  * @author Moncef YABI
  */
-data class Vertex (var position: Vector3f, var color: Color, var textureCoord: Vector2f)
+data class Vertex (val position: Vector3f, val color: Color, val textureCoord: Vector2f)

@@ -26,4 +26,4 @@ import org.koge.engine.event.Event
  *
  * @author Moncef YABI
  */
-class MouseCursorEnterEvent (var entered: Boolean): Event()
+class MouseCursorEnterEvent (val entered: Boolean): Event()

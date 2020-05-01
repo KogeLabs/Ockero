@@ -28,4 +28,4 @@ import org.koge.engine.event.Event
  *
  * @author Moncef YABI
  */
-class MouseScrollEvent (var xOffset: Float, var yOffset: Float): Event()
+class MouseScrollEvent (val xOffset: Float, val yOffset: Float): Event()

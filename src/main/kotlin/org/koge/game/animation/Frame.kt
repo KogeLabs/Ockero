@@ -1,5 +1,6 @@
-/**
- * Copyright (C) 2020 Moncef YABI
+
+/*
+ * Copyright (C) 2014 Moncef YABI
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,17 +16,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+package org.koge.game.animation
 
-package org.koge.engine.event.key
-
-import org.koge.engine.event.Event
+import org.koge.engine.GameDSLMarker
 
 /**
- * The  KeyboardEvent class groups the values of a keyboard event.
+ * Data class for animation frames
  *
- * @property key
- * @property c
+ * @property name
+ * @property count
+ * @property loop
  *
  * @author Moncef YABI
  */
-open class KeyboardEvent (val key:Int, val c:Char?): Event()
+@GameDSLMarker
+data class Frame(var name:String="", var count:Int=0, var loop:Boolean=false)

@@ -18,53 +18,26 @@
 package org.koge.game.animation
 
 import org.koge.engine.graphics.Model
-import org.koge.engine.graphics.ModelBuilder
-import org.koge.engine.graphics.texture.Texture
-import org.koge.engine.graphics.texture.TextureLoader
 
 
 /**
- * This class is the Animation class
+ * This is the Animation class
  *
  * @author Moncef YABI
  */
-class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop: Boolean) {
+class Animation(val name:String, val models:Array<Model>, private val delay: Int, var loop: Boolean) {
 
-    var models= mutableListOf<Model>()
     var counter = 0
-    private var delay = 0
     private var frames = 0
-    private var loop = false
     var start = true
     var stoped = false
-    var stopAt:Int=-1
 
 
-    init {
-        setUp(delay, loop, columns, rows)
-    }
-
-    private fun setUp(delay: Int, loop: Boolean, columns:Int, rows:Int) {
-        this.delay = delay
-        this.loop = loop
-        val iSubs = TextureLoader.getImageFramesFromSpriteSheetTexture(texture,columns,rows)
-        var modelsSheet= arrayOf<Array<Model>>()
-        iSubs.forEach{ iSubsRow ->
-            var modelRow=arrayOf<Model>()
-            iSubsRow.forEach { element->
-                modelRow+= ModelBuilder.createModelFromSubImage(texture, element)
-            }
-            modelsSheet+=modelRow
-        }
-        modelsSheet.reverse()
-        modelsSheet.forEach { row ->
-            row.forEach {model ->
-                models.add(model)
-            }
-        }
-    }
-    
-
+    /**
+     * Stop animation at index
+     *
+     * @param index
+     */
     fun stopAnimation(index: Int) {
         if (index > models.size - 1 || index < 0) {
             return
@@ -72,8 +45,12 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
         counter = index
         start = false
     }
-    
 
+    /**
+     * Start animation at index
+     *
+     * @param index
+     */
     fun startAnimation(index: Int) {
         if (index > models.size - 1 || index < 0) {
             return
@@ -82,6 +59,10 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
         start = true
     }
 
+    /**
+     * Update the animation
+     *
+     */
     fun update() {
         performCount()
         frames++
@@ -93,6 +74,7 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
                 }
             } else {
                 counter++
+                if(counter>=models.size) counter=models.size-1
             }
             frames = 0
         }
@@ -107,6 +89,11 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
         }
     }
 
+    /**
+     * Select am animation frame
+     *
+     * @param index
+     */
     fun setFrame(index: Int) {
         if (index > models.size - 1 || index < 0) {
             return
@@ -114,6 +101,10 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
         counter = index
     }
 
+    /**
+     * Select the next animation frame
+     *
+     */
     fun nextFrame() {
         if (counter > models.size - 1) {
             return
@@ -121,6 +112,10 @@ class Animation(var texture: Texture, delay: Int, columns: Int, rows: Int, loop:
         counter++
     }
 
+    /**
+     * Select the previous animation frame
+     *
+     */
     fun previousFrame() {
         if (counter == 0) {
             return

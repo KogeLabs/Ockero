@@ -23,8 +23,7 @@ import org.koge.engine.event.key.KeyPressedEvent
 import org.koge.engine.event.key.KeyReleasedEvent
 import org.koge.engine.event.mouse.*
 import org.koge.engine.graphics.Graphics
-import org.koge.game.sprite.ISprite
-import org.koge.game.sprite.Scene
+import org.koge.game.scene.Scene
 
 /**
  * This class is a dsl wrapper for the the abstract class Game
@@ -59,7 +58,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     val key = Key()
 
     private val scenes = mutableMapOf<String, Scene>()
-    private var activeScene:Scene?=null
+    private var activeScene: Scene?=null
 
 
     /**
@@ -319,12 +318,11 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     }
 
     /**
-     * DSL Wrapper for the scene function
+     * Add a scene to the game using the extended the unary plus operator
      *
-     * @param block: lambda function
      */
-    fun scene(name:String, block:Scene.()->Unit){
-        scenes[name] = Scene().apply(block)
+    operator fun Scene.unaryPlus(){
+        this@GameDSLWrapper.scenes[this.name]= this
     }
 
     /**

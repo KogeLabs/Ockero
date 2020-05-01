@@ -15,11 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.koge.game.sprite
+package org.koge.game.scene
 
 import org.koge.engine.GameDSLMarker
 import org.koge.engine.GameDSLWrapper
 import org.koge.engine.graphics.Graphics
+import org.koge.game.sprite.ISprite
+import org.koge.game.sprite.Sprite
 
 /**
  * This class groups the sprites used in one Koge session
@@ -27,7 +29,7 @@ import org.koge.engine.graphics.Graphics
  * @author Moncef YABI
  */
 @GameDSLMarker
-class Scene {
+class Scene(var name:String) {
 
     private val sceneElements = mutableListOf<ISprite>()
     private var onUpdates: (() -> Unit)? = null
@@ -40,6 +42,8 @@ class Scene {
     lateinit var mouse:GameDSLWrapper.Mouse
     lateinit var key:GameDSLWrapper.Key
     lateinit var g:Graphics
+
+
     /**
      * The scene init function.
      *
@@ -79,7 +83,7 @@ class Scene {
      *
      * @param sprite
      */
-    fun addElement(sprite:ISprite){
+    fun addElement(sprite: ISprite){
         sceneElements.add(sprite)
     }
 
@@ -87,7 +91,7 @@ class Scene {
      * remove element from the scene
      *
      */
-    fun removeElement(sprite:Sprite){
+    fun removeElement(sprite: Sprite){
         sceneElements.remove(sprite)
         sprite.destroy()
     }
@@ -186,4 +190,20 @@ class Scene {
         onRender = block
     }
 
+    /**
+     * Add a sprite to the game using the extended the unary plus operator
+     *
+     */
+    operator fun ISprite.unaryPlus(){
+        this@Scene.sceneElements.add(this)
+    }
+
 }
+
+
+/**
+ * DSL Wrapper for the scene function
+ *
+ * @param block: lambda function
+ */
+fun scene(name:String,block: Scene.()->Unit): Scene = Scene(name).apply(block)

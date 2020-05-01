@@ -29,4 +29,4 @@ import org.koge.engine.event.Event
  *
  * @author Moncef YABI
  */
-class MousePressedEvent(var button:Int): Event()
+class MousePressedEvent(val button:Int): Event()
