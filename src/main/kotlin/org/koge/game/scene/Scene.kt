@@ -17,8 +17,8 @@
  */
 package org.koge.game.scene
 
-import org.koge.engine.GameDSLMarker
-import org.koge.engine.GameDSLWrapper
+import org.koge.engine.kernel.GameDSLMarker
+import org.koge.engine.kernel.GameDSLWrapper
 import org.koge.engine.graphics.Graphics
 import org.koge.game.sprite.ISprite
 import org.koge.game.sprite.Sprite
@@ -39,8 +39,8 @@ class Scene(var name:String) {
     private var onKeyPressed: (() -> Unit)? = null
     private var onKeyDown: (() -> Unit)? = null
 
-    lateinit var mouse:GameDSLWrapper.Mouse
-    lateinit var key:GameDSLWrapper.Key
+    lateinit var mouse: GameDSLWrapper.Mouse
+    lateinit var key: GameDSLWrapper.Key
     lateinit var g:Graphics
 
 
@@ -48,7 +48,7 @@ class Scene(var name:String) {
      * The scene init function.
      *
      */
-    fun init(g: Graphics, mouse: GameDSLWrapper.Mouse, key:GameDSLWrapper.Key){
+    fun init(g: Graphics, mouse: GameDSLWrapper.Mouse, key: GameDSLWrapper.Key){
         this.g=g
         this.mouse=mouse
         this.key=key

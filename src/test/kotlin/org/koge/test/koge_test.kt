@@ -18,7 +18,7 @@
 
 package org.koge.test
 
-import org.koge.engine.Game
+import org.koge.engine.kernel.Game
 import org.koge.engine.event.mouse.*
 import org.koge.engine.graphics.Graphics
 import org.koge.game.sprite.Sprite

@@ -38,12 +38,11 @@ package org.koge.game.sprite
 
 import org.joml.Vector2f
 import org.joml.Vector3f
-import org.koge.engine.GameDSLMarker
+import org.koge.engine.kernel.GameDSLMarker
 import org.koge.engine.exception.TextureNotSetException
 import org.koge.engine.graphics.Model
 import org.koge.engine.graphics.ModelBuilder
 import org.koge.engine.math.Rectangle
-import org.koge.game.scene.Scene
 
 
 /**

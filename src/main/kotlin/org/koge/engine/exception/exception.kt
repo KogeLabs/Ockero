@@ -18,10 +18,19 @@
 package org.koge.engine.exception
 
 /**
+ * Texture not set exception will be thrown when passing an empty
+ * path to the TextureBuilder class
  *
+ * @constructor
  *
  * @author Moncef YABI
  */
 class TextureNotSetException(message:String): Exception()
 
+/**
+ * Koge runtime exception
+ * @constructor
+ *
+ * @param message
+ */
 class KogeRuntimeException(message:String):RuntimeException()

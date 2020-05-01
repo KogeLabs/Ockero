@@ -18,7 +18,7 @@
  */
 package org.koge.game.animation
 
-import org.koge.engine.GameDSLMarker
+import org.koge.engine.kernel.GameDSLMarker
 
 /**
  * Data class for animation frames

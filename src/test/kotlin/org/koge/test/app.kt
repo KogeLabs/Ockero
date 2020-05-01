@@ -1,15 +1,15 @@
 package org.koge.test
 
 
+import org.koge.engine.audio.AudioPlayer
+import org.koge.engine.audio.Source
 import org.koge.engine.event.key.Keys
-import org.koge.engine.game
-import org.koge.game.animation.Frame
-import org.koge.game.scene.Scene
-import org.koge.game.sprite.Sprite
+import org.koge.engine.kernel.game
+import org.koge.engine.utils.Utils
 import org.koge.game.scene.scene
-import org.koge.game.sprite.FSprite
 import org.koge.game.sprite.fsprite
 import org.koge.game.sprite.sprite
+import java.awt.Font
 
 val boss11 = sprite{
     texturePath= "/textures/enemy.png"
@@ -36,19 +36,19 @@ val boss22 = sprite{
 }
 
 val animation= fsprite(8,8){
-    texturePath="/textures/lock_man.png"
+    texturePath="/textures/mario.png"
     xPos=200f
     yPos=400f
     delay=5
 
     frame {
         name="build"
-        count=15
+        count=18
         loop=true
     }
     frame {
         name="build2"
-        count=16
+        count=18
         loop=true
     }
     activeAnimationName="build2"
@@ -106,18 +106,29 @@ val scene2 = scene("Scene2") {
 
 fun main(){
 
-    game( 800,600, "Hallo") {
+    lateinit var source:Source
+
+
+    game(800, 600, "Hallo") {
 
         +scene1
         +scene2
 
         whenInit {
-            debugMode=true
-            font.init(java.awt.Font("Comic Sans MS", java.awt.Font.PLAIN, 16), true)
+            debugMode = true
+            font.init(Font("Comic Sans MS", Font.PLAIN, 16), true)
             setActiveScene("Scene1")
+
+            AudioPlayer.init()
+            AudioPlayer.setListenerData(0f, 0f, 0f)
+
+            val buffer: Int = AudioPlayer.loadSound(Utils.getAbsolutePath("/audio/bg.wav").toString())
+            source = Source()
+            source.play(buffer)
+
         }
         render {
-            g.drawText("Mouse: ${mouse.xPos} ; ${mouse.yPos}", 10f,52f)
+            g.drawText("Mouse: ${mouse.xPos} ; ${mouse.yPos}", 10f, 52f)
 
         }
 
@@ -129,7 +140,14 @@ fun main(){
             setActiveScene("Scene2")
         }
         whenDestroy {
+            source.delete()
+            AudioPlayer.cleanUp()
         }
 
     }.start()
+
+
+
+
+
 }
