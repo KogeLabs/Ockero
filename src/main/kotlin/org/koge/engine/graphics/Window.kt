@@ -18,6 +18,7 @@
 package org.koge.engine.graphics
 
 
+import org.koge.engine.exception.KogeRuntimeException
 import org.koge.engine.input.HUI
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW
@@ -55,7 +56,7 @@ class Window {
 
         // Create the window
         window = GLFW.glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL)
-        if (window == MemoryUtil.NULL) throw RuntimeException("Failed to create the GLFW window")
+        if (window == MemoryUtil.NULL) throw KogeRuntimeException("Failed to create the GLFW window")
 
         setupCallbacks()
 

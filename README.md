@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 
-    implementation 'com.github.kogelabs:koge-jvm:0.1.1.2'
+    implementation 'com.github.kogelabs:koge-jvm:<version>'
 }
 ```
 For more information on how to set up Koge, please visit the [Getting Started](https://github.com/MoncefYabi/Koge/wiki/Getting-Started) page.

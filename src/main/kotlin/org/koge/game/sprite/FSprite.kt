@@ -45,6 +45,10 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
     lateinit var texture: Texture
     var activeAnimationName: String? = null
 
+    /**
+     * Init the animation
+     *
+     */
     override fun init() {
 
         if (texturePath == "") throw TextureNotSetException("Texture path was not set!!")
@@ -69,12 +73,20 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
         setActiveAnimation(activeAnimationName)
     }
 
+    /**
+     * Start the animation
+     *
+     */
     fun startAnimation()
     {
         activeAnimation.start=true
         activeAnimation.stoped=false
     }
 
+    /**
+     * Stop the animation
+     *
+     */
     fun stopAnimation()
     {
         activeAnimation.start=false
@@ -100,10 +112,20 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
         }
     }
 
+    /**
+     * Select an active animation
+     *
+     * @param index
+     */
     fun setActiveAnimation(index: Int) {
         activeAnimation = animationsFrames[index]
     }
 
+    /**
+     * Select an active animation
+     *
+     * @param name
+     */
     fun setActiveAnimation(name: String?) {
         for (animation in animationsFrames) {
             if (animation.name == name) {
@@ -112,12 +134,21 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
         }
     }
 
+    /**
+     * Update the animation and return the updated model
+     *
+     * @return
+     */
     override fun getModel(): Model {
 
         activeAnimation.update()
         return activeAnimation.models[activeAnimation.counter]
     }
 
+    /**
+     * Destroy the animations and the main texture
+     *
+     */
     override fun destroy() {
         animationsFrames.forEach { animation ->
             animation.models.forEach {model ->

@@ -92,7 +92,13 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         draw(sprite.getModel(), sprite.position, sprite.scale,sprite.angleOfRotation)
     }
 
-
+    /**
+     * Draw a Model onto the game screen
+     *
+     * @param model
+     * @param x
+     * @param y
+     */
     fun draw(model: Model, x:Float, y:Float){
         draw(model, Vector2f(x,y))
     }
