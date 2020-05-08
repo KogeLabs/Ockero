@@ -107,6 +107,10 @@ class Color {
         val ORANGE = orange
         val magenta = Color(255, 0, 255)
         val MAGENTA = magenta
+
+        fun decode(nm: String): Color {
+            return Color(Integer.decode(nm).toInt())
+        }
     }
 
 }

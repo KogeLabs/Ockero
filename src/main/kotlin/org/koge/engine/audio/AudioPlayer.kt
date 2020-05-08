@@ -17,6 +17,7 @@
  */
 package org.koge.engine.audio
 
+import org.koge.engine.utils.Utils
 import org.lwjgl.openal.AL
 import org.lwjgl.openal.AL10
 import org.lwjgl.openal.ALC
@@ -64,8 +65,8 @@ object AudioPlayer {
     fun loadSound(filePath: String): Int {
         val bufferID = AL10.alGenBuffers()
         collections.add(bufferID)
-        val waveFile: AudioData? = AudioData.create(filePath)
-        AL10.alBufferData(bufferID, waveFile!!.format, waveFile!!.data, waveFile.samplerate)
+        val waveFile: AudioData? = AudioData.create(Utils.getAbsolutePath(filePath).toString())
+        AL10.alBufferData(bufferID, waveFile!!.format, waveFile.data, waveFile.samplerate)
         waveFile.dispose()
         return bufferID
     }

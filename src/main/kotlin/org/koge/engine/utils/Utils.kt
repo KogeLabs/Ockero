@@ -18,8 +18,11 @@
 
 package org.koge.engine.utils
 
+import org.koge.engine.exception.KogeRuntimeException
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 
 
 /**
@@ -47,4 +50,16 @@ object Utils {
     @Throws(IOException::class)
     fun getAbsolutePath(reSourcePath: String): CharSequence = File(this::class.java.getResource(reSourcePath).toURI()).absolutePath
 
+    /**
+     * read resource as a stream
+     *
+     * @param ref
+     * @return InputStream
+     */
+    @Throws(IOException::class)
+    fun getResourceAsStream(ref: String): InputStream {
+        val inputStream: InputStream = Utils::class.java.classLoader.getResourceAsStream(ref)
+            ?: throw KogeRuntimeException("Resource not found: $ref")
+        return BufferedInputStream(inputStream)
+    }
 }

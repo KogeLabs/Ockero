@@ -69,6 +69,7 @@ dependencies {
     // spek requires kotlin-reflect, can be omitted if already in the classpath
     testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+
 }
 
 compileKotlin {

@@ -24,12 +24,14 @@ package org.koge.engine.kernel
  */
 
 import org.koge.engine.event.HUIEventAdapter
+import org.koge.engine.graphics.Color
 import org.koge.engine.graphics.Graphics
 import org.koge.engine.graphics.Window
 import org.koge.engine.graphics.font.Font
 import org.koge.engine.input.HUI
 import org.koge.engine.time.Timer
 import org.lwjgl.opengl.GL
+import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15.*
 
 /**
@@ -47,7 +49,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
     private val targetUPS = 30
 
     val g: Graphics
-    private val timer = Timer()
+    val timer = Timer()
 
     open var debugMode= false
 
@@ -78,11 +80,11 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
     abstract fun destroy()
 
 
-    private val window = Window()
+
     open val font:Font
 
     init {
-        window.createWindow(width, height, title)
+        Window.createWindow(width, height, title)
         font= Font()
         g = Graphics(width.toFloat(), height.toFloat(), font)
     }
@@ -102,21 +104,21 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
      *
      */
     fun stop() {
-        window.closeWindow()
+        Window.closeWindow()
     }
 
     private fun destroyGameSession() {
         destroy()
         g.destroy()
-        window.destroy()
+        Window.destroy()
     }
 
     private fun internalInit() {
         GL.createCapabilities()
 
         // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
-
+        //glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
+        glClearColor(89f/255,145f/255,255f/255,0.0f)
         /* Enable blending */
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -132,7 +134,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         var elapsedTime: Float
         var accumulator = 0f
         val interval = 1f / targetUPS
-        while (!window.windowShouldClose()) {
+        while (!Window.windowShouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT) // clear the frame buffer
             elapsedTime = timer.getElapsedTime()
             accumulator += elapsedTime
@@ -148,7 +150,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
             }
             render(g)
             timer.updateFPS()
-            window.update()
+            Window.update()
             timer.update()
             sync()
         }

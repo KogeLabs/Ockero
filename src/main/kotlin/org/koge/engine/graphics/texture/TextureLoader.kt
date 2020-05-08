@@ -159,7 +159,7 @@ object TextureLoader {
      * @param rows
      * @return
      */
-    fun getImageFramesFromSpriteSheetTexture(texture: Texture, columns:Int, rows:Int):Array<Array<SubImage>>{
+    fun getSubImagesFromSpriteSheetTexture(texture: Texture, columns:Int, rows:Int):Array<Array<SubImage>>{
 
         val wi: Int = texture.width / columns
         val hi: Int = texture.height / rows

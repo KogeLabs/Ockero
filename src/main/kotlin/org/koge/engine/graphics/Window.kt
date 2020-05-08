@@ -22,16 +22,19 @@ import org.koge.engine.exception.KogeRuntimeException
 import org.koge.engine.input.HUI
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW
+import org.lwjgl.glfw.GLFW.GLFW_PRESS
+import org.lwjgl.glfw.GLFW.glfwGetKey
 import org.lwjgl.glfw.GLFW.glfwSetCursorEnterCallback
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 
+
 /**
  * This class is representing a GLFW Window
  * @author Moncef YABI
  */
-class Window {
+object Window {
     private var window: Long = 0
 
     /**
@@ -153,4 +156,15 @@ class Window {
     fun closeWindow(){
         GLFW.glfwSetWindowShouldClose(window, true) // We will detect this in the rendering loop
     }
+
+    /**
+     * Check if a key was pressed
+     *
+     * @param keyCode
+     * @return
+     */
+    fun isKeyPressed(keyCode: Int): Boolean {
+        return glfwGetKey(window, keyCode) == GLFW_PRESS
+    }
+
 }

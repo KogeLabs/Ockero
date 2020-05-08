@@ -21,7 +21,6 @@ package org.koge.game.sprite
 import org.joml.Vector2f
 import org.koge.engine.exception.TextureNotSetException
 import org.koge.engine.graphics.Model
-import org.koge.engine.graphics.ModelBuilder
 import org.koge.engine.graphics.texture.Texture
 import org.koge.engine.graphics.texture.TextureLoader
 import org.koge.game.animation.Animation
@@ -34,7 +33,7 @@ import org.koge.game.animation.Frame
  *
  * @author Moncef YABI
  */
-class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
+class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
     private var models= arrayOf<Model>()
     private val animationsFrames: ArrayList<Animation> = ArrayList()
     private val frames: ArrayList<Frame>  =  ArrayList()
@@ -42,19 +41,19 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
     var delay = 0
 
     lateinit var activeAnimation: Animation
-    lateinit var texture: Texture
+    lateinit var sheetTexture: Texture
     var activeAnimationName: String? = null
 
     /**
-     * Init the animation
+     * Init the animation object
      *
      */
     override fun init() {
 
         if (texturePath == "") throw TextureNotSetException("Texture path was not set!!")
         position= Vector2f(xPos, yPos)
-        extractModelsFromSpriteSheet()
-
+        sheetTexture = TextureLoader.create(texturePath)
+        models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture, rows, columns)
         var tempImageArray= arrayOf<Model>()
         var index = 0
         for (frame in frames) {
@@ -93,24 +92,6 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
         activeAnimation.stoped=true
     }
 
-    private fun extractModelsFromSpriteSheet() {
-        texture = TextureLoader.create(texturePath)
-        val iSubs = TextureLoader.getImageFramesFromSpriteSheetTexture(texture, columns, rows)
-        var modelsSheet = arrayOf<Array<Model>>()
-        iSubs.forEach { iSubsRow ->
-            var modelRow = arrayOf<Model>()
-            iSubsRow.forEach { element ->
-                modelRow += ModelBuilder.createModelFromSubImage(texture, element)
-            }
-            modelsSheet += modelRow
-        }
-        modelsSheet.reverse()
-        modelsSheet.forEach { row ->
-            row.forEach { model ->
-                models+=model
-            }
-        }
-    }
 
     /**
      * Select an active animation
@@ -156,7 +137,7 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
             }
         }
 
-        texture.destroy()
+        sheetTexture.destroy()
     }
 
     /**
@@ -174,4 +155,4 @@ class FSprite(private val rows:Int, private val columns:Int) : Sprite() {
  *
  * @param block: lambda function
  */
-fun fsprite(rows:Int, columns:Int,block: FSprite.()->Unit): FSprite = FSprite(rows,columns).apply(block)
+fun animationsprite(rows:Int, columns:Int, block: AnimatedSprite.()->Unit): AnimatedSprite = AnimatedSprite(rows,columns).apply(block)
