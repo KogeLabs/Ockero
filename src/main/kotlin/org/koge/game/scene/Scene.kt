@@ -37,6 +37,7 @@ class Scene(var name:String) {
     private var onMouseButtonPressed: (() -> Unit)? = null
     private var onMouseMoved: (() -> Unit)? = null
     private var onKeyPressed: (() -> Unit)? = null
+    private var onKeyReleased: (() -> Unit)? = null
     private var onKeyDown: (() -> Unit)? = null
 
     lateinit var mouse: GameDSLWrapper.Mouse
@@ -153,6 +154,22 @@ class Scene(var name:String) {
      */
     fun keyPressed() {
         onKeyPressed?.invoke()
+    }
+
+    /**
+     * This function will be internally triggered
+     */
+    fun keyReleased() {
+        onKeyReleased?.invoke()
+    }
+
+    /**
+     * DSL Wrapper for the keyPressed function
+     *
+     * @param block: lambda function
+     */
+    fun whenKeyReleased(block: () -> Unit) {
+        onKeyReleased = block
     }
 
     /**

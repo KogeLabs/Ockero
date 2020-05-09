@@ -1,8 +1,17 @@
 package org.koge.test
 
 
+import org.jbox2d.callbacks.ContactImpulse
+import org.jbox2d.callbacks.ContactListener
+import org.jbox2d.collision.Manifold
+import org.jbox2d.collision.shapes.CircleShape
+import org.jbox2d.collision.shapes.PolygonShape
+import org.jbox2d.common.Vec2
+import org.jbox2d.dynamics.*
+import org.jbox2d.dynamics.contacts.Contact
 import org.koge.engine.audio.AudioPlayer
 import org.koge.engine.audio.Source
+import org.koge.engine.event.key.KeyDownEvent
 import org.koge.engine.event.key.Keys
 import org.koge.engine.graphics.Window
 import org.koge.engine.kernel.game
@@ -11,6 +20,57 @@ import org.koge.game.scene.scene
 import org.koge.game.sprite.animationsprite
 import org.koge.game.sprite.sprite
 import java.awt.Font
+import kotlin.math.abs
+
+
+//Screen width and height
+const val WIDTH = 900
+const val HEIGHT = 750
+const val PPM = 100
+
+
+val world = World(Vec2(0f, 9.8f)).apply {
+    isAllowSleep=true
+}
+val bd = BodyDef().apply {
+    position.set(200f/PPM, 690f/PPM)
+    type = BodyType.DYNAMIC
+}
+
+
+//define fixture of the body.
+val fd = FixtureDef().apply {
+    shape = CircleShape().apply {
+        m_radius=8f/PPM
+    }
+    density = 0.9f
+    friction = 0.0f
+    restitution = 0.0f
+}
+
+
+//create the body and add fixture to it
+
+//create the body and add fixture to it
+val body: Body = world.createBody(bd).apply {
+    createFixture(fd)
+    //linearDamping=0.001f
+}
+lateinit var ground:Body
+fun addGround(width: Float=450f/PPM, height: Float=10f/PPM){
+    val ps = PolygonShape()
+    ps.setAsBox(width, height)
+    val fd = FixtureDef()
+    fd.shape = ps
+    val bd = BodyDef()
+    bd.position = Vec2(WIDTH/2f/PPM, 730f/PPM)
+    ground= world.createBody(bd)
+    ground.createFixture(fd)
+}
+
+const val timeStep = 1.0f / 60f
+const val velocityIterations = 6
+const val positionIterations = 2
 
 
 val boss21 = sprite{
@@ -142,47 +202,83 @@ val scene1 = scene("Scene1") {
     +enemy
     var direction =-1f
     var inTheAir=false
-    whenUpdate {
-        if(enemy.position.x<=20f) direction =1f
+    addGround()
+    world.setContactListener(object: ContactListener{
+        override fun endContact(contact: Contact?) {
+        }
 
-        else if(enemy.position.x>= 700) direction =-1f
-        enemy.moveX(direction*5f)
-        when {
-            Window.isKeyPressed(Keys.KEY_SPACE) -> {
+        override fun beginContact(contact: Contact?) {
+            inTheAir=false
+            mario.setActiveAnimation("stop_right_big")
+            mario.stopAnimation()
+            body.linearVelocity=Vec2(0f,0f)
+            body.angularVelocity = 0f
+        }
+
+        override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
+
+        }
+
+        override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {
+
+        }
+
+    })
+    whenKeyReleased {
+
+        if(!inTheAir){
+            mario.setActiveAnimation("stop_right_big")
+            mario.stopAnimation()
+            body.linearVelocity=Vec2(0f,0f)
+            body.angularVelocity = 0f
+
+        }
+    }
+    whenKeyPressed {
+        if (key.id==Keys.KEY_SPACE ){
+            if(!inTheAir){
+                val force = Vec2(0f, -.07f)
+                val point = body.getWorldPoint(body.worldCenter)
+                body.applyLinearImpulse(force, point)
                 mario.setActiveAnimation("jump_right_big")
                 mario.startAnimation()
-                if(!inTheAir){
-                    mario.moveY(-60f)
-                    inTheAir=true
-                }
+                inTheAir=true
             }
-            Window.isKeyPressed(Keys.KEY_LEFT) -> {
-                mario.setActiveAnimation("run_left_big")
-                mario.startAnimation()
-                mario.moveX(-5f)
-            }
-            Window.isKeyPressed(Keys.KEY_RIGHT) -> {
-                mario.setActiveAnimation("run_right_big")
-                mario.startAnimation()
-                mario.moveX(5f)
-            }
-            else -> {
-                mario.setActiveAnimation("stop_right_big")
-                mario.stopAnimation()
-                if(inTheAir){
-                    mario.moveY(20f)
-                    if(mario.position.y>690f) {
-                        inTheAir=false
-                        mario.position.y=690f
-                    }
-                }
-            }
+        }
+        if (key.id==Keys.KEY_RIGHT&& body.linearVelocity.x<=3){
+            mario.setActiveAnimation("run_right_big")
+            mario.startAnimation()
+            val force = Vec2(.07f, 0f)
+            val point = body.getWorldPoint(body.worldCenter)
+            body.applyLinearImpulse(force, point)
+        }
+        if(key.id==Keys.KEY_LEFT&&body.linearVelocity.x>=-3){
+            mario.setActiveAnimation("run_left_big")
+            mario.startAnimation()
+            val force = Vec2(-.07f, 0f)
+            val point = body.getWorldPoint(body.worldCenter)
+            body.applyLinearImpulse(force, point)
         }
     }
 
 
+    whenUpdate {
+
+        world.step(timeStep, velocityIterations, positionIterations)
+        mario.position.x= body.position.x*PPM -16
+        mario.position.y= body.position.y*PPM -22
+        if(enemy.position.x<=20f) direction =1f
+
+        else if(enemy.position.x>= 700) direction =-1f
+        enemy.moveX(direction*5f)
+
+    }
+
     render {
         g.drawText("Scene #1", 150f, 10f)
+        //g.drawText("V: ${body.linearVelocity.x}; ${body.linearVelocity.y} | ${body.angularVelocity}", 350f, 10f)
+        //g.drawRect(PPM*body.position.x-6, PPM*body.position.y-6,12f,12f)
+        //g.drawRect(PPM*ground.position.x-450, PPM* ground.position.y-10,900f,20f)
     }
 
 }
@@ -220,7 +316,7 @@ fun main(){
     lateinit var source:Source
 
 
-    game(900, 750, "Hallo") {
+    game(WIDTH, HEIGHT, "Hallo") {
 
         val level1= Level("/levels/level1.txt")
         +scene1
@@ -247,6 +343,8 @@ fun main(){
             g.drawText("UPS: ${timer.getUPS()}", 10f, 32f)
         }
 
+
+
         whenMouseButtonPressed {
             setActiveScene("Scene1")
         }
@@ -261,9 +359,5 @@ fun main(){
         }
 
     }.start()
-
-
-
-
 
 }

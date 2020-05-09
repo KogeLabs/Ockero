@@ -43,7 +43,7 @@ import org.lwjgl.opengl.GL15.*
  * @param height
  * @param title
  */
-abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() {
+abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAdapter() {
 
     private val targetFPS = 75
     private val targetUPS = 30
@@ -122,6 +122,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         /* Enable blending */
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glOrtho(0.0, width.toDouble(), height.toDouble(), 0.0, 1.0, -1.0);
         g.init()
 
         timer.init()
@@ -134,6 +135,7 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
         var elapsedTime: Float
         var accumulator = 0f
         val interval = 1f / targetUPS
+        val color = Color.white
         while (!Window.windowShouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT) // clear the frame buffer
             elapsedTime = timer.getElapsedTime()
@@ -148,7 +150,9 @@ abstract class Game(width: Int, height: Int, title: String) : HUIEventAdapter() 
                 g.drawText("FPS: ${timer.getFPS()}", 10f, 10f)
                 g.drawText("UPS: ${timer.getUPS()}", 10f, 32f)
             }
+
             render(g)
+
             timer.updateFPS()
             Window.update()
             timer.update()

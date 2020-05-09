@@ -22,10 +22,13 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.font.Font
 import org.koge.game.sprite.ISprite
-import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL30
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 /**
@@ -123,7 +126,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     }
 
     private fun drawElements(model: Model) {
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.indices.size, GL11.GL_UNSIGNED_INT, 0)
+        glDrawElements(GL_TRIANGLES, model.indices.size, GL_UNSIGNED_INT, 0)
     }
 
 
@@ -134,7 +137,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         GL30.glEnableVertexAttribArray(2)
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.ibo)
         GL13.glActiveTexture(GL13.GL_TEXTURE0)
-        GL13.glBindTexture(GL11.GL_TEXTURE_2D, model.texture.id)
+        GL13.glBindTexture(GL_TEXTURE_2D, model.texture.id)
     }
 
     private fun disableVertexArray()
@@ -144,6 +147,16 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         GL30.glDisableVertexAttribArray(1)
         GL30.glDisableVertexAttribArray(2)
         GL30.glBindVertexArray(0)
+    }
+
+    fun drawRect(x1: Float, y1: Float, width: Float, height: Float) {
+        glBegin(GL_LINE_STRIP)
+        glVertex2f(x1, y1)
+        glVertex2f(x1 + width, y1)
+        glVertex2f(x1 + width, y1 + height)
+        glVertex2f(x1, y1 + height)
+        glVertex2f(x1, y1)
+        glEnd()
     }
 
     /**

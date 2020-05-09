@@ -85,6 +85,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
         key.id= e.key
         key.c = e.c?:' '
         onKeyReleased?.invoke()
+        activeScene?.keyReleased()
     }
 
     /**
