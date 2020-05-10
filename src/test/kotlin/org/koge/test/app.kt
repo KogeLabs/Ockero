@@ -16,7 +16,7 @@ import org.koge.engine.event.key.Keys
 import org.koge.engine.kernel.game
 import org.koge.game.scene.Level
 import org.koge.game.scene.scene
-import org.koge.game.sprite.animationsprite
+import org.koge.game.sprite.animatedsprite
 import org.koge.game.sprite.sprite
 import org.koge.game.tilemap.ObjectLayer
 import java.awt.Font
@@ -50,7 +50,6 @@ val fd = FixtureDef().apply {
 
 //create the body and add fixture to it
 
-//create the body and add fixture to it
 val body: Body = world.createBody(bd).apply {
     createFixture(fd)
 }
@@ -105,7 +104,7 @@ val boss23 = sprite{
     xPos=530f
     yPos=690f
 }
-val mario= animationsprite(8,8){
+val mario= animatedsprite(8,8){
     texturePath="/textures/mario.png"
     xPos=100f
     yPos=100f
@@ -193,10 +192,10 @@ val mario= animationsprite(8,8){
         count=2
         loop=false
     }
-    activeAnimationName="stop_right_big"
+    activeAnimationName="stop_right"
 }
 
-val enemy= animationsprite(8,8){
+val enemy= animatedsprite(8,8){
     texturePath="/textures/enemy.png"
     xPos=800f
     yPos=690f
@@ -233,7 +232,7 @@ val scene1 = scene("Scene1") {
             if(inTheAir){
                 body.linearVelocity= Vec2(0f,0f)
                 body.angularVelocity = 0f
-                mario.setActiveAnimation("stop_right_big")
+                mario.setActiveAnimation("stop_right")
                 mario.stopAnimation()
             }
             inTheAir=false
@@ -275,7 +274,7 @@ val scene1 = scene("Scene1") {
     whenKeyReleased {
 
         if(!inTheAir){
-            mario.setActiveAnimation("stop_right_big")
+            mario.setActiveAnimation("stop_right")
             mario.stopAnimation()
             body.linearVelocity= Vec2(0f,0f)
             body.angularVelocity = 0f
@@ -289,14 +288,14 @@ val scene1 = scene("Scene1") {
                 val force = Vec2(0f, -.07f)
                 val point = body.getWorldPoint(body.worldCenter)
                 body.applyLinearImpulse(force, point)
-                mario.setActiveAnimation("jump_right_big")
+                mario.setActiveAnimation("jump_right")
                 mario.startAnimation()
                 inTheAir=true
             }
         }
         if (key.id==Keys.KEY_RIGHT&& body.linearVelocity.x<=3){
             if(!inTheAir){
-                mario.setActiveAnimation("run_right_big")
+                mario.setActiveAnimation("run_right")
                 mario.startAnimation()
             }
 
@@ -306,7 +305,7 @@ val scene1 = scene("Scene1") {
         }
         if(key.id==Keys.KEY_LEFT&&body.linearVelocity.x>=-3){
             if(!inTheAir){
-                mario.setActiveAnimation("run_left_big")
+                mario.setActiveAnimation("run_left")
                 mario.startAnimation()
             }
             val force = Vec2(-.05f, 0f)

@@ -155,4 +155,4 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
  *
  * @param block: lambda function
  */
-fun animationsprite(rows:Int, columns:Int, block: AnimatedSprite.()->Unit): AnimatedSprite = AnimatedSprite(rows,columns).apply(block)
+fun animatedsprite(rows:Int, columns:Int, block: AnimatedSprite.()->Unit): AnimatedSprite = AnimatedSprite(rows,columns).apply(block)

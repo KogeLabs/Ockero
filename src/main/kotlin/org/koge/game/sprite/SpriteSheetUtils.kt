@@ -46,11 +46,14 @@ object SpriteSheetUtils {
         return geModelsFromSubImages(iSubs, texture)
     }
 
+
     /**
      * Extract sprites from a sprite sheet texture
      *
-     * @param texturePath
-     * @param rows
+     * @param texture
+     * @param imageHeight
+     * @param tileWidth
+     * @param tileHeight
      * @param columns
      * @return Array<Model>
      */
