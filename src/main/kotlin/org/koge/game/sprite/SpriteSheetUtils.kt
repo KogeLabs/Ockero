@@ -20,6 +20,7 @@ package org.koge.game.sprite
 
 import org.koge.engine.graphics.Model
 import org.koge.engine.graphics.ModelBuilder
+import org.koge.engine.graphics.SubImage
 import org.koge.engine.graphics.texture.Texture
 import org.koge.engine.graphics.texture.TextureLoader
 
@@ -39,9 +40,32 @@ object SpriteSheetUtils {
      * @return Array<Model>
      */
     fun getModelsFromSpriteSheet(texture: Texture, rows: Int, columns: Int): Array<Model> {
-        var models = arrayOf<Model>()
 
         val iSubs = TextureLoader.getSubImagesFromSpriteSheetTexture(texture, columns, rows)
+
+        return geModelsFromSubImages(iSubs, texture)
+    }
+
+    /**
+     * Extract sprites from a sprite sheet texture
+     *
+     * @param texturePath
+     * @param rows
+     * @param columns
+     * @return Array<Model>
+     */
+    fun getModelsFromSpriteSheet(texture: Texture,imageHeight:Int?, tileWidth:Int?, tileHeight:Int?, columns:Int?): Array<Model> {
+
+        val iSubs = TextureLoader.getSubImagesFromSpriteSheet(imageHeight, tileWidth, tileHeight, columns)
+
+        return geModelsFromSubImages(iSubs, texture)
+    }
+
+    private fun geModelsFromSubImages(
+        iSubs: Array<Array<SubImage>>,
+        texture: Texture
+    ): Array<Model> {
+        var models = arrayOf<Model>()
         var modelsSheet = arrayOf<Array<Model>>()
         iSubs.forEach { iSubsRow ->
             var modelRow = arrayOf<Model>()

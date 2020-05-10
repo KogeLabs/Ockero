@@ -30,7 +30,7 @@ import org.koge.engine.graphics.texture.TextureLoader
  *
  * @author Moncef YABI
  */
-class TileSprite(private var texturePath: String, private val rows:Int, private val columns:Int)  {
+class TileSprite(private var texturePath: String, private val imageHeight:Int?, private val tileWidth:Int?, private val tileHeight:Int?, private val columns:Int?)  {
 
     private var models= arrayOf<Model>()
     lateinit var sheetTexture: Texture
@@ -44,8 +44,8 @@ class TileSprite(private var texturePath: String, private val rows:Int, private 
 
         if (texturePath == "") throw TextureNotSetException("Texture path was not set!!")
         sheetTexture = TextureLoader.create(texturePath)
-        models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture, rows, columns)
-        size= (models[0].texture.width / columns).toFloat()
+        models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture,imageHeight, tileWidth, tileHeight, columns)
+        size= (models[0].texture.width / columns!!).toFloat()
 
     }
 

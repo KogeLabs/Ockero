@@ -59,6 +59,8 @@ object ModelBuilder {
         val t2: Float = (subImage.y + subImage.height) / texture.height.toFloat()
 
         model.initVertices(subImage.width.toFloat(),subImage.height.toFloat(), s1, s2, t1,t2,c)
+        model.width= subImage.width.toFloat()
+        model.height=subImage.height.toFloat()
         model.pushToOpenGL()
         return model
     }

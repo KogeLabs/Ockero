@@ -128,6 +128,11 @@ open class Sprite: ISprite {
      * @return Sprite height
      */
     override fun getHeight():Float= mainModel.height
+
+    /**
+     *
+     * @return Sprite main model
+     */
     override fun getModel(): Model = mainModel
 }
 

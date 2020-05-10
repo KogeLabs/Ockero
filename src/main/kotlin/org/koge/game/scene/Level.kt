@@ -17,13 +17,12 @@
  */
 package org.koge.game.scene
 
+import com.beust.klaxon.Klaxon
 import org.koge.engine.utils.Utils
 import org.koge.game.sprite.Sprite
 import org.koge.game.sprite.TileSprite
-import java.io.BufferedReader
-import java.io.FileNotFoundException
-import java.io.FileReader
-import java.io.IOException
+import org.koge.game.tilemap.TileLayer
+import org.koge.game.tilemap.TileMap
 
 
 /**
@@ -35,33 +34,12 @@ class Level(private val levelFilePath:String) {
 
     private var levelInfo  = arrayOf<CharArray>()
     val sprites= mutableListOf<Sprite>()
-    private val tileSprite  = TileSprite("/textures/blocks.png",8,8)
+    val tileMap = Klaxon().parse<TileMap>(Utils.readContentFromFile(levelFilePath).toString())
+    val tileset=tileMap?.tilesets?.get(0)
+    private val tileSprite  = TileSprite("/textures/${tileset?.image}",tileset?.imageheight, tileset?.tilewidth, tileset?.tileheight, tileset?.columns)
 
     fun init(){
-        val lines = mutableListOf<String>()
 
-        var line: String?
-
-        try {
-            val fileReader = FileReader(Utils.getAbsolutePath(levelFilePath).toString())
-            val bufferedReader = BufferedReader(fileReader)
-
-            while (bufferedReader.readLine().also { line = it } != null) {
-                line?.let { lines.add(it) }
-            }
-
-             bufferedReader.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        for (i in 0 until lines.size ) {
-            val charArray: CharArray = lines[i].toCharArray()
-            levelInfo+= CharArray(charArray.size)
-            levelInfo+= charArray
-        }
 
         tileSprite.init()
         internalInit()
@@ -69,52 +47,37 @@ class Level(private val levelFilePath:String) {
 
     @Throws(Exception::class)
     fun internalInit() {
-        for (y in levelInfo.indices) {
-            for (x in levelInfo[y].indices) {
-                when (levelInfo[y][x]) {
-                    '#' -> {
-                        print('#')
-                        //val tile = TileSprite(Vector2f(x * Tile.SIZE, (levelInfo.size - 1 - y) * Tile.SIZE), 24)
-                        //sprites.add(tileSprite.getSpriteAt(1,x * tileSprite.size,(levelInfo.size - 1 - y) * tileSprite.size))
-                    }
-                    '.' ->  {
-                        print('.')
-                    }
-                    'W' -> {
-                        print('W')
-                        sprites.add(tileSprite.getSpriteAt(2,x * tileSprite.size,( y) * tileSprite.size))
-                    }
-                    'G' -> {
-                        print('G')
-                        sprites.add(tileSprite.getSpriteAt(5,x * tileSprite.size,( y) * tileSprite.size))
-                    }
-                    'B' -> {
-                        print('B')
+        val layer1 = tileMap?.layers?.get(0) as TileLayer
+        var x=0
+        var y=0
+        layer1?.data?.forEach { index ->
 
-                    }
-                    'A' -> {
-                        print('A')
-
-                    }
-                    '-' -> {
-                        print('-')
-                    }
-                    'P' -> {
-                        print('P')
-
-                    }
-                    '|' -> {
-                        print('|')
-
-                    }
-                    'C' -> {
-                    }
-                    else -> {
-                    }
-                }
+            if(index!=0)sprites.add(tileSprite.getSpriteAt(index-1,x * tileSprite.size,( y) * tileSprite.size))
+            x++
+            if(x==layer1?.width){
+                y++
+                x=0
             }
-            println()
+
+
         }
+
+        val layer2 = tileMap?.layers?.get(1) as TileLayer
+        x=0
+        y=0
+        layer2?.data?.forEach { index ->
+
+            if(index!=0)sprites.add(tileSprite.getSpriteAt(index-1,x * tileSprite.size,( y) * tileSprite.size))
+            x++
+            if(x==layer1?.width){
+                y++
+                x=0
+            }
+
+
+        }
+
+
     }
 
     fun destroy()

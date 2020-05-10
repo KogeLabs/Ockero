@@ -39,6 +39,8 @@ class Scene(var name:String) {
     private var onKeyPressed: (() -> Unit)? = null
     private var onKeyReleased: (() -> Unit)? = null
     private var onKeyDown: (() -> Unit)? = null
+    private var onInit: (() -> Unit)? = null
+    private var onDestroy: (() -> Unit)? = null
 
     lateinit var mouse: GameDSLWrapper.Mouse
     lateinit var key: GameDSLWrapper.Key
@@ -56,16 +58,28 @@ class Scene(var name:String) {
         sceneElements.forEach { sprite ->
             sprite.init()
         }
+        onInit?.invoke()
     }
 
     /**
-     * The scene init function.
+     * DSL Wrapper for the update function
+     *
+     * @param block: lambda function
+     */
+    fun whenInit(block: () -> Unit){
+        onInit=block
+    }
+
+    /**
+     * The scene render function.
      */
     fun render(){
+        onRender?.invoke()
+
         sceneElements.forEach { sprite ->
             g.draw(sprite)
         }
-        onRender?.invoke()
+
     }
 
     /**
@@ -77,6 +91,16 @@ class Scene(var name:String) {
             sprite.destroy()
         }
         sceneElements.clear()
+        onDestroy?.invoke()
+    }
+
+    /**
+     * DSL Wrapper for the update function
+     *
+     * @param block: lambda function
+     */
+    fun whenDestroy(block: () -> Unit) {
+        onDestroy = block
     }
 
     /**

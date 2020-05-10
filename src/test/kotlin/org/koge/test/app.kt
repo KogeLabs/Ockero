@@ -9,31 +9,30 @@ import org.jbox2d.collision.shapes.PolygonShape
 import org.jbox2d.common.Vec2
 import org.jbox2d.dynamics.*
 import org.jbox2d.dynamics.contacts.Contact
+
 import org.koge.engine.audio.AudioPlayer
 import org.koge.engine.audio.Source
-import org.koge.engine.event.key.KeyDownEvent
 import org.koge.engine.event.key.Keys
-import org.koge.engine.graphics.Window
 import org.koge.engine.kernel.game
 import org.koge.game.scene.Level
 import org.koge.game.scene.scene
 import org.koge.game.sprite.animationsprite
 import org.koge.game.sprite.sprite
+import org.koge.game.tilemap.ObjectLayer
 import java.awt.Font
-import kotlin.math.abs
+
 
 
 //Screen width and height
-const val WIDTH = 900
-const val HEIGHT = 750
+const val WIDTH = 320
+const val HEIGHT = 320
 const val PPM = 100
 
 
-val world = World(Vec2(0f, 9.8f)).apply {
-    isAllowSleep=true
-}
+val world = World(Vec2(0f, 9.8f))
+
 val bd = BodyDef().apply {
-    position.set(200f/PPM, 690f/PPM)
+    position.set(100f/PPM, 100f/PPM)
     type = BodyType.DYNAMIC
 }
 
@@ -41,7 +40,7 @@ val bd = BodyDef().apply {
 //define fixture of the body.
 val fd = FixtureDef().apply {
     shape = CircleShape().apply {
-        m_radius=8f/PPM
+        radius=8f/PPM
     }
     density = 0.9f
     friction = 0.0f
@@ -54,18 +53,35 @@ val fd = FixtureDef().apply {
 //create the body and add fixture to it
 val body: Body = world.createBody(bd).apply {
     createFixture(fd)
-    //linearDamping=0.001f
 }
 lateinit var ground:Body
-fun addGround(width: Float=450f/PPM, height: Float=10f/PPM){
+fun addGround(width: Float=160f/PPM, height: Float=160f/PPM){
     val ps = PolygonShape()
     ps.setAsBox(width, height)
     val fd = FixtureDef()
     fd.shape = ps
     val bd = BodyDef()
-    bd.position = Vec2(WIDTH/2f/PPM, 730f/PPM)
+    bd.position.set(WIDTH/2f/PPM, 730f/PPM)
     ground= world.createBody(bd)
     ground.createFixture(fd)
+}
+val bodies= mutableListOf<Body>()
+fun addLevelBodies(width: Float, height:Float, xPos: Float, yPos:Float):Body{
+
+    val fd = FixtureDef().apply {
+        shape = PolygonShape().apply {
+            setAsBox(width, height)
+        }
+    }
+
+    val bd = BodyDef().apply {
+        position.set(xPos, yPos)
+        type=BodyType.STATIC
+    }
+
+    return world.createBody(bd).apply {
+        createFixture(fd)
+    }
 }
 
 const val timeStep = 1.0f / 60f
@@ -81,14 +97,18 @@ val boss21 = sprite{
 
 val boss22 = sprite{
     texturePath= "/textures/boss.gif"
-    xPos=10f
-    yPos=200f
+    xPos=400f
+    yPos=690f
 }
-
+val boss23 = sprite{
+    texturePath= "/textures/boss.gif"
+    xPos=530f
+    yPos=690f
+}
 val mario= animationsprite(8,8){
     texturePath="/textures/mario.png"
-    xPos=200f
-    yPos=690f
+    xPos=100f
+    yPos=100f
     delay=5
 
     frame {
@@ -198,21 +218,26 @@ val enemy= animationsprite(8,8){
 }
 
 val scene1 = scene("Scene1") {
+
     +mario
     +enemy
     var direction =-1f
     var inTheAir=false
     addGround()
+    val level1= Level("/levels/level1.json")
     world.setContactListener(object: ContactListener{
         override fun endContact(contact: Contact?) {
         }
 
         override fun beginContact(contact: Contact?) {
+            if(inTheAir){
+                body.linearVelocity= Vec2(0f,0f)
+                body.angularVelocity = 0f
+                mario.setActiveAnimation("stop_right_big")
+                mario.stopAnimation()
+            }
             inTheAir=false
-            mario.setActiveAnimation("stop_right_big")
-            mario.stopAnimation()
-            body.linearVelocity=Vec2(0f,0f)
-            body.angularVelocity = 0f
+
         }
 
         override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
@@ -224,18 +249,42 @@ val scene1 = scene("Scene1") {
         }
 
     })
+
+    whenInit {
+        level1.init()
+
+        var objectLayer = level1.tileMap?.layers?.get(2) as ObjectLayer
+        objectLayer.objects.forEach {lo->
+            bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
+                lo.height.toFloat()/2/PPM,
+                (lo.x.toFloat()+lo.width.toFloat()/2)/PPM,
+                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
+            )
+        }
+        objectLayer = level1.tileMap?.layers?.get(3) as ObjectLayer
+        objectLayer.objects.forEach {lo->
+            bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
+                lo.height.toFloat()/2/PPM,
+                (lo.x.toFloat()+lo.width.toFloat()/2)/PPM,
+                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
+            )
+        }
+        val i=0
+    }
+
     whenKeyReleased {
 
         if(!inTheAir){
             mario.setActiveAnimation("stop_right_big")
             mario.stopAnimation()
-            body.linearVelocity=Vec2(0f,0f)
+            body.linearVelocity= Vec2(0f,0f)
             body.angularVelocity = 0f
 
         }
     }
     whenKeyPressed {
-        if (key.id==Keys.KEY_SPACE ){
+
+        if (key.id==Keys.KEY_UP ){
             if(!inTheAir){
                 val force = Vec2(0f, -.07f)
                 val point = body.getWorldPoint(body.worldCenter)
@@ -246,16 +295,21 @@ val scene1 = scene("Scene1") {
             }
         }
         if (key.id==Keys.KEY_RIGHT&& body.linearVelocity.x<=3){
-            mario.setActiveAnimation("run_right_big")
-            mario.startAnimation()
-            val force = Vec2(.07f, 0f)
+            if(!inTheAir){
+                mario.setActiveAnimation("run_right_big")
+                mario.startAnimation()
+            }
+
+            val force = Vec2(.05f, 0f)
             val point = body.getWorldPoint(body.worldCenter)
             body.applyLinearImpulse(force, point)
         }
         if(key.id==Keys.KEY_LEFT&&body.linearVelocity.x>=-3){
-            mario.setActiveAnimation("run_left_big")
-            mario.startAnimation()
-            val force = Vec2(-.07f, 0f)
+            if(!inTheAir){
+                mario.setActiveAnimation("run_left_big")
+                mario.startAnimation()
+            }
+            val force = Vec2(-.05f, 0f)
             val point = body.getWorldPoint(body.worldCenter)
             body.applyLinearImpulse(force, point)
         }
@@ -275,10 +329,25 @@ val scene1 = scene("Scene1") {
     }
 
     render {
-        g.drawText("Scene #1", 150f, 10f)
-        //g.drawText("V: ${body.linearVelocity.x}; ${body.linearVelocity.y} | ${body.angularVelocity}", 350f, 10f)
-        //g.drawRect(PPM*body.position.x-6, PPM*body.position.y-6,12f,12f)
-        //g.drawRect(PPM*ground.position.x-450, PPM* ground.position.y-10,900f,20f)
+        level1.sprites.forEach { sprite ->
+            g.draw(sprite)
+        }
+        g.drawText("Level #1", 150f, 10f)
+
+        var width: Float
+        var height:Float
+        var xPos: Float
+        var yPos:Float
+        /*bodies.forEach { body->
+
+            width=(body.fixtureList.shape as PolygonShape).vertices[2].x
+            height=(body.fixtureList.shape as PolygonShape).vertices[2].y
+            g.drawRect(PPM*(body.position.x-width), PPM*(body.position.y-height), width*2*PPM,height*2*PPM)
+        }*/
+    }
+
+    whenDestroy {
+        level1.destroy()
     }
 
 }
@@ -311,14 +380,17 @@ val scene2 = scene("Scene2") {
 
 }
 
-fun main(){
-
-    lateinit var source:Source
+fun main() {
 
 
-    game(WIDTH, HEIGHT, "Hallo") {
 
-        val level1= Level("/levels/level1.txt")
+
+    lateinit var source: Source
+
+
+    game(WIDTH, HEIGHT, "Koge") {
+
+
         +scene1
         //+scene2
         whenInit {
@@ -331,16 +403,13 @@ fun main(){
             val buffer: Int = AudioPlayer.loadSound("/audio/bg.wav")
             source = Source()
             source.play(buffer)
-            level1.init()
 
         }
         render {
-            g.drawText("Mouse: ${mouse.xPos} ; ${mouse.yPos}", 10f, 52f)
-            level1.sprites.forEach { sprite ->
-                g.draw(sprite)
-            }
-            g.drawText("FPS: ${timer.getFPS()}", 10f, 10f)
-            g.drawText("UPS: ${timer.getUPS()}", 10f, 32f)
+            //g.drawText("Mouse: ${mouse.xPos} ; ${mouse.yPos}", 10f, 52f)
+
+            //g.drawText("FPS: ${timer.getFPS()}", 10f, 10f)
+            //g.drawText("UPS: ${timer.getUPS()}", 10f, 32f)
         }
 
 
@@ -355,9 +424,12 @@ fun main(){
         whenDestroy {
             source.delete()
             AudioPlayer.cleanUp()
-            level1.destroy()
         }
 
     }.start()
 
+
+
+
 }
+
