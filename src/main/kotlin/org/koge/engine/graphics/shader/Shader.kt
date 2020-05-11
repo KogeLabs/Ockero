@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.koge.engine.graphics
+package org.koge.engine.graphics.shader
 import org.joml.*
 import org.koge.engine.utils.Utils
 import org.lwjgl.opengl.GL11

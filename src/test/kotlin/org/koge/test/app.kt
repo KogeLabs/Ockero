@@ -13,6 +13,8 @@ import org.jbox2d.dynamics.contacts.Contact
 import org.koge.engine.audio.AudioPlayer
 import org.koge.engine.audio.Source
 import org.koge.engine.event.key.Keys
+import org.koge.engine.graphics.Camera
+import org.koge.engine.kernel.camera
 import org.koge.engine.kernel.game
 import org.koge.game.scene.Level
 import org.koge.game.scene.scene
@@ -27,6 +29,7 @@ import java.awt.Font
 const val WIDTH = 320
 const val HEIGHT = 320
 const val PPM = 100
+
 
 
 val world = World(Vec2(0f, 9.8f))
@@ -325,6 +328,9 @@ val scene1 = scene("Scene1") {
         else if(enemy.position.x>= 700) direction =-1f
         enemy.moveX(direction*5f)
 
+        camera.setPosition(mario.position.x,0f)
+        camera.update()
+
     }
 
     render {
@@ -332,6 +338,7 @@ val scene1 = scene("Scene1") {
             g.draw(sprite)
         }
         g.drawText("Level #1", 150f, 10f)
+        g.drawText("${camera.position.x}; ${camera.position.y}", 150f, 100f)
 
         var width: Float
         var height:Float

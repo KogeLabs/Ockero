@@ -21,14 +21,13 @@ import org.joml.Matrix4f
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.font.Font
+import org.koge.engine.graphics.shader.Shader
+import org.koge.engine.kernel.camera
 import org.koge.game.sprite.ISprite
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL30
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 /**
@@ -42,7 +41,10 @@ import kotlin.math.sin
  * @author Moncef YABI
  */
 class Graphics(private val screenWith:Float, private val screenHeight:Float, private val font:Font) {
-    private val shader = Shader("/shaders/mainVertex.glsl", "/shaders/mainFragment.glsl")
+    private val shader = Shader(
+        "/shaders/mainVertex.glsl",
+        "/shaders/mainFragment.glsl"
+    )
 
     /**
      * Init the Graphics object
@@ -117,8 +119,9 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
         )
         shader.setUniform(
             shader.getUniformLocation("projection"),
-            Matrix4f().ortho(0f, screenWith,screenHeight,0f,1f,-1f)
+            camera.projection
         )
+
         drawElements(model)
         shader.unbind()
         disableVertexArray()

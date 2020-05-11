@@ -24,6 +24,7 @@ package org.koge.engine.kernel
  */
 
 import org.koge.engine.event.HUIEventAdapter
+import org.koge.engine.graphics.Camera
 import org.koge.engine.graphics.Color
 import org.koge.engine.graphics.Graphics
 import org.koge.engine.graphics.Window
@@ -43,6 +44,7 @@ import org.lwjgl.opengl.GL15.*
  * @param height
  * @param title
  */
+val camera: Camera = Camera(320, 320)
 abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAdapter() {
 
     private val targetFPS = 75
@@ -120,6 +122,7 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
         //glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
         glClearColor(89f/255,145f/255,255f/255,0.0f)
         /* Enable blending */
+        glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glOrtho(0.0, width.toDouble(), height.toDouble(), 0.0, 1.0, -1.0);
