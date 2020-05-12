@@ -59,7 +59,7 @@ class GameTest2(width: Int, height: Int, title: String) : Game(width, height, ti
     }
 
     override fun init() {
-        sprite.init()
+        sprite.init(null)
     }
 
     override fun run(fps: Int) {

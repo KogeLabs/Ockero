@@ -17,6 +17,8 @@
  */
 package org.koge.game.scene
 
+import org.jbox2d.dynamics.World
+import org.koge.engine.graphics.Camera
 import org.koge.engine.kernel.GameDSLMarker
 import org.koge.engine.kernel.GameDSLWrapper
 import org.koge.engine.graphics.Graphics
@@ -45,18 +47,22 @@ class Scene(var name:String) {
     lateinit var mouse: GameDSLWrapper.Mouse
     lateinit var key: GameDSLWrapper.Key
     lateinit var g:Graphics
+    lateinit var camera: Camera
+    var world: World?=null
 
 
     /**
      * The scene init function.
      *
      */
-    fun init(g: Graphics, mouse: GameDSLWrapper.Mouse, key: GameDSLWrapper.Key){
+    fun init(g: Graphics, mouse: GameDSLWrapper.Mouse, key: GameDSLWrapper.Key, camera: Camera,world: World? ){
         this.g=g
         this.mouse=mouse
         this.key=key
+        this.camera=camera
+        this.world=world
         sceneElements.forEach { sprite ->
-            sprite.init()
+            sprite.init(world)
         }
         onInit?.invoke()
     }
@@ -128,6 +134,9 @@ class Scene(var name:String) {
      */
     fun update(){
         onUpdates?.invoke()
+        sceneElements.forEach { sprite ->
+            sprite.update()
+        }
     }
 
     /**

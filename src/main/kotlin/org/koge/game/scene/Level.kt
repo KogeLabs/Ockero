@@ -30,56 +30,49 @@ import org.koge.game.tilemap.TileMap
  *
  * @author Moncef YABI
  */
-class Level(private val levelFilePath:String) {
+class Level(levelFilePath:String) {
 
-    private var levelInfo  = arrayOf<CharArray>()
     val sprites= mutableListOf<Sprite>()
     val tileMap = Klaxon().parse<TileMap>(Utils.readContentFromFile(levelFilePath).toString())
     val tileset=tileMap?.tilesets?.get(0)
-    private val tileSprite  = TileSprite("/textures/${tileset?.image}",tileset?.imageheight, tileset?.tilewidth, tileset?.tileheight, tileset?.columns)
+    private val tileSprite  = TileSprite("/textures/${tileset?.image}", tileset?.tileheight, tileset?.columns)
 
+    /**
+     * Init the Level
+     *
+     */
     fun init(){
-
 
         tileSprite.init()
         internalInit()
     }
 
     @Throws(Exception::class)
-    fun internalInit() {
-        val layer1 = tileMap?.layers?.get(0) as TileLayer
-        var x=0
-        var y=0
-        layer1?.data?.forEach { index ->
+    private fun internalInit() {
 
-            if(index!=0)sprites.add(tileSprite.getSpriteAt(index-1,x * tileSprite.size,( y) * tileSprite.size))
-            x++
-            if(x==layer1?.width){
-                y++
-                x=0
+        tileMap?.layers?.forEach { layer ->
+            when(layer.type){
+                "tilelayer" -> {
+                    var x=0
+                    var y=0
+                    (layer as TileLayer).data.forEach {index ->
+                        if(index!=0)sprites.add(tileSprite.getSpriteAt(index-1,x * tileSprite.size,( y) * tileSprite.size))
+                        x++
+                        if(x== layer.width){
+                            y++
+                            x=0
+                        }
+                    }
+                }
             }
-
-
         }
-
-        val layer2 = tileMap?.layers?.get(1) as TileLayer
-        x=0
-        y=0
-        layer2?.data?.forEach { index ->
-
-            if(index!=0)sprites.add(tileSprite.getSpriteAt(index-1,x * tileSprite.size,( y) * tileSprite.size))
-            x++
-            if(x==layer1?.width){
-                y++
-                x=0
-            }
-
-
-        }
-
 
     }
 
+    /**
+     * Destroy the level and free the resources
+     *
+     */
     fun destroy()
     {
         tileSprite.destroy()

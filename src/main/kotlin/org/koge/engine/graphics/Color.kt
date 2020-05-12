@@ -40,10 +40,9 @@ class Color {
         this.a = min(a, 1.0f)
     }
 
-    constructor(r: Int, g:Int, b:Int, a:Int)
+    constructor(r: Int, g:Int, b:Int, a:Int=1)
             :this(r/255.0f, g/255.0f, b/255.0f, a/255.0f)
-    constructor(r: Int, g:Int, b:Int)
-            :this(r, g, b, 1)
+
     constructor(r: Float, g: Float, b: Float)
             : this(r, g, b, 1.0f)
 

@@ -22,7 +22,6 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.font.Font
 import org.koge.engine.graphics.shader.Shader
-import org.koge.engine.kernel.camera
 import org.koge.game.sprite.ISprite
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13
@@ -37,10 +36,9 @@ import org.lwjgl.opengl.GL30
  * @property screenWith
  * @property screenHeight
  * @property font
- *
- * @author Moncef YABI
+ * @property camera
  */
-class Graphics(private val screenWith:Float, private val screenHeight:Float, private val font:Font) {
+class Graphics(private val screenWith:Float, private val screenHeight:Float, private val font:Font, private val camera: Camera ) {
     private val shader = Shader(
         "/shaders/mainVertex.glsl",
         "/shaders/mainFragment.glsl"
@@ -153,6 +151,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     }
 
     fun drawRect(x1: Float, y1: Float, width: Float, height: Float) {
+        glColor4f(1f, 1f, 1f, 0f)
         glBegin(GL_LINE_STRIP)
         glVertex2f(x1, y1)
         glVertex2f(x1 + width, y1)

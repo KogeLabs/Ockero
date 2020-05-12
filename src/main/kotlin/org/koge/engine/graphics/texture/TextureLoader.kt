@@ -177,35 +177,4 @@ object TextureLoader {
         return iFrames
     }
 
-
-    /**
-     * Create Image frames from sprite sheet
-     *
-     * @param tileWidth
-     * @param tileHeight
-     * @param columns
-     * @return
-     */
-    fun getSubImagesFromSpriteSheet(imageHeight:Int?, tileWidth:Int?, tileHeight:Int?, columns:Int?):Array<Array<SubImage>>{
-
-        val wi: Int = tileWidth?:-1
-        val hi: Int = tileHeight?:-1
-        var rows =0
-        var iFrames = arrayOf<Array<SubImage>>()
-        rows = if(wi==hi) {
-            columns?:0
-        } else{
-            wi/hi
-        }
-        for (i in 0 until rows) {
-            var rowArray = arrayOf<SubImage>()
-            for (j in 0 until columns!!) {
-                rowArray+=SubImage(wi, hi, j*wi, i*hi)
-            }
-            iFrames+= rowArray
-        }
-
-        return iFrames
-    }
-
 }

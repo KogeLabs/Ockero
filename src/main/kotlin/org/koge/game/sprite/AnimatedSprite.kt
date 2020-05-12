@@ -18,6 +18,7 @@
 
 package org.koge.game.sprite
 
+import org.jbox2d.dynamics.World
 import org.joml.Vector2f
 import org.koge.engine.exception.TextureNotSetException
 import org.koge.engine.graphics.Model
@@ -48,9 +49,11 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
      * Init the animation object
      *
      */
-    override fun init() {
+    override fun init(world: World?) {
 
         if (texturePath == "") throw TextureNotSetException("Texture path was not set!!")
+        this.world=world
+        createPhysicsBody(world)
         position= Vector2f(xPos, yPos)
         sheetTexture = TextureLoader.create(texturePath)
         models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture, rows, columns)
@@ -113,6 +116,7 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
                 activeAnimation = animation
             }
         }
+        mainModel=getModel()
     }
 
     /**

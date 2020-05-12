@@ -34,7 +34,7 @@ object SpriteSheetUtils {
     /**
      * Extract sprites from a sprite sheet texture
      *
-     * @param texturePath
+     * @param texture
      * @param rows
      * @param columns
      * @return Array<Model>
@@ -46,23 +46,6 @@ object SpriteSheetUtils {
         return geModelsFromSubImages(iSubs, texture)
     }
 
-
-    /**
-     * Extract sprites from a sprite sheet texture
-     *
-     * @param texture
-     * @param imageHeight
-     * @param tileWidth
-     * @param tileHeight
-     * @param columns
-     * @return Array<Model>
-     */
-    fun getModelsFromSpriteSheet(texture: Texture,imageHeight:Int?, tileWidth:Int?, tileHeight:Int?, columns:Int?): Array<Model> {
-
-        val iSubs = TextureLoader.getSubImagesFromSpriteSheet(imageHeight, tileWidth, tileHeight, columns)
-
-        return geModelsFromSubImages(iSubs, texture)
-    }
 
     private fun geModelsFromSubImages(
         iSubs: Array<Array<SubImage>>,

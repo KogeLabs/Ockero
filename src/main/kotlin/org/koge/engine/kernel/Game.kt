@@ -23,6 +23,7 @@ package org.koge.engine.kernel
  * @author Moncef YABI
  */
 
+import org.jbox2d.dynamics.World
 import org.koge.engine.event.HUIEventAdapter
 import org.koge.engine.graphics.Camera
 import org.koge.engine.graphics.Color
@@ -44,7 +45,7 @@ import org.lwjgl.opengl.GL15.*
  * @param height
  * @param title
  */
-val camera: Camera = Camera(320, 320)
+
 abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAdapter() {
 
     private val targetFPS = 75
@@ -52,6 +53,9 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
 
     val g: Graphics
     val timer = Timer()
+    val camera: Camera
+    var world: World?=null
+    var backgroundColor:Color= Color(89f/255,145f/255,255f/255,0.0f)
 
     open var debugMode= false
 
@@ -83,12 +87,13 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
 
 
 
-    open val font:Font
+    val font:Font
 
     init {
         Window.createWindow(width, height, title)
         font= Font()
-        g = Graphics(width.toFloat(), height.toFloat(), font)
+        camera= Camera(width,height)
+        g = Graphics(width.toFloat(), height.toFloat(), font, camera)
     }
 
     /**
@@ -118,27 +123,28 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
     private fun internalInit() {
         GL.createCapabilities()
 
-        // Set the clear color
-        //glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
-        glClearColor(89f/255,145f/255,255f/255,0.0f)
+
         /* Enable blending */
         glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glOrtho(0.0, width.toDouble(), height.toDouble(), 0.0, 1.0, -1.0);
+        glOrtho(0.0, width.toDouble(), height.toDouble(), 0.0, 1.0, -1.0)
         g.init()
 
         timer.init()
         HUI.addKeyEventListener(this)
         HUI.addMouseEventListener(this)
         init()
+        // Set the clear color
+        //glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
+        glClearColor(backgroundColor.r,backgroundColor.g,backgroundColor.b,0.0f)
     }
 
     private fun gameLoop() {
         var elapsedTime: Float
         var accumulator = 0f
         val interval = 1f / targetUPS
-        val color = Color.white
+        Color.white
         while (!Window.windowShouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT) // clear the frame buffer
             elapsedTime = timer.getElapsedTime()

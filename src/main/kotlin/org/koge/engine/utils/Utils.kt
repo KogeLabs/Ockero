@@ -63,3 +63,11 @@ object Utils {
         return BufferedInputStream(inputStream)
     }
 }
+/**
+ * Koge constants
+ */
+
+/**
+ * Global pixel per meter value. This value is needed to convert the UoMs between JBox2D and Koge.
+ */
+const val PPM = 100

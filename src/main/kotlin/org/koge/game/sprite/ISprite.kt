@@ -17,6 +17,10 @@
  */
 package org.koge.game.sprite
 
+import org.jbox2d.dynamics.Body
+import org.jbox2d.dynamics.BodyDef
+import org.jbox2d.dynamics.FixtureDef
+import org.jbox2d.dynamics.World
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.koge.engine.graphics.Model
@@ -34,12 +38,37 @@ interface ISprite {
     var angleOfRotation:Float
     var scale:Vector3f
     var mainModel: Model
+    var physicsBody: Body?
 
     /**
      * Init the Sprite and create a texture from the loaded image.
      *
      */
-    fun init()
+    fun init(world: World?)
+
+    /**
+     * Update the sprite data
+     *
+     */
+    fun update()
+
+    /**
+     * Setup the physics body
+     *
+     */
+    fun setupPhysicsBody(bd: BodyDef, fd: FixtureDef)
+
+    /**
+     * Apply an impulse at the center point of the sprite. This immediately modifies the velocity.
+     *
+     */
+    fun applyLinearImpulse(impulseOnX: Float, impulseOnY:Float)
+
+    /**
+     * Apply an angular impulse.
+     *
+     */
+    fun applyAngularImpulse(impulse: Float)
 
     /**
      * Move the sprite in the x direction at speedX

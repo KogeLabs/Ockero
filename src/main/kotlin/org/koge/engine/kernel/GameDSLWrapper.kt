@@ -255,7 +255,7 @@ class GameDSLWrapper(width: Int, height: Int, title: String) : Game(width, heigh
     override fun init() {
         onInit?.invoke()
         scenes.forEach { (_,element) ->
-            element.init(g, mouse, key)
+            element.init(g, mouse, key,camera, world)
         }
     }
 

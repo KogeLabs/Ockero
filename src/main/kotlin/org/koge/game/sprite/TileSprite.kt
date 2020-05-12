@@ -30,7 +30,7 @@ import org.koge.engine.graphics.texture.TextureLoader
  *
  * @author Moncef YABI
  */
-class TileSprite(private var texturePath: String, private val imageHeight:Int?, private val tileWidth:Int?, private val tileHeight:Int?, private val columns:Int?)  {
+class TileSprite(private var texturePath: String, private val tileHeight:Int?, private val columns:Int?)  {
 
     private var models= arrayOf<Model>()
     lateinit var sheetTexture: Texture
@@ -44,20 +44,32 @@ class TileSprite(private var texturePath: String, private val imageHeight:Int?, 
 
         if (texturePath == "") throw TextureNotSetException("Texture path was not set!!")
         sheetTexture = TextureLoader.create(texturePath)
-        models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture,imageHeight, tileWidth, tileHeight, columns)
-        size= (models[0].texture.width / columns!!).toFloat()
+        models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture, sheetTexture.height/ tileHeight!!,columns!!)
+        size= (models[0].texture.width / columns).toFloat()
 
     }
 
+    /**
+     * Get a sprite form a specific location
+     *
+     * @param index
+     * @param x
+     * @param y
+     * @return
+     */
     fun getSpriteAt(index:Int, x:Float, y:Float ):Sprite{
         if(index>=models.size) throw ArrayIndexOutOfBoundsException("Index $index is out of range")
         return Sprite().apply {
             xPos=x
             yPos=y
-            init(models[index])
+            init(models[index], world)
         }
     }
 
+    /**
+     * Destroy and free memory.
+     *
+     */
     fun destroy(){
         models.forEach { model->
             model.destroy()
