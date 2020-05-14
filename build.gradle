@@ -12,7 +12,6 @@ plugins {
 
 def kotlin_version = "1.3.72"
 def spek_version = "2.0.10"
-def gdxVersion = '1.9.10'
 
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.9.24"
@@ -20,7 +19,7 @@ project.ext.jomlVersion = "1.9.24"
 
 group = "com.github.kogelabs"
 archivesBaseName = "koge-jvm"
-version = "0.1.1.2"
+version = "0.1.1.3"
 
 switch (OperatingSystem.current()) {
     case OperatingSystem.LINUX:
