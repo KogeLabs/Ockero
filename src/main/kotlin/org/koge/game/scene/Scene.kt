@@ -18,10 +18,12 @@
 package org.koge.game.scene
 
 import org.jbox2d.dynamics.World
+import org.koge.engine.audio.Source
 import org.koge.engine.graphics.Camera
 import org.koge.engine.kernel.GameDSLMarker
 import org.koge.engine.kernel.GameDSLWrapper
 import org.koge.engine.graphics.Graphics
+import org.koge.game.animation.Frame
 import org.koge.game.sprite.ISprite
 import org.koge.game.sprite.Sprite
 
@@ -43,6 +45,7 @@ class Scene(var name:String) {
     private var onKeyDown: (() -> Unit)? = null
     private var onInit: (() -> Unit)? = null
     private var onDestroy: (() -> Unit)? = null
+    var level:Level?=null
 
     lateinit var mouse: GameDSLWrapper.Mouse
     lateinit var key: GameDSLWrapper.Key
@@ -61,6 +64,7 @@ class Scene(var name:String) {
         this.key=key
         this.camera=camera
         this.world=world
+        this.level?.init()
         sceneElements.forEach { sprite ->
             sprite.init(world)
         }
@@ -85,6 +89,9 @@ class Scene(var name:String) {
         sceneElements.forEach { sprite ->
             g.draw(sprite)
         }
+        level?.sprites?.forEach {sprite ->
+            g.draw(sprite)
+        }
 
     }
 
@@ -98,6 +105,7 @@ class Scene(var name:String) {
         }
         sceneElements.clear()
         onDestroy?.invoke()
+        level?.destroy()
     }
 
     /**
@@ -246,6 +254,15 @@ class Scene(var name:String) {
      */
     operator fun ISprite.unaryPlus(){
         this@Scene.sceneElements.add(this)
+    }
+
+    /**
+     * DSL Wrapper for the level function
+     *
+     * @param block: lambda function
+     */
+    fun level(block: LevelBuilder.()->Unit){
+        level = LevelBuilder().apply(block).build()
     }
 
 }

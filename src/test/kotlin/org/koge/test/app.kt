@@ -14,7 +14,6 @@ import org.koge.engine.audio.Source
 import org.koge.engine.event.key.Keys
 import org.koge.engine.kernel.game
 import org.koge.engine.utils.PPM
-import org.koge.game.scene.Level
 import org.koge.game.scene.scene
 import org.koge.game.sprite.animatedsprite
 import org.koge.game.tilemap.ObjectLayer
@@ -185,11 +184,11 @@ val scene1 = scene("Level 1") {
     var direction =-1f
     var inTheAir=false
 
-    val level1= Level("/levels/mario_level.json")
-
+    level {
+        path="/levels/mario_level.json"
+    }
 
     whenInit {
-        level1.init()
         world?.setContactListener(object: ContactListener{
             override fun endContact(contact: Contact?) {
 
@@ -215,7 +214,7 @@ val scene1 = scene("Level 1") {
             }
 
         })
-        var objectLayer = level1.tileMap?.layers?.get(1) as ObjectLayer
+        var objectLayer = level?.tileMap?.layers?.get(1) as ObjectLayer
         objectLayer.objects.forEach {lo->
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
@@ -223,7 +222,7 @@ val scene1 = scene("Level 1") {
                 (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
             )
         }
-        objectLayer = level1.tileMap?.layers?.get(2) as ObjectLayer
+        objectLayer = level?.tileMap?.layers?.get(2) as ObjectLayer
         objectLayer.objects.forEach {lo->
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
@@ -231,7 +230,7 @@ val scene1 = scene("Level 1") {
                 (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
             )
         }
-        objectLayer = level1.tileMap?.layers?.get(3) as ObjectLayer
+        objectLayer = level?.tileMap?.layers?.get(3) as ObjectLayer
         objectLayer.objects.forEach {lo->
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
@@ -295,9 +294,7 @@ val scene1 = scene("Level 1") {
     }
 
     render {
-        level1.sprites.forEach { sprite ->
-            g.draw(sprite)
-        }
+
         g.drawText(this.name, 150f, 10f)
         //g.drawText("${mario.position.x}; ${mario.position.y}", 150f, 100f)
 
@@ -315,7 +312,7 @@ val scene1 = scene("Level 1") {
     }
 
     whenDestroy {
-        level1.destroy()
+
     }
 
 }
@@ -341,13 +338,14 @@ val scene2 = scene("Level 2") {
 
 fun main() {
 
-    lateinit var source: Source
 
     game(WIDTH, HEIGHT, "Koge") {
 
+        val source= Source()
 
         +scene1
         +scene2
+
         whenInit {
             font.init(Font("Comic Sans MS", Font.PLAIN, 16), true)
             setActiveScene("Level 1")
@@ -355,10 +353,9 @@ fun main() {
             AudioPlayer.init()
             AudioPlayer.setListenerData(0f, 0f, 0f)
 
-            val buffer: Int = AudioPlayer.loadSound("/audio/bg.wav")
-            source = Source()
+            source.init(AudioPlayer.loadSound("/audio/bg.wav"))
             source.setLooping(true)
-            source.play(buffer)
+            source.play()
             world = worldG
         }
         render {

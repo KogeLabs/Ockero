@@ -34,7 +34,7 @@ class Level(levelFilePath:String) {
 
     val sprites= mutableListOf<Sprite>()
     val tileMap = Klaxon().parse<TileMap>(Utils.readContentFromFile(levelFilePath).toString())
-    val tileset=tileMap?.tilesets?.get(0)
+    private val tileset=tileMap?.tilesets?.get(0)
     private val tileSprite  = TileSprite("/textures/${tileset?.image}", tileset?.tileheight, tileset?.columns)
 
     /**

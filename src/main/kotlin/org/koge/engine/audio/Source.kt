@@ -24,25 +24,26 @@ import org.lwjgl.openal.AL10
  *
  * @author Moncef YABI
  */
-class Source() {
+class Source {
 
     var sourceID = 0
+    var buffer:Int=-1
 
-    init{
+    fun init(buffer:Int){
         sourceID = AL10.alGenSources()
 
         // set property of the source
         AL10.alSourcef(sourceID, AL10.AL_GAIN, 1f) // volume
         AL10.alSourcef(sourceID, AL10.AL_PITCH, 1f) // pitch
         AL10.alSource3f(sourceID, AL10.AL_POSITION, 0f, 0f, 0f) // position
+        this.buffer=buffer
     }
 
     /**
      * Play a sound
-     *
-     * @param buffer
      */
-    fun play(buffer: Int) {
+    fun play() {
+        if (buffer==-1) return
         stop()
         AL10.alSourcei(sourceID, AL10.AL_BUFFER, buffer)
         continuePlaying()
