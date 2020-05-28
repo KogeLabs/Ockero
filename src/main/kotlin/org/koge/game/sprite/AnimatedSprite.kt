@@ -61,13 +61,18 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
         var index = 0
         for (frame in frames) {
 
-            if (frame.count > 1) {
-                tempImageArray = models.copyOfRange(index, index + frame.count)
-                index += frame.count
-            } else if (frame.count == 1) {
+            val count = frame.end-frame.start
+
+            if(count<0)
+                continue
+
+            if (count > 1) {
+                tempImageArray = models.copyOfRange(frame.start, frame.end)
+
+            } else if (count == 0) {
                 tempImageArray = arrayOf()
-                tempImageArray += models[index + frame.count - 1]
-                index += frame.count
+                tempImageArray += models[frame.start + count - 1]
+
             }
 
             animationsFrames.add(Animation(frame.name, tempImageArray, delay, frame.loop))

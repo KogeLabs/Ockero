@@ -73,115 +73,109 @@ val mario= animatedsprite(8,8){
     )
     frame {
         name="stop_right"
-        count=1
+        start=1
+        end=1
         loop=false
     }
     frame {
         name="run_right"
-        count=4
+        start=2
+        end=4
         loop=true
     }
     frame {
         name="jump_right"
-        count=2
+        start=6
+        end=7
         loop=false
     }
     frame {
         name="die_right"
-        count=1
+        start=8
+        end=8
         loop=false
     }
     frame {
         name="die_left"
-        count=1
+        start=9
+        end=9
         loop=false
     }
     frame {
         name="jump_left"
-        count=2
+        start=10
+        end=11
         loop=false
     }
     frame {
         name="run_left"
-        count=4
+        start=12
+        end=15
         loop=true
     }
     frame {
         name="stop_left"
-        count=1
+        start=16
+        end=16
         loop=false
     }
 
     frame {
         name="stop_right_big"
-        count=1
+        start=17
+        end=17
         loop=false
     }
     frame {
         name="run_right_big"
-        count=5
+        start=18
+        end=23
         loop=true
     }
     frame {
         name="die_right_big"
-        count=2
+        start=24
+        end=24
         loop=false
     }
     frame {
         name="jump_right_big"
-        count=2
+        start=25
+        end=26
         loop=false
     }
 
     frame {
         name="die_left_big"
-        count=2
+        start=27
+        end=27
         loop=false
     }
     frame {
         name="run_left_big"
-        count=5
+        start=28
+        end=33
         loop=true
     }
     frame {
         name="stop_left_big"
-        count=1
+        start=34
+        end=34
         loop=false
     }
     frame {
         name="jump_left_big"
-        count=2
+        start=35
+        end=36
         loop=false
     }
     activeAnimationName="stop_right"
 }
 
-val enemy= animatedsprite(8,8){
-    texturePath="/textures/enemy.png"
-    xPos=800f
-    yPos=690f
-    delay=5
-
-    frame {
-        name="orange"
-        count=2
-        loop=true
-    }
-    frame {
-        name="orange_die"
-        count=1
-        loop=false
-    }
-
-    activeAnimationName="orange"
-
-}
-
 val scene1 = scene("Level 1") {
 
     +mario
-    +enemy
-    var direction =-1f
+
     var inTheAir=false
 
     level {
@@ -282,11 +276,6 @@ val scene1 = scene("Level 1") {
 
 
     whenUpdate {
-
-        if(enemy.position.x<=20f) direction =1f
-
-        else if(enemy.position.x>= 700) direction =-1f
-        enemy.moveX(direction*5f)
 
         camera.setPosition(mario.position.x,0f)
         camera.update()

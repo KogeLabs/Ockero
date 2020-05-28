@@ -30,4 +30,4 @@ import org.koge.engine.kernel.GameDSLMarker
  * @author Moncef YABI
  */
 @GameDSLMarker
-data class Frame(var name:String="", var count:Int=0, var loop:Boolean=false)
+data class Frame(var name:String="", var start:Int=0, var end:Int=0, var loop:Boolean=false)
