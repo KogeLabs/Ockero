@@ -58,15 +58,18 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
         sheetTexture = TextureLoader.create(texturePath)
         models = SpriteSheetUtils.getModelsFromSpriteSheet(sheetTexture, rows, columns)
         var tempImageArray= arrayOf<Model>()
-        var index = 0
         for (frame in frames) {
-
+            if(frame.name=="jump_right")
+            {
+                var x=0
+                x=1
+            }
             val count = frame.end-frame.start
 
             if(count<0)
                 continue
 
-            if (count > 1) {
+            if (count >= 1) {
                 tempImageArray = models.copyOfRange(frame.start, frame.end)
 
             } else if (count == 0) {

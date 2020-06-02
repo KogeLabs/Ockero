@@ -80,7 +80,7 @@ val mario= animatedsprite(8,8){
     frame {
         name="run_right"
         start=2
-        end=4
+        end=5
         loop=true
     }
     frame {
@@ -344,7 +344,7 @@ fun main() {
 
             source.init(AudioPlayer.loadSound("/audio/bg.wav"))
             source.setLooping(true)
-            source.play()
+            //source.play()
             world = worldG
         }
         render {

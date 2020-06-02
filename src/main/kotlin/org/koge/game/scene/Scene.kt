@@ -84,15 +84,14 @@ class Scene(var name:String) {
      * The scene render function.
      */
     fun render(){
+        level?.sprites?.forEach {sprite ->
+            g.draw(sprite)
+        }
         onRender?.invoke()
 
         sceneElements.forEach { sprite ->
             g.draw(sprite)
         }
-        level?.sprites?.forEach {sprite ->
-            g.draw(sprite)
-        }
-
     }
 
     /**
