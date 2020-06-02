@@ -70,7 +70,7 @@ class AnimatedSprite(private val rows:Int, private val columns:Int) : Sprite() {
                 continue
 
             if (count >= 1) {
-                tempImageArray = models.copyOfRange(frame.start, frame.end)
+                tempImageArray = models.copyOfRange(frame.start-1, frame.end)
 
             } else if (count == 0) {
                 tempImageArray = arrayOf()

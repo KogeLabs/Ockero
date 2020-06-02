@@ -25,11 +25,10 @@ import java.awt.Font
 const val WIDTH = 500
 const val HEIGHT = 256
 
-val worldG = World(Vec2(0f, 10f))
 
 
 val bodies= mutableListOf<Body>()
-fun addLevelBodies(width: Float, height:Float, xPos: Float, yPos:Float):Body{
+fun addLevelBodies(width: Float, height:Float, xPos: Float, yPos:Float, world: World?):Body{
 
     val fd = FixtureDef().apply {
         shape = PolygonShape().apply {
@@ -42,7 +41,7 @@ fun addLevelBodies(width: Float, height:Float, xPos: Float, yPos:Float):Body{
         type=BodyType.STATIC
     }
 
-    return worldG.createBody(bd).apply {
+    return world!!.createBody(bd).apply {
         createFixture(fd)
     }
 }
@@ -56,7 +55,7 @@ val mario= animatedsprite(8,8){
     texturePath="/textures/mario.png"
     xPos=150f
     yPos=230f
-    delay=5
+    delay=8
     setupPhysicsBody(
         BodyDef().apply {
             position.set(xPos/ PPM, yPos/PPM)
@@ -213,7 +212,8 @@ val scene1 = scene("Level 1") {
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
                 (lo.x.toFloat()+lo.width.toFloat()/2)/PPM,
-                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
+                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM ,
+                world)
             )
         }
         objectLayer = level?.tileMap?.layers?.get(2) as ObjectLayer
@@ -221,7 +221,8 @@ val scene1 = scene("Level 1") {
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
                 (lo.x.toFloat()+lo.width.toFloat()/2)/PPM,
-                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
+                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM,
+                world)
             )
         }
         objectLayer = level?.tileMap?.layers?.get(3) as ObjectLayer
@@ -229,7 +230,8 @@ val scene1 = scene("Level 1") {
             bodies.add(addLevelBodies(lo.width.toFloat()/2/PPM,
                 lo.height.toFloat()/2/PPM,
                 (lo.x.toFloat()+lo.width.toFloat()/2)/PPM,
-                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM )
+                (lo.y.toFloat()+lo.height.toFloat()/2)/ PPM,
+                world)
             )
         }
 
@@ -345,7 +347,7 @@ fun main() {
             source.init(AudioPlayer.loadSound("/audio/bg.wav"))
             source.setLooping(true)
             //source.play()
-            world = worldG
+            world = World(org.jbox2d.common.Vec2(0f, 10f))
         }
         render {
             //g.drawText("Mouse: ${mouse.xPos} ; ${mouse.yPos}", 10f, 52f)
