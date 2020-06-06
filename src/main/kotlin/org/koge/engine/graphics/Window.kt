@@ -21,10 +21,12 @@ package org.koge.engine.graphics
 import org.koge.engine.exception.KogeRuntimeException
 import org.koge.engine.input.HUI
 import org.lwjgl.glfw.Callbacks
-import org.lwjgl.glfw.GLFW
+import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
+import org.lwjgl.glfw.GLFW.GLFW_VERSION_UNAVAILABLE
 import org.lwjgl.glfw.GLFW.glfwGetKey
 import org.lwjgl.glfw.GLFW.glfwSetCursorEnterCallback
+import org.lwjgl.glfw.GLFW.glfwSetErrorCallback
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
@@ -36,6 +38,9 @@ import org.lwjgl.system.MemoryUtil
  */
 object Window {
     private var window: Long = 0
+    //val isWindows = System.getProperty("os.name").contains("Windows")
+    //val isLinux = System.getProperty("os.name").contains("Linux")
+    private val isMacOsX = System.getProperty("os.name").contains("Mac")
 
     /**
      * Create the GLFW Window
@@ -50,15 +55,22 @@ object Window {
         GLFWErrorCallback.createPrint(System.err).set()
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        check(GLFW.glfwInit()) { "Unable to initialize GLFW" }
+        check(glfwInit()) { "Unable to initialize GLFW" }
 
         // Configure GLFW
-        GLFW.glfwDefaultWindowHints() // optional, the current window hints are already the default
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE) // the window will stay hidden after creation
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE) // the window will be resizable
+        glfwDefaultWindowHints() // optional, the current window hints are already the default
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2)
+        if(isMacOsX){
+            // Context creation for Mac OS X for GL 3.2+
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
+        }
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE) // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE) // the window will be resizable
 
         // Create the window
-        window = GLFW.glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL)
+        window = glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL)
         if (window == MemoryUtil.NULL) throw KogeRuntimeException("Failed to create the GLFW window")
 
         setupCallbacks()
@@ -68,47 +80,59 @@ object Window {
             val pHeight = stack.mallocInt(1) // int*
 
             // Get the window size passed to glfwCreateWindow
-            GLFW.glfwGetWindowSize(window, pWidth, pHeight)
+            glfwGetWindowSize(window, pWidth, pHeight)
 
             // Get the resolution of the primary monitor
-            val vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
+            val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
 
             // Center the window
-            GLFW.glfwSetWindowPos(
+            glfwSetWindowPos(
                 window, (vidmode!!.width() - pWidth[0]) / 2, (vidmode.height() - pHeight[0]) / 2
             )
         }
 
         // Make the OpenGL context current
-        GLFW.glfwMakeContextCurrent(window)
+        glfwMakeContextCurrent(window)
         // Enable v-sync
-        GLFW.glfwSwapInterval(1)
+        glfwSwapInterval(1)
 
         // Make the window visible
-        GLFW.glfwShowWindow(window)
+        glfwShowWindow(window)
     }
 
     private fun setupCallbacks() {
+
+        glfwSetErrorCallback(object : GLFWErrorCallback() {
+            private val delegate = createPrint(System.err)
+            override fun invoke(error: Int, description: Long) {
+                if (error == GLFW_VERSION_UNAVAILABLE) System.err.println("Ockero requires OpenGL 3.2 or higher.")
+                delegate.invoke(error, description)
+            }
+
+            override fun free() {
+                delegate.free()
+            }
+        })
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        GLFW.glfwSetKeyCallback(window) { _: Long, key: Int, _: Int, action: Int, _: Int ->
-            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE)
+        glfwSetKeyCallback(window) { _: Long, key: Int, _: Int, action: Int, _: Int ->
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 closeWindow()
-            if (action == GLFW.GLFW_RELEASE) HUI.fireKeyReleasedEvent(key, GLFW.glfwGetKeyName(key, 0)?.get(0))
-            if (action == GLFW.GLFW_PRESS) HUI.fireKeyPressedEvent(key, GLFW.glfwGetKeyName(key, 0)?.get(0))
-            HUI.fireKeyDownEvent(key, GLFW.glfwGetKeyName(key, 0)?.get(0))
+            if (action == GLFW_RELEASE) HUI.fireKeyReleasedEvent(key, glfwGetKeyName(key, 0)?.get(0))
+            if (action == GLFW_PRESS) HUI.fireKeyPressedEvent(key, glfwGetKeyName(key, 0)?.get(0))
+            HUI.fireKeyDownEvent(key, glfwGetKeyName(key, 0)?.get(0))
         }
 
         // Setup mouse callbacks.
-        GLFW.glfwSetMouseButtonCallback(window) { _: Long, button: Int, action: Int, _: Int ->
-            if (action == GLFW.GLFW_RELEASE) HUI.fireMouseButtonReleasedEvent(button)
-            if (action == GLFW.GLFW_PRESS) HUI.fireMouseButtonPressedEvent(button)
+        glfwSetMouseButtonCallback(window) { _: Long, button: Int, action: Int, _: Int ->
+            if (action == GLFW_RELEASE) HUI.fireMouseButtonReleasedEvent(button)
+            if (action == GLFW_PRESS) HUI.fireMouseButtonPressedEvent(button)
         }
 
-        GLFW.glfwSetCursorPosCallback(window) { _: Long, xpos: Double, ypos: Double ->
+        glfwSetCursorPosCallback(window) { _: Long, xpos: Double, ypos: Double ->
             HUI.fireMouseMovedEvent(xpos.toFloat(), ypos.toFloat())
         }
 
-        GLFW.glfwSetScrollCallback(window) { _: Long, xOffset: Double, yOffset: Double ->
+        glfwSetScrollCallback(window) { _: Long, xOffset: Double, yOffset: Double ->
             HUI.fireMouseScrollEvent(xOffset.toFloat(), yOffset.toFloat())
         }
 
@@ -124,11 +148,11 @@ object Window {
     fun destroy() {
         // Free the window callbacks and destroy the window
         Callbacks.glfwFreeCallbacks(window)
-        GLFW.glfwDestroyWindow(window)
+        glfwDestroyWindow(window)
 
         // Terminate GLFW and free the error callback
-        GLFW.glfwTerminate()
-        GLFW.glfwSetErrorCallback(null)!!.free()
+        glfwTerminate()
+        glfwSetErrorCallback(null)!!.free()
     }
 
     /**
@@ -136,17 +160,17 @@ object Window {
      *
      * @return Boolean
      */
-    fun windowShouldClose(): Boolean = GLFW.glfwWindowShouldClose(window)
+    fun windowShouldClose(): Boolean = glfwWindowShouldClose(window)
 
     /**
      * Update the GLFW Wíndow
      *
      */
     fun update() {
-        GLFW.glfwSwapBuffers(window) // swap the color buffers
+        glfwSwapBuffers(window) // swap the color buffers
         // Poll for window events. The key callback above will only be
         // invoked during this call.
-        GLFW.glfwPollEvents()
+        glfwPollEvents()
     }
 
     /**
@@ -154,7 +178,7 @@ object Window {
      *
      */
     fun closeWindow(){
-        GLFW.glfwSetWindowShouldClose(window, true) // We will detect this in the rendering loop
+        glfwSetWindowShouldClose(window, true) // We will detect this in the rendering loop
     }
 
     /**
