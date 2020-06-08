@@ -1,4 +1,4 @@
-_**Ockero** in the new name of this repository, **Koge** will be replaced soon._  
+_**Ockero** is the new name of this repository, **Koge** will be replaced soon._  
 
 # Ockero
  
