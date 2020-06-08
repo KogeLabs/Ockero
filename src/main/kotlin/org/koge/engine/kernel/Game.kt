@@ -123,7 +123,6 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
     private fun internalInit() {
         GL.createCapabilities()
 
-
         /* Enable blending */
         glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)

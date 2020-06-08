@@ -71,6 +71,9 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         GL20.glAttachShader(programID, vertexID)
         GL20.glAttachShader(programID, fragmentID)
 
+        GL20.glBindAttribLocation(programID,0, "position")
+        GL20.glBindAttribLocation(programID,2, "textureCoord")
+
         GL20.glLinkProgram(programID)
         if (GL20.glGetProgrami(programID, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
             println("Program Linking: " + GL20.glGetProgramInfoLog(programID))
