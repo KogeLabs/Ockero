@@ -63,11 +63,11 @@ object Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE) // the window will be resizable
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2)
-        if(isMacOsX){
+
             // Context creation for Mac OS X for GL 3.2+
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
-        }
+
 
 
         // Create the window
