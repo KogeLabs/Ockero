@@ -18,9 +18,11 @@
 
 package org.koge.engine.graphics.shader
 import org.joml.*
+import org.koge.engine.graphics.Window
 import org.koge.engine.utils.Utils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20
+import org.lwjgl.opengl.GL30C
 import org.lwjgl.system.MemoryStack
 
 /**
@@ -50,6 +52,9 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         programID = GL20.glCreateProgram()
         vertexID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER)
 
+        if (vertexID == 0) {
+            throw Exception("Error creating shader. Type: GL_VERTEX_SHADER")
+        }
         GL20.glShaderSource(vertexID, vertexFile)
         GL20.glCompileShader(vertexID)
 
@@ -59,6 +64,10 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         }
 
         fragmentID = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER)
+
+        if (fragmentID == 0) {
+            throw Exception("Error creating shader. Type: GL_FRAGMENT_SHADER")
+        }
 
         GL20.glShaderSource(fragmentID, fragmentFile)
         GL20.glCompileShader(fragmentID)
@@ -72,7 +81,8 @@ class Shader ( vertexPath: String, fragmentPath:String) {
         GL20.glAttachShader(programID, fragmentID)
 
         GL20.glBindAttribLocation(programID,0, "position")
-        GL20.glBindAttribLocation(programID,2, "textureCoord")
+        GL20.glBindAttribLocation(programID,1, "textureCoord")
+        GL30C.glBindFragDataLocation(programID, 0, "passTextureCoord")
 
         GL20.glLinkProgram(programID)
         if (GL20.glGetProgrami(programID, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
@@ -80,11 +90,14 @@ class Shader ( vertexPath: String, fragmentPath:String) {
             return
         }
 
-        GL20.glValidateProgram(programID)
-        if (GL20.glGetProgrami(programID, GL20.GL_VALIDATE_STATUS) == GL11.GL_FALSE) {
-            println("Program Validation: " + GL20.glGetProgramInfoLog(programID))
-            return
+        if(!Window.isMacOsX){ // Validation is not working on mac!!
+            GL20.glValidateProgram(programID)
+            if (GL20.glGetProgrami(programID, GL20.GL_VALIDATE_STATUS) == GL11.GL_FALSE) {
+                println("Program Validation: " + GL20.glGetProgramInfoLog(programID))
+                return
+            }
         }
+
     }
 
     /**

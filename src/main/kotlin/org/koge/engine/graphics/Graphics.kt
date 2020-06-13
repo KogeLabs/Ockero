@@ -109,6 +109,7 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     private fun draw(model: Model, position: Vector2f =Vector2f(0f, 0f), scale: Vector3f=Vector3f(1f, 1f,1f), angleOfRotation:Float=0f){
         enableVertexArrayAndBindTexture(model)
         shader.bind()
+
         shader.setUniform(
             shader.getUniformLocation("model"),
             Matrix4f().translate(position.x,position.y,0f)
@@ -119,7 +120,8 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
             shader.getUniformLocation("projection"),
             camera.projection
         )
-
+        GL13.glActiveTexture(GL13.GL_TEXTURE0)
+        GL13.glBindTexture(GL_TEXTURE_2D, model.texture.id)
         drawElements(model)
         shader.unbind()
         disableVertexArray()
@@ -134,18 +136,19 @@ class Graphics(private val screenWith:Float, private val screenHeight:Float, pri
     private fun enableVertexArrayAndBindTexture(model: Model) {
         GL30.glBindVertexArray(model.vao)
         GL30.glEnableVertexAttribArray(0)
-        GL30.glEnableVertexAttribArray(1)
+        //GL20.glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0)
+        //GL30.glEnableVertexAttribArray(1)
         GL30.glEnableVertexAttribArray(2)
+        //GL20.glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0)
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.ibo)
-        GL13.glActiveTexture(GL13.GL_TEXTURE0)
-        GL13.glBindTexture(GL_TEXTURE_2D, model.texture.id)
+
     }
 
     private fun disableVertexArray()
     {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0)
         GL30.glDisableVertexAttribArray(0)
-        GL30.glDisableVertexAttribArray(1)
+        //GL30.glDisableVertexAttribArray(1)
         GL30.glDisableVertexAttribArray(2)
         GL30.glBindVertexArray(0)
     }

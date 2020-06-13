@@ -124,7 +124,7 @@ abstract class Game(var width: Int, var height: Int, title: String) : HUIEventAd
         GL.createCapabilities()
 
         /* Enable blending */
-        glEnable(GL_TEXTURE_2D)
+        //glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         //glOrtho(0.0, width.toDouble(), height.toDouble(), 0.0, 1.0, -1.0)

@@ -40,7 +40,7 @@ object Window {
     private var window: Long = 0
     //val isWindows = System.getProperty("os.name").contains("Windows")
     //val isLinux = System.getProperty("os.name").contains("Linux")
-    private val isMacOsX = System.getProperty("os.name").contains("Mac")
+    val isMacOsX = System.getProperty("os.name").contains("Mac")
 
     /**
      * Create the GLFW Window
@@ -59,6 +59,8 @@ object Window {
 
         // Configure GLFW
         glfwDefaultWindowHints() // optional, the current window hints are already the default
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE) // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE) // the window will be resizable
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2)
         if(isMacOsX){
@@ -66,8 +68,7 @@ object Window {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
         }
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE) // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE) // the window will be resizable
+
 
         // Create the window
         window = glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL)
