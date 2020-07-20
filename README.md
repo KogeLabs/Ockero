@@ -1,5 +1,3 @@
-_**Ockero** is the new name of this repository, **Koge** will be replaced soon._  
-
 # Ockero
  
 ![logo](https://github.com/KogeLabs/Koge/blob/master/ockero_logo.png?raw=true)
