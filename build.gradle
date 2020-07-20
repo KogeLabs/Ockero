@@ -18,7 +18,7 @@ project.ext.jomlVersion = "1.9.24"
 
 
 group = "com.github.kogelabs"
-archivesBaseName = "koge-jvm"
+archivesBaseName = "ockero-jvm"
 version = "0.1.1.4"
 
 switch (OperatingSystem.current()) {
