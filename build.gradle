@@ -115,7 +115,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/KogeLabs/Koge")
+            url = uri("https://maven.pkg.github.com/KogeLabs/Ockero")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
@@ -151,13 +151,13 @@ uploadArchives {
                 name 'Koge OpenGL game engine'
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'Koge (Kotlin OpenGL Game Engine) is a 2D game framework developed completely in Kotlin. Koge have a small footprint, it is fast and easy to learn.'
-                url 'https://github.com/KogeLabs/Koge/wiki'
+                description 'Ockero (Kotlin OpenGL Game Engine) is a 2D game framework developed completely in Kotlin. Ockero have a small footprint, it is fast and easy to learn.'
+                url 'https://github.com/KogeLabs/Ockero/wiki'
 
                 scm {
-                    connection 'scm:https://github.com/KogeLabs/Koge'
-                    developerConnection 'scm:git://github.com/KogeLabs/Koge.git'
-                    url 'https://github.com/KogeLabs/Koge'
+                    connection 'scm:https://github.com/KogeLabs/Ockero'
+                    developerConnection 'scm:git://github.com/KogeLabs/Ockero.git'
+                    url 'https://github.com/KogeLabs/Ockero'
                 }
 
                 licenses {
