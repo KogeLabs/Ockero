@@ -2,7 +2,7 @@
  
 ![logo](https://github.com/KogeLabs/Koge/blob/master/ockero_logo.png?raw=true)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Koge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Koge&amp;utm_campaign=Badge_Grade) 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Ockero?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Ockero&amp;utm_campaign=Badge_Grade)
 ![Java CI with Gradle](https://github.com/KogeLabs/Koge/workflows/Java%20CI%20with%20Gradle/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.kogelabs/koge-jvm.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.kogelabs%22%20AND%20a:%22koge-jvm%22)
 
