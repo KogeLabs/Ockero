@@ -33,3 +33,9 @@ For more information on how to set up Ockero, please visit the [Getting Started]
 
 ## Documentation
 The [Wiki](https://github.com/MoncefYabi/Koge/wiki) contains all the information you'll need to write a Ockero game. You can contribute to the Wiki directly here on GitHub!
+
+## Contributing to Ockero
+
+Any contributions to Ockero projects on Github are welcome. When contributing, please follow the Ockero Community [Code of Conduct](https://github.com/KogeLabs/Ockero/blob/master/CODE_OF_CONDUCT.md).
+
+Feel free to submit issues and enhancement requests.
