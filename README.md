@@ -4,7 +4,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/773e224e434d411cb632f0829516cec4)](https://www.codacy.com/gh/KogeLabs/Ockero?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KogeLabs/Ockero&amp;utm_campaign=Badge_Grade)
 ![Java CI with Gradle](https://github.com/KogeLabs/Koge/workflows/Java%20CI%20with%20Gradle/badge.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.kogelabs/koge-jvm.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.kogelabs%22%20AND%20a:%22koge-jvm%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.kogelabs/ockero-jvm.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.kogelabs%22%20AND%20a:%22ockero-jvm%22)
 
 
 Ockero is a 2D OpenGL game framework developed in Kotlin that works in Windows, Linux and Mac OS X.
