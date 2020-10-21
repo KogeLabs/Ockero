@@ -6,7 +6,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'signing'
-    id 'org.jetbrains.dokka' version '0.10.1'
+    id 'org.jetbrains.dokka' version '1.4.10.2'
     id "io.codearte.nexus-staging" version "0.21.2"
 }
 
