@@ -10,7 +10,7 @@ plugins {
     id "io.codearte.nexus-staging" version "0.21.2"
 }
 
-def kotlin_version = "1.3.72"
+def kotlin_version = "1.4.21-2"
 def spek_version = "2.0.12"
 
 project.ext.lwjglVersion = "3.2.3"
