@@ -73,7 +73,7 @@ dependencies {
     implementation 'org.jbox2d:jbox2d-library:2.2.1.1'
 
 
-    implementation 'com.beust:klaxon:5.2'
+    implementation 'com.beust:klaxon:5.5'
 }
 
 compileKotlin {
